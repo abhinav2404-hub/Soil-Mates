@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --soil: #5C3D1E;
+    --soil2: #7A5230;
+    --soil3: #A0724A;
+    --leaf: #2D6A2D;
+    --leaf2: #3D8B3D;
+    --leaf3: #6BBF6B;
+    --leaf-pale: #EBF5EB;
+    --sky: #E8F4F8;
+    --cream: #FDF8F0;
+    --cream2: #F5EDD8;
+    --amber: #D4820A;
+    --amber-pale: #FEF3E0;
+    --coral: #C0392B;
+    --coral-pale: #FDECEA;
+    --text: #1C1208;
+    --text2: #5C3D1E;
+    --text3: #A0724A;
+    --white: #ffffff;
+    --border: rgba(92, 61, 30, 0.12);
+  }
+
+  body.dark-mode {
+    --soil: #23180F;
+    --soil2: #D9B98C;
+    --soil3: #B98B5B;
+    --leaf: #6BBF6B;
+    --leaf2: #8EDB8E;
+    --leaf3: #A9E8A9;
+    --leaf-pale: #17321E;
+    --sky: #152A31;
+    --cream: #0F1411;
+    --cream2: #1B231C;
+    --amber: #F1B655;
+    --amber-pale: #332713;
+    --coral: #F07167;
+    --coral-pale: #351B19;
+    --text: #F7EAD7;
+    --text2: #DDC6A5;
+    --text3: #A89070;
+    --white: #151B17;
+    --border: rgba(237, 217, 184, 0.14);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--cream);
+  color: var(--text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-serif-soil {
+  font-family: 'Fraunces', Georgia, serif;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Splash pattern overlay */
+.splash-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background-image: repeating-linear-gradient(60deg, #6BBF6B 0, #6BBF6B 1px, transparent 0, transparent 50%);
+  background-size: 20px 20px;
+}
+
+/* Pulse animation for recording */
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 130, 10, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(212, 130, 10, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(212, 130, 10, 0); }
+}
+
+.pulsing-mic {
+  animation: pulse-ring 1.8s infinite;
+}

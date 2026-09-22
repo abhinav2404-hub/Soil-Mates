@@ -1,0 +1,6 @@
+{
+  "name": "Soil Mates - Crop Doctor & Agri Marketplace",
+  "description": "AI-powered crop disease diagnosis, live mandi prices, direct farmer-consumer marketplace, and blockchain produce traceability.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
