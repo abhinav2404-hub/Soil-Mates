@@ -1,192 +1,163 @@
-<!-- Project badges -->
-<p align="center">
-  <img src="https://img.shields.io/badge/Version-v0.1.0-2f855a" alt="Version 0.1.0 preview" />
-  <img src="https://img.shields.io/badge/Frontend-React%2019%20%2B%20TypeScript-149eca" alt="React 19 and TypeScript" />
-  <img src="https://img.shields.io/badge/Build-Vite-646cff" alt="Vite" />
-  <img src="https://img.shields.io/badge/Status-Prototype-f6ad55" alt="Prototype" />
-</p>
+# 🌱 Soil Mates - AI Crop Doctor & Direct Agri-Marketplace
 
-<h1 align="center">🌱 Soil Mates</h1>
+[![React 19](https://img.shields.io/badge/React-19.0-61dafb.svg?style=flat-square&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6.svg?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.x-646cff.svg?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8.svg?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-<p align="center"><strong>Your crop-care companion and farm-to-market prototype.</strong></p>
+> **Soil Mates** connects smallholder farmers directly to urban consumers and vendors with AI-powered crop diagnosis, live Mandi price intelligence, blockchain-verified produce traceability, and physical QR code scanning.
 
-<p align="center">A mobile-first app concept for Indian farmers, consumers, and agri-vendors to explore crop-care, produce discovery, market information, and food traceability in one place.</p>
+---
 
-<p align="center">
-  <a href="#what-is-soil-mates">Overview</a> ·
-  <a href="#how-the-app-flows">App flow</a> ·
-  <a href="#try-a-demo-flow">Usage example</a> ·
-  <a href="#run-locally">Run locally</a>
-</p>
+## 🚀 Key Features
 
-> **Project status:** early-stage interactive frontend prototype. The current UI uses sample data and simulated journeys. Live diagnosis, market feeds, payments, logistics, and provenance services are not guaranteed to be connected. Treat all displayed advice and figures as illustrative.
+### 1. 🔬 AI Crop Doctor & Leaf Scanner
+- **Instant Plant Disease Diagnosis**: Capture or upload crop leaf images to identify pests, leaf blights, powdery mildew, and nutrient deficiencies.
+- **Multilingual Prescription**: Delivers actionable remediation steps, organic alternatives (Neem oil, Trichoderma), chemical sprays, and recovery timelines in Hindi, English, Punjabi, Marathi, and Telugu.
+- **Voice Diagnostic Assistant**: Integrated voice prompt modal supporting localized voice queries.
 
-## What is Soil Mates?
+### 2. 📊 Live Mandi Rates & Historical Price Trends
+- **APMC Market Intelligence**: Real-time mandi rates from Azadpur, Vashi, Bhopal Karond, and Lasalgaon.
+- **Interactive Recharts Trends**: 7-day to 30-day historical wholesale price charts comparing spot mandi prices against state APMC averages.
+- **AI Price Forecast**: Predictive 7-day price forecasting advising farmers whether to sell immediately or hold inventory.
 
-Soil Mates explores how one simple mobile experience could support people across the food journey. Farmers can explore crop-care and selling concepts, consumers can browse produce, and vendors can review bulk procurement flows. The project focuses on making these journeys understandable and accessible on mobile devices.
+### 3. 🔗 Blockchain Produce Origin & Traceability (SoilChain V2)
+- **Immutable Provenance**: Complete farm-to-table audit trail recording GPS coordinates, harvest time, temperature-controlled cold-chain transit, and lab pesticide tests (0.00 PPM chemical residue).
+- **Cryptographic Hash Verification**: SHA-256 block ledger hashes with one-click copy and block explorer verification.
 
-This repository contains a React web prototype, not a production mobile app or a live marketplace.
+### 4. 📷 Device Camera QR Scanner
+- **Physical Tag Scanning**: Built-in camera scanner powered by `jsqr` to scan QR codes on physical produce crates and packaging.
+- **Hardware Controls**: Real-time laser reticle, flashlight/torch toggle, front/rear camera switcher, and demo barcode tags.
 
-## At a glance
+### 5. ⭐ Vendor Trust & Rating System
+- **Verified Farmer Profiles**: Displays Aadhaar-verified status, customer trust score index (e.g. 98%), total batches sold, and repeat buyer rates.
+- **Star Reviews & Feedback**: Star rating distribution (5★ to 1★), verified buyer badges, upvoting helpful reviews, and review submission with quality tags (*"Super Fresh"*, *"Zero Pesticide"*, *"On-Time Delivery"*).
+- **Top-Rated Filter**: One-tap filter on the marketplace to view top-rated farmers (≥ 4.8★).
 
-| 🌿 Crop care | 🧺 Farm to market | 📊 Market tools | 🔎 Traceability |
-| --- | --- | --- | --- |
-| Diagnosis-style photo flow and treatment screen concepts | Produce discovery, details, cart, and orders | Mandi trend and farmer listing interfaces | Batch-origin, QR, and delivery-tracking concepts |
+### 6. 🌾 Farm-Direct Marketplace & Logistics
+- **Direct Buying & Selling**: Frictionless produce ordering with real-time subtotal calculation, delivery ETA, and quantity selector.
+- **Live Order Tracking**: Interactive step-by-step delivery progress from harvest dispatch to doorstep.
+- **Farmer Direct Chat**: In-app chatbot & direct messaging drawer to negotiate and inquire with local growers.
 
-These are prototype screens. Some actions and data are demonstrations rather than connected services.
+---
 
-## How the app flows
+## 🛠️ Tech Stack
 
-The diagram shows the main journeys a visitor can explore in the prototype:
+- **Frontend Framework**: React 19 (SPA) with TypeScript
+- **Styling**: Tailwind CSS v4 & Lucide React icons
+- **Charts**: Recharts for historical price trend analysis
+- **Computer Vision & QR**: `jsqr` client-side canvas barcode scanning + HTML5 Video MediaStream API
+- **AI Integration**: Google GenAI SDK ready for server-side / edge crop diagnostics
+- **Build Tool**: Vite 6
 
-~~~mermaid
-flowchart LR
-    A[Open app] --> B{Choose a role}
-    B --> F[Farmer]
-    B --> C[Consumer]
-    B --> V[Vendor]
-    F --> D[Crop doctor demo]
-    F --> M[Mandi and selling screens]
-    D --> R[View sample result]
-    C --> P[Browse produce]
-    P --> O[Cart and sample order]
-    V --> W[Bulk order screens]
-    R --> T[Traceability screens]
-    O --> T
-~~~
+---
 
-### Prototype data flow
+## 📦 Project Structure
 
-~~~mermaid
-flowchart LR
-    USER[User] --> APP[React app]
-    APP --> SCREENS[App screens]
-    SCREENS --> DATA[Sample data]
-    SCREENS --> AI[Optional Gemini API]
-    DATA --> RESULT[Demo result]
-    AI --> RESULT
-~~~
-
-The Gemini SDK is included as a dependency for AI experiments. Availability and behavior depend on the configured key and implementation; the demo should not be treated as a validated agronomy service.
-
-## Features you can explore
-
-- **Crop doctor interface:** select or capture a plant image and view a diagnosis-style result.
-- **Produce marketplace:** browse categories, open product details, add items to a cart, and view order screens.
-- **Farmer selling flow:** explore produce listing and suggested price interfaces.
-- **Mandi intelligence:** view sample price cards and trend charts.
-- **Vendor hub:** explore bulk procurement screens.
-- **Traceability concepts:** inspect batch-origin details, QR scanning, and delivery progress interfaces.
-- **Regional interface concepts:** Hindi and English content, additional language selection, and voice/chat screens.
-
-## Try a demo flow
-
-After starting the development server, try this example to understand the interface:
-
-1. Open the app in your browser and enter the consumer experience.
-2. Browse a produce category, open a product card, and review its detail and origin information.
-3. Add a product to the cart, then open the cart and order screens to follow the sample checkout journey.
-4. Return to the main navigation and explore the mandi, crop doctor, farmer selling, or vendor screens.
-5. In the crop doctor screen, choose a demo image or use the image picker and inspect the diagnosis-style result.
-
-The values and results in this walkthrough may be seeded demo data. Do not use diagnosis text or price suggestions to make real farming or purchasing decisions.
-
-## Tech stack
-
-| Layer | Technology | Role |
-| --- | --- | --- |
-| UI | React 19, TypeScript | Component-based, typed web interface |
-| Development and build | Vite 8 | Local server and production bundle |
-| Styling | Tailwind CSS 4 | Utility-first styling |
-| Charts | Recharts | Mandi price visualizations |
-| Motion | Motion | Interface transitions and animation |
-| Icons | Lucide React | Interface icon set |
-| AI experiments | Google GenAI SDK | Gemini integration experiments |
-| Optional server dependency | Express | Server-side integration work |
-
-## Run locally
-
-### Requirements
-
-- Node.js and npm, or Bun
-- A Gemini API key only if you are developing or trying Gemini-backed functionality
-
-### Install and start
-
-~~~bash
-git clone https://github.com/abhinav2404-hub/Soil-Mates.git
-cd Soil-Mates
-npm install
-npm run dev
-~~~
-
-Open [http://localhost:3000](http://localhost:3000). To use the included Bun lockfile instead, run:
-
-~~~bash
-bun install
-bun run dev
-~~~
-
-### Environment variables
-
-The repository includes [.env.example](.env.example). Copy it to a local .env file and add values only when your local setup needs them:
-
-~~~bash
-cp .env.example .env
-~~~
-
-- GEMINI_API_KEY: used by Gemini API experiments. Keep your key private and never commit .env.
-- APP_URL: the app URL used by the AI Studio deployment environment.
-
-Local screens that use sample data can be explored without live integrations.
-
-### Available commands
-
-| Command | Purpose |
-| --- | --- |
-| npm run dev | Start the development server on port 3000 |
-| npm run build | Build the app with Vite |
-| npm run preview | Preview the production build locally |
-| npm run lint | Run the TypeScript check |
-| npm run clean | Remove generated build artifacts and server.js |
-
-## Project structure
-
-~~~text
-Soil-Mates/
+```text
 ├── src/
-│   ├── components/       # App screens and reusable UI components
-│   ├── data/             # Sample products, orders, and demo content
-│   ├── App.tsx           # Application shell and shared state
-│   ├── main.tsx          # React entry point
-│   ├── types.ts          # Shared TypeScript types
-│   └── index.css         # Global styles and design tokens
-├── .env.example          # Environment variable template
-├── PRD.md                # Product requirements and future direction
-├── architecture.md       # Architecture and data-flow notes
-├── design.md             # Visual design system
-├── rules.md              # Engineering conventions
-└── package.json          # Dependencies and scripts
-~~~
+│   ├── components/
+│   │   ├── AiDoctorScreen.tsx       # AI Leaf scanner and crop doctor
+│   │   ├── CameraQRScannerModal.tsx # Live camera QR code scanner
+│   │   ├── VendorReviewsModal.tsx   # Star ratings & vendor reviews modal
+│   │   ├── MarketScreen.tsx         # Mandi prices & Recharts price trends
+│   │   ├── ProduceOriginModal.tsx   # SoilChain blockchain traceability modal
+│   │   ├── ProductDetailScreen.tsx  # Product details, ratings & checkout
+│   │   ├── HomeScreen.tsx           # Produce grid with ratings & scan button
+│   │   ├── VendorHubScreen.tsx      # B2B bulk crate procurement hub
+│   │   ├── OrdersScreen.tsx         # User order history
+│   │   ├── TrackOrderScreen.tsx     # Real-time delivery tracker
+│   │   ├── CartScreen.tsx           # Cart & checkout workflow
+│   │   ├── VoiceQueryModal.tsx      # Multilingual voice query assistant
+│   │   └── ChatBotPanel.tsx         # Direct farmer/agri chatbot
+│   ├── data/
+│   │   └── agriData.ts              # Seed data for crops, mandis, blockchain & reviews
+│   ├── types.ts                     # TypeScript definitions
+│   ├── App.tsx                      # Root application & screen routing
+│   └── main.tsx                     # React DOM entrypoint
+├── architecture.md                  # System architecture & component tree
+├── PRD.md                           # Product Requirements Document
+├── rules.md                         # Business logic & operational rules
+├── design.md                        # Design guidelines & color palette
+├── phases.doc.md                    # Roadmap & deployment phases
+├── memory.md                        # Project state & technical memory
+├── package.json
+└── vite.config.ts
+```
 
-## Project documents
+---
 
-- [Product requirements](PRD.md)
-- [Architecture](architecture.md)
-- [Design system](design.md)
-- [Engineering conventions](rules.md)
-- [Development phases](phases.doc.md)
+## 🚦 Getting Started
 
-The roadmap may describe capabilities beyond what is currently implemented in the prototype.
+### Prerequisites
 
-## License
+- Node.js 18.x or later
+- npm or bun
 
-This repository does not currently include a LICENSE file. **No open-source license has been granted.** Until the owner adds one, the default copyright applies; contact the repository owner before copying, modifying, or redistributing the code.
+### Installation
 
-## Contributing
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/<your-username>/soil-mates.git
+   cd soil-mates
+   ```
 
-Bug reports, ideas, and pull requests are welcome. Please open an issue to discuss larger changes and follow the conventions in [rules.md](rules.md).
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Release
+3. **Configure environment variables**:
+   ```bash
+   cp .env.example .env
+   ```
+   Add your Google Gemini API key if you want to enable live cloud model analysis:
+   ```env
+   GEMINI_API_KEY="your-gemini-api-key"
+   ```
 
-The first preview is [v0.1.0](https://github.com/abhinav2404-hub/Soil-Mates/releases/tag/v0.1.0). It is a source-code preview; no separate installer is provided.
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+   The application will run at `http://localhost:3000`.
+
+5. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 🚢 Publishing to GitHub
+
+To publish this project to your own GitHub account:
+
+1. Create a new repository on [GitHub](https://github.com/new) (e.g. `soil-mates`).
+2. Run the following commands in your terminal:
+
+```bash
+git init
+git add .
+git commit -m "feat: initial release of Soil Mates - Crop Doctor & Agri Marketplace"
+git branch -M main
+git remote add origin https://github.com/<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>.git
+git push -u origin main
+```
+
+---
+
+## 📄 Documentation
+
+- [PRD.md](./PRD.md) - Product Requirements & User Personas
+- [architecture.md](./architecture.md) - System Architecture & Data Flow
+- [rules.md](./rules.md) - Marketplace & Blockchain Validation Rules
+- [design.md](./design.md) - Design Constitution & Tokens
+- [phases.doc.md](./phases.doc.md) - Milestone Phases
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.

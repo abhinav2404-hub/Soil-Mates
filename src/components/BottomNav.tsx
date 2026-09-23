@@ -101,6 +101,78 @@ export const BottomNav: React.FC<BottomNavProps> = ({
             </span>
           </button>
         </>
+      ) : userRole === 'farmer' ? (
+        <>
+          <button
+            onClick={() => onNavigate('s-farmer')}
+            className="flex-1 py-1.5 flex flex-col items-center gap-0.5 transition-transform active:scale-95"
+          >
+            <span className="text-xl">👨‍🌾</span>
+            <span
+              className={`text-[10px] font-bold tracking-wider ${
+                currentScreen === 's-farmer' ? 'text-[#6BBF6B]' : 'text-[#EDD9B8]/50'
+              }`}
+            >
+              FARM HUB
+            </span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('s-ai')}
+            className="flex-1 py-1.5 flex flex-col items-center gap-0.5 transition-transform active:scale-95"
+          >
+            <span className="text-xl">🔬</span>
+            <span
+              className={`text-[10px] font-bold tracking-wider ${
+                currentScreen === 's-ai' || currentScreen === 's-result' ? 'text-[#6BBF6B]' : 'text-[#EDD9B8]/50'
+              }`}
+            >
+              AI DOCTOR
+            </span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('s-market')}
+            className="flex-1 py-1.5 flex flex-col items-center gap-0.5 transition-transform active:scale-95"
+          >
+            <span className="text-xl">📊</span>
+            <span
+              className={`text-[10px] font-bold tracking-wider ${
+                currentScreen === 's-market' ? 'text-[#6BBF6B]' : 'text-[#EDD9B8]/50'
+              }`}
+            >
+              MANDI
+            </span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('s-sell')}
+            className="flex-1 py-1.5 flex flex-col items-center gap-0.5 transition-transform active:scale-95"
+          >
+            <span className="text-xl">📸</span>
+            <span
+              className={`text-[10px] font-bold tracking-wider ${
+                currentScreen === 's-sell' ? 'text-[#6BBF6B]' : 'text-[#EDD9B8]/50'
+              }`}
+            >
+              AI SELL
+            </span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('s-home')}
+            className="flex-1 py-1.5 flex flex-col items-center gap-0.5 transition-transform active:scale-95 relative"
+          >
+            <span className="text-xl">🛒</span>
+            <span
+              className={`text-[10px] font-bold tracking-wider ${
+                currentScreen === 's-home' || currentScreen === 's-buy' ? 'text-[#6BBF6B]' : 'text-[#EDD9B8]/50'
+              }`}
+            >
+              MARKET
+            </span>
+          </button>
+        </>
       ) : (
         <>
           <button

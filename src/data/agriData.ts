@@ -4,7 +4,8 @@ import {
   MandiPriceItem,
   OrderItem,
   CropDiagnosis,
-  LanguageMeta
+  LanguageMeta,
+  FarmerDispatchOrder
 } from '../types';
 
 export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
@@ -942,4 +943,157 @@ export const INITIAL_VENDOR_REVIEWS: VendorReview[] = [
     helpfulCount: 16
   }
 ];
+
+export const INITIAL_FARMER_DISPATCHES: FarmerDispatchOrder[] = [
+  {
+    id: 'f-disp-1',
+    batchNumber: 'LOT-TOM-2026-0923',
+    cropName: 'Desi Heirloom Tomatoes',
+    emoji: '🍅',
+    quantityKg: 120,
+    crateCount: 6,
+    totalPayout: 3840,
+    buyerName: 'Priya Sharma (Urban Consumer Group)',
+    buyerType: 'consumer',
+    destinationAddress: 'Flat 402, Green Meadows, Arera Colony, E-Sector',
+    destinationCity: 'Bhopal, MP · PIN 462016',
+    distanceToDestinationKm: 18.4,
+    handoverOtp: '7842',
+    isOtpVerified: false,
+    harvestDate: 'Today 5:30 AM',
+    payoutStatus: 'escrow_locked',
+    rider: {
+      name: 'Suresh Kumar',
+      phone: '+91 98260 11928',
+      vehicle: 'Hero Splendor Cargo · MP-04-EA-4921',
+      rating: 4.9,
+      completedPickups: 342,
+      status: 'en_route_to_farm',
+      isComingToFarmer: true,
+      distanceToFarmKm: 2.8,
+      etaToFarmMinutes: 14,
+      currentLocationName: 'Near Vidisha Bypass Chowk (approaching Sonpur Farm Road)',
+      temperatureReading: '12°C Insulated Crate Box'
+    }
+  },
+  {
+    id: 'f-disp-2',
+    batchNumber: 'LOT-PLK-2026-0923',
+    cropName: 'Crisp Palak Spinach',
+    emoji: '🥬',
+    quantityKg: 60,
+    crateCount: 3,
+    totalPayout: 1080,
+    buyerName: 'Bhopal Fresh Mart (Vendor)',
+    buyerType: 'vendor',
+    destinationAddress: 'Wholesale Bay 4, Karond APMC Mandi',
+    destinationCity: 'Bhopal, MP · PIN 462038',
+    distanceToDestinationKm: 12.2,
+    handoverOtp: '3910',
+    isOtpVerified: false,
+    harvestDate: 'Today 6:15 AM',
+    payoutStatus: 'escrow_locked',
+    rider: {
+      name: 'Manoj Verma',
+      phone: '+91 97551 28940',
+      vehicle: 'Mahindra Bolero Maxi Truck · MP-04-TA-1980',
+      rating: 4.8,
+      completedPickups: 510,
+      status: 'at_farmgate',
+      isComingToFarmer: true,
+      distanceToFarmKm: 0.1,
+      etaToFarmMinutes: 0,
+      currentLocationName: 'Arrived at your Farmgate (Waiting for crate loading)',
+      temperatureReading: '8°C Chilled Compartment'
+    }
+  },
+  {
+    id: 'f-disp-3',
+    batchNumber: 'LOT-WHT-2026-0922',
+    cropName: 'Sharbati Gold Wheat',
+    emoji: '🌾',
+    quantityKg: 300,
+    crateCount: 6,
+    totalPayout: 13200,
+    buyerName: 'Narmada Grains & Agro Mills',
+    buyerType: 'apmc_mandi',
+    destinationAddress: 'Godown 12, Industrial Area, Mandideep',
+    destinationCity: 'Bhopal Industrial Hub · PIN 462046',
+    distanceToDestinationKm: 28.5,
+    handoverOtp: '5128',
+    isOtpVerified: true,
+    harvestDate: 'Yesterday 4:00 PM',
+    payoutStatus: 'transferred_to_upi',
+    escrowReleaseTime: 'Released at 11:20 AM today',
+    upiTransactionId: 'UPI/629104829103/OKAXIS',
+    rider: {
+      name: 'Rajesh Lodhi',
+      phone: '+91 94250 83921',
+      vehicle: 'Tata Ace Gold · MP-04-GB-6612',
+      rating: 5.0,
+      completedPickups: 720,
+      status: 'in_transit_to_buyer',
+      isComingToFarmer: false,
+      distanceToFarmKm: 16.2,
+      etaToFarmMinutes: 0,
+      currentLocationName: 'On Hoshangabad Highway toward Mandideep Godown',
+      temperatureReading: 'Ambient Dry'
+    }
+  }
+];
+
+export const SAMPLE_CROP_AI_PRESETS = [
+  {
+    cropName: 'Desi Heirloom Tomato',
+    variety: 'Pusa Ruby Hybrid',
+    category: 'vegetables' as const,
+    emoji: '🍅',
+    confidence: 98.4,
+    grade: 'Grade A' as const,
+    freshnessScore: 97,
+    estimatedWeightKg: 150,
+    suggestedPricePerKg: 34,
+    mandiPricePerKg: 32,
+    defectScan: '0.00% defects, zero blight spots, firm flesh',
+    chemicalResidueEst: '0.00 PPM (Bio-neem certified)',
+    harvestAdvice: 'Harvest before 10:30 AM to retain skin crispness and lycopene moisture.',
+    audioNarrationHindi: 'टमाटर का ग्रेड-ए पाया गया है। आजादपुर और करोंद मंडी का भाव ₹32 है, आप ₹34/किलो पर तुरंत बेच सकते हैं।',
+    imageUrl: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop&q=80'
+  },
+  {
+    cropName: 'Organic Palak (Spinach)',
+    variety: 'All Green Broad Leaf',
+    category: 'vegetables' as const,
+    emoji: '🥬',
+    confidence: 96.8,
+    grade: 'Grade A' as const,
+    freshnessScore: 99,
+    estimatedWeightKg: 80,
+    suggestedPricePerKg: 19,
+    mandiPricePerKg: 17,
+    defectScan: 'Deep green foliage, zero yellowing, crisp stem',
+    chemicalResidueEst: '0.00 PPM (Trichoderma organic)',
+    harvestAdvice: 'Pack in aerated crates within 2 hours to avoid post-harvest wilting.',
+    audioNarrationHindi: 'पालक बिल्कुल ताजा और ग्रेड-ए है। ₹19 प्रति गड्डी पर लिस्ट करने की सिफारिश की जाती है।',
+    imageUrl: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=600&auto=format&fit=crop&q=80'
+  },
+  {
+    cropName: 'Nashik Red Onion',
+    variety: 'Agri-Found Dark Red',
+    category: 'vegetables' as const,
+    emoji: '🧅',
+    confidence: 97.2,
+    grade: 'Grade A' as const,
+    freshnessScore: 94,
+    estimatedWeightKg: 250,
+    suggestedPricePerKg: 46,
+    mandiPricePerKg: 43,
+    defectScan: 'Firm dry outer scales, single neck, zero fungal rot',
+    chemicalResidueEst: 'Safe export threshold (0.00 PPM)',
+    harvestAdvice: 'Dry cured for 48 hours under shaded tarpaulin before crate bagging.',
+    audioNarrationHindi: 'प्याज की गुणवत्ता उत्कृष्ट है। लासलगांव और करोंद मंडी में भारी मांग है, ₹46/किलो पर तत्काल लिस्ट करें।',
+    imageUrl: 'https://images.unsplash.com/photo-1508747703725-719777637510?w=600&auto=format&fit=crop&q=80'
+  }
+];
+
 

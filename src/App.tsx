@@ -7,12 +7,14 @@ import {
   OrderItem,
   CropDiagnosis,
   SupportedLanguage,
-  VendorReview
+  VendorReview,
+  FarmerDispatchOrder
 } from './types';
 import {
   INITIAL_PRODUCTS,
   INITIAL_ORDERS,
   INITIAL_VENDOR_REVIEWS,
+  INITIAL_FARMER_DISPATCHES,
   SAMPLE_DIAGNOSES
 } from './data/agriData';
 import { PhoneContainer } from './components/PhoneContainer';
@@ -20,6 +22,7 @@ import { BottomNav } from './components/BottomNav';
 import { SplashScreen } from './components/SplashScreen';
 import { LoginScreen } from './components/LoginScreen';
 import { HomeScreen } from './components/HomeScreen';
+import { FarmerHubScreen } from './components/FarmerHubScreen';
 import { VendorHubScreen } from './components/VendorHubScreen';
 import { AiDoctorScreen } from './components/AiDoctorScreen';
 import { DiagnosisResultScreen } from './components/DiagnosisResultScreen';
@@ -37,7 +40,10 @@ import { ChatBotPanel } from './components/ChatBotPanel';
 import { ProduceOriginModal } from './components/ProduceOriginModal';
 import { CameraQRScannerModal } from './components/CameraQRScannerModal';
 import { VendorReviewsModal } from './components/VendorReviewsModal';
+import { PWAInstallModal } from './components/PWAInstallModal';
 import { DocsViewerModal } from './components/DocsViewerModal';
+import { YieldPredictionModal } from './components/YieldPredictionModal';
+import { FarmerMaterialListerModal } from './components/FarmerMaterialListerModal';
 import { Toast } from './components/Toast';
 
 export default function App() {
@@ -52,6 +58,7 @@ export default function App() {
   ]);
   const [orders, setOrders] = useState<OrderItem[]>(INITIAL_ORDERS);
   const [selectedOrder, setSelectedOrder] = useState<OrderItem>(INITIAL_ORDERS[0]);
+  const [farmerDispatches, setFarmerDispatches] = useState<FarmerDispatchOrder[]>(INITIAL_FARMER_DISPATCHES);
   const [currentDiagnosis, setCurrentDiagnosis] = useState<CropDiagnosis>(SAMPLE_DIAGNOSES[0]);
   const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguage>('Hindi');
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -63,6 +70,7 @@ export default function App() {
   const [isQRScannerOpen, setIsQRScannerOpen] = useState<boolean>(false);
   const [isVendorReviewsOpen, setIsVendorReviewsOpen] = useState<boolean>(false);
   const [vendorReviewProduct, setVendorReviewProduct] = useState<ProduceItem | null>(null);
+  const [isInstallModalOpen, setIsInstallModalOpen] = useState<boolean>(false);
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState<boolean>(false);
   const [isVoiceModalOpen, setIsVoiceModalOpen] = useState<boolean>(false);
   const [voiceContext, setVoiceContext] = useState<string>('crop');
@@ -70,6 +78,8 @@ export default function App() {
   const [isOriginModalOpen, setIsOriginModalOpen] = useState<boolean>(false);
   const [originProduce, setOriginProduce] = useState<ProduceItem | null>(null);
   const [isDocsModalOpen, setIsDocsModalOpen] = useState<boolean>(false);
+  const [isYieldCalculatorOpen, setIsYieldCalculatorOpen] = useState<boolean>(false);
+  const [isMaterialListerOpen, setIsMaterialListerOpen] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [activeFarmerChat, setActiveFarmerChat] = useState<string | undefined>(undefined);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -97,9 +107,12 @@ export default function App() {
     if (role === 'vendor') {
       setCurrentScreen('s-vendor');
       showToast('Vendor Hub activated.');
+    } else if (role === 'farmer') {
+      setCurrentScreen('s-farmer');
+      showToast('Welcome back, Farmer Ramesh Patel! Farmgate Logistics Hub active.');
     } else {
       setCurrentScreen('s-home');
-      showToast(`Welcome back, ${role === 'farmer' ? 'Ramesh Patel' : 'Priya'}!`);
+      showToast('Welcome back, Priya!');
     }
   };
 
@@ -143,6 +156,11 @@ export default function App() {
 
   const handleAddProduct = (newProduct: ProduceItem) => {
     setProducts((prev) => [newProduct, ...prev]);
+  };
+
+  const handleApplyYieldToListing = (cropName: string, quantityKg: number, pricePerKg: number) => {
+    setCurrentScreen('s-sell');
+    showToast(`🌾 Pre-filled listing: ${quantityKg.toLocaleString('en-IN')}kg ${cropName} @ ₹${pricePerKg}/kg!`);
   };
 
   const handleOpenFarmerChat = (farmName: string) => {
@@ -275,6 +293,9 @@ export default function App() {
             onOpenLanguage={() => setIsLanguageModalOpen(true)}
             onStartVoice={handleStartVoice}
             currentLanguage={currentLanguage}
+            onAddProduct={handleAddProduct}
+            onShowToast={showToast}
+            products={products}
           />
         )}
 
@@ -288,6 +309,21 @@ export default function App() {
             onOpenOriginModal={handleOpenOriginModal}
             onOpenQRScanner={() => setIsQRScannerOpen(true)}
             onOpenVendorReviews={handleOpenVendorReviews}
+            onOpenInstallModal={() => setIsInstallModalOpen(true)}
+          />
+        )}
+
+        {currentScreen === 's-farmer' && (
+          <FarmerHubScreen
+            dispatches={farmerDispatches}
+            onUpdateDispatches={setFarmerDispatches}
+            products={products}
+            onNavigate={handleNavigate}
+            onShowToast={showToast}
+            onOpenQRScanner={() => setIsQRScannerOpen(true)}
+            onOpenOriginModal={handleOpenOriginModal}
+            onOpenYieldCalculator={() => setIsYieldCalculatorOpen(true)}
+            onOpenMaterialLister={() => setIsMaterialListerOpen(true)}
           />
         )}
 
@@ -348,6 +384,7 @@ export default function App() {
             onNavigate={handleNavigate}
             onAddProduct={handleAddProduct}
             onShowToast={showToast}
+            onOpenYieldCalculator={() => setIsYieldCalculatorOpen(true)}
           />
         )}
 
@@ -391,6 +428,9 @@ export default function App() {
             onOpenLanguage={() => setIsLanguageModalOpen(true)}
             onOpenSupport={() => setIsSupportModalOpen(true)}
             onOpenDocs={() => setIsDocsModalOpen(true)}
+            onOpenInstallModal={() => setIsInstallModalOpen(true)}
+            onOpenYieldCalculator={() => setIsYieldCalculatorOpen(true)}
+            onOpenMaterialLister={() => setIsMaterialListerOpen(true)}
             onNavigate={handleNavigate}
             onShowToast={showToast}
           />
@@ -461,11 +501,35 @@ export default function App() {
         onShowToast={showToast}
       />
 
+      {/* Android App & APK Build Hub Modal */}
+      <PWAInstallModal
+        isOpen={isInstallModalOpen}
+        onClose={() => setIsInstallModalOpen(false)}
+        onShowToast={showToast}
+      />
+
       {/* Project Architectural Specs & PRD Modal */}
       <DocsViewerModal
         isOpen={isDocsModalOpen}
         onClose={() => setIsDocsModalOpen(false)}
         onShowToast={showToast}
+      />
+
+      {/* AI Crop Yield Prediction & Price Forecast Calculator Modal */}
+      <YieldPredictionModal
+        isOpen={isYieldCalculatorOpen}
+        onClose={() => setIsYieldCalculatorOpen(false)}
+        onApplyToListing={handleApplyYieldToListing}
+        onShowToast={showToast}
+      />
+
+      {/* Farmer Daily Food Items & Farm Materials Lister Modal */}
+      <FarmerMaterialListerModal
+        isOpen={isMaterialListerOpen}
+        onClose={() => setIsMaterialListerOpen(false)}
+        onAddProduct={handleAddProduct}
+        onShowToast={showToast}
+        existingProducts={products}
       />
 
       {/* Soil Mate AI Chatbot Drawer & FAB */}

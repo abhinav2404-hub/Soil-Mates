@@ -10,6 +10,9 @@ interface ProfileScreenProps {
   onOpenLanguage: () => void;
   onOpenSupport: () => void;
   onOpenDocs?: () => void;
+  onOpenInstallModal?: () => void;
+  onOpenYieldCalculator?: () => void;
+  onOpenMaterialLister?: () => void;
   onNavigate: (screen: ScreenId) => void;
   onShowToast: (msg: string) => void;
 }
@@ -22,6 +25,9 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onOpenLanguage,
   onOpenSupport,
   onOpenDocs,
+  onOpenInstallModal,
+  onOpenYieldCalculator,
+  onOpenMaterialLister,
   onNavigate,
   onShowToast
 }) => {
@@ -104,6 +110,72 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 
         {/* Menu Items List */}
         <div className="divide-y divide-[var(--leaf-pale)] bg-[var(--white)] border-y border-[var(--border)]">
+          {/* Farmer Logistics Command Center */}
+          {isFarmer && (
+            <div
+              onClick={() => onNavigate('s-farmer')}
+              className="p-3.5 flex items-center gap-3 cursor-pointer bg-emerald-50/50 hover:bg-emerald-100/50 transition-colors"
+            >
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-lg flex-shrink-0">
+                🚚
+              </div>
+              <div className="flex-1">
+                <h5 className="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
+                  <span>Farmer Logistics & Delivery Boy Hub</span>
+                  <span className="text-[9px] bg-emerald-600 text-white px-1.5 py-0.2 rounded font-extrabold">
+                    ACTIVE
+                  </span>
+                </h5>
+                <p className="text-[10px] text-emerald-800">Track rider coming to farm, OTP handover & destination</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-emerald-600" />
+            </div>
+          )}
+
+          {/* AI Yield & Price Prediction Calculator */}
+          {isFarmer && onOpenYieldCalculator && (
+            <div
+              onClick={onOpenYieldCalculator}
+              className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors"
+            >
+              <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center text-lg flex-shrink-0">
+                🔮
+              </div>
+              <div className="flex-1">
+                <h5 className="text-xs font-bold text-[var(--text)] flex items-center gap-1.5">
+                  <span>AI Yield & Mandi Price Predictor</span>
+                  <span className="text-[9px] bg-amber-200 text-amber-900 px-1.5 py-0.2 rounded font-bold">
+                    CALCULATOR
+                  </span>
+                </h5>
+                <p className="text-[10px] text-[var(--text3)]">Acreage & variety based harvest volume & price forecast</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
+            </div>
+          )}
+
+          {/* List Food Items & Farm Materials */}
+          {isFarmer && onOpenMaterialLister && (
+            <div
+              onClick={onOpenMaterialLister}
+              className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors"
+            >
+              <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-900 flex items-center justify-center text-lg flex-shrink-0">
+                🧺
+              </div>
+              <div className="flex-1">
+                <h5 className="text-xs font-bold text-[var(--text)] flex items-center gap-1.5">
+                  <span>List Food Items & Farm Materials</span>
+                  <span className="text-[9px] bg-emerald-200 text-emerald-900 px-1.5 py-0.2 rounded font-bold">
+                    MARKET
+                  </span>
+                </h5>
+                <p className="text-[10px] text-[var(--text3)]">A2 milk, bilona ghee, chakki flour, bhoosa fodder & compost</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
+            </div>
+          )}
+
           {/* AI Doctor History */}
           <div
             onClick={() => onNavigate('s-ai')}
@@ -243,6 +315,26 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
               <p className="text-[10px] text-[var(--text3)]">WhatsApp · 1800-111-SOIL Toll Free</p>
             </div>
             <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
+          </div>
+
+          {/* Android App & APK Download Hub */}
+          <div
+            onClick={onOpenInstallModal}
+            className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors bg-emerald-500/10 border-y border-emerald-500/20"
+          >
+            <div className="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center text-base flex-shrink-0 shadow-xs">
+              📱
+            </div>
+            <div className="flex-1">
+              <h5 className="text-xs font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
+                <span>Android App & APK Hub</span>
+                <span className="bg-emerald-600 text-white text-[8px] px-1.5 py-0.2 rounded font-extrabold">
+                  INSTALL / BUILD
+                </span>
+              </h5>
+              <p className="text-[10px] text-emerald-800 dark:text-emerald-300">WebAPK install, Capacitor script & GitHub CI</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-emerald-700" />
           </div>
 
           {/* Project Architecture & PRD Specs */}

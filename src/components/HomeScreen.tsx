@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ProduceItem, ProductCategory, ScreenId } from '../types';
 import { MANDI_PRICES } from '../data/agriData';
-import { Camera, Star, ShieldCheck } from 'lucide-react';
+import { Camera, Star, ShieldCheck, Download } from 'lucide-react';
 
 interface HomeScreenProps {
   products: ProduceItem[];
@@ -12,6 +12,7 @@ interface HomeScreenProps {
   onOpenOriginModal?: (produceId?: string) => void;
   onOpenQRScanner?: () => void;
   onOpenVendorReviews?: (product: ProduceItem) => void;
+  onOpenInstallModal?: () => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
@@ -22,7 +23,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onAddToCart,
   onOpenOriginModal,
   onOpenQRScanner,
-  onOpenVendorReviews
+  onOpenVendorReviews,
+  onOpenInstallModal
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -30,10 +32,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const categories = [
     { id: 'all', label: '🌾 All Produce' },
     { id: 'top-rated', label: '⭐ Top Rated (4.8+)' },
+    { id: 'dairy', label: '🥛 Daily Dairy' },
+    { id: 'staples', label: '🍞 Daily Staples' },
+    { id: 'materials', label: '🪵 Farm Materials' },
     { id: 'vegetables', label: '🥦 Vegetables' },
     { id: 'fruits', label: '🍎 Fruits' },
     { id: 'grains', label: '🌾 Grains' },
-    { id: 'dairy', label: '🥛 Dairy' },
     { id: 'herbs', label: '🌿 Herbs' }
   ];
 
@@ -89,6 +93,18 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span>🔗</span>
               <span className="hidden sm:inline">Trace</span>
             </button>
+
+            {/* Install App / APK Button */}
+            {onOpenInstallModal && (
+              <button
+                onClick={onOpenInstallModal}
+                className="p-1.5 px-2 rounded-xl bg-amber-500/25 hover:bg-amber-500/35 border border-amber-400/40 text-amber-300 text-[10px] font-bold flex items-center gap-1 transition-colors shadow-xs active:scale-95"
+                title="Install Android App / Download APK"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">APK</span>
+              </button>
+            )}
 
             {/* Cart Button */}
             <button
@@ -170,6 +186,16 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 >
                   <Camera className="w-3 h-3" />
                   <span>Scan Crate QR</span>
+                </button>
+              )}
+
+              {onOpenInstallModal && (
+                <button
+                  onClick={onOpenInstallModal}
+                  className="px-2.5 py-1 rounded-xl bg-amber-400/20 hover:bg-amber-400/30 text-amber-200 text-[10px] font-bold flex items-center gap-1 border border-amber-400/30 transition-colors"
+                >
+                  <Download className="w-3 h-3" />
+                  <span>Get APK</span>
                 </button>
               )}
             </div>

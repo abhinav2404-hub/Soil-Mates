@@ -4,6 +4,7 @@ export type ScreenId =
   | 's-splash'
   | 's-login'
   | 's-home'
+  | 's-farmer'
   | 's-ai'
   | 's-result'
   | 's-market'
@@ -15,7 +16,7 @@ export type ScreenId =
   | 's-profile'
   | 's-vendor';
 
-export type ProductCategory = 'vegetables' | 'fruits' | 'grains' | 'dairy' | 'herbs';
+export type ProductCategory = 'vegetables' | 'fruits' | 'grains' | 'dairy' | 'herbs' | 'materials' | 'staples';
 
 export interface ProduceItem {
   id: string;
@@ -195,3 +196,58 @@ export interface ChatMessage {
   actionScreen?: ScreenId;
   actionLabel?: string;
 }
+
+export interface FarmerDispatchRider {
+  name: string;
+  phone: string;
+  vehicle: string;
+  rating: number;
+  completedPickups: number;
+  status: 'assigning' | 'en_route_to_farm' | 'at_farmgate' | 'in_transit_to_buyer' | 'delivered';
+  isComingToFarmer: boolean;
+  distanceToFarmKm: number;
+  etaToFarmMinutes: number;
+  currentLocationName: string;
+  temperatureReading?: string;
+}
+
+export interface FarmerDispatchOrder {
+  id: string;
+  batchNumber: string;
+  cropName: string;
+  emoji: string;
+  quantityKg: number;
+  crateCount: number;
+  totalPayout: number;
+  buyerName: string;
+  buyerType: 'consumer' | 'vendor' | 'apmc_mandi';
+  destinationAddress: string;
+  destinationCity: string;
+  distanceToDestinationKm: number;
+  handoverOtp: string;
+  isOtpVerified: boolean;
+  rider: FarmerDispatchRider;
+  harvestDate: string;
+  payoutStatus: 'escrow_locked' | 'transferred_to_upi' | 'pending';
+  escrowReleaseTime?: string;
+  upiTransactionId?: string;
+}
+
+export interface AICropSnapResult {
+  cropName: string;
+  variety: string;
+  category: ProductCategory;
+  emoji: string;
+  confidence: number;
+  grade: 'Grade A' | 'Grade B' | 'Mixed';
+  freshnessScore: number;
+  estimatedWeightKg: number;
+  suggestedPricePerKg: number;
+  mandiPricePerKg: number;
+  defectScan: string;
+  chemicalResidueEst: string;
+  harvestAdvice: string;
+  audioNarrationHindi: string;
+  imageUrl?: string;
+}
+
