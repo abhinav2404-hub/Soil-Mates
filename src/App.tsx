@@ -278,7 +278,7 @@ export default function App() {
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <PhoneContainer>
+    <PhoneContainer onOpenInstallModal={() => setIsInstallModalOpen(true)}>
       {/* Dynamic Screen Routing */}
       <div className="relative flex-1 flex flex-col overflow-hidden">
         {currentScreen === 's-splash' && (

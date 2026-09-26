@@ -3,9 +3,10 @@ import { Smartphone, Monitor } from 'lucide-react';
 
 interface PhoneContainerProps {
   children: React.ReactNode;
+  onOpenInstallModal?: () => void;
 }
 
-export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children }) => {
+export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpenInstallModal }) => {
   const [timeStr, setTimeStr] = useState<string>('9:41');
   const [isWideLayout, setIsWideLayout] = useState<boolean>(false);
 
@@ -31,23 +32,35 @@ export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children }) => {
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           Soil Mates Mobile Platform
         </span>
-        <button
-          onClick={() => setIsWideLayout(!isWideLayout)}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-700/60 hover:bg-stone-700 text-stone-200 transition-colors"
-          title="Toggle phone frame vs expanded width"
-        >
-          {isWideLayout ? (
-            <>
-              <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Phone Frame</span>
-            </>
-          ) : (
-            <>
-              <Monitor className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Expanded</span>
-            </>
+        <div className="flex items-center gap-2">
+          {onOpenInstallModal && (
+            <button
+              onClick={onOpenInstallModal}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600/80 hover:bg-emerald-600 text-white font-bold transition-all active:scale-95 shadow-xs"
+              title="Open Mobile APK & Android Package Hub"
+            >
+              <span>📱</span>
+              <span>APK & Mobile</span>
+            </button>
           )}
-        </button>
+          <button
+            onClick={() => setIsWideLayout(!isWideLayout)}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-700/60 hover:bg-stone-700 text-stone-200 transition-colors"
+            title="Toggle phone frame vs expanded width"
+          >
+            {isWideLayout ? (
+              <>
+                <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Phone Frame</span>
+              </>
+            ) : (
+              <>
+                <Monitor className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Expanded</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Main Container */}
