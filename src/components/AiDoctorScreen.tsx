@@ -47,11 +47,11 @@ export const AiDoctorScreen: React.FC<AiDoctorScreenProps> = ({
         setPhotoReady(false);
         onShowToast('Camera started. Point at crop leaf.');
       } else {
-        triggerSimulatedPhoto(SAMPLE_DIAGNOSES[0]);
+        onShowToast('Camera is unavailable on this device. You can upload a photo or choose a sample.');
       }
     } catch (err) {
-      console.warn('Live camera access error, falling back to instant capture simulator:', err);
-      triggerSimulatedPhoto(SAMPLE_DIAGNOSES[0]);
+      console.warn('Live camera access error:', err);
+      onShowToast('Camera access failed. Check permission or upload a photo instead.');
     }
   };
 
@@ -99,7 +99,12 @@ export const AiDoctorScreen: React.FC<AiDoctorScreenProps> = ({
   };
 
   const runAnalysis = (diagToUse?: CropDiagnosis) => {
-    const diag = diagToUse || SAMPLE_DIAGNOSES[0];
+    if (!diagToUse) {
+      onShowToast('Live AI diagnosis is not connected yet. Choose a sample diagnosis to preview the result.');
+      return;
+    }
+
+    const diag = diagToUse;
     setIsAnalyzing(true);
     onShowToast('AI analyzing leaf tissue & symptoms...');
 
@@ -123,7 +128,7 @@ export const AiDoctorScreen: React.FC<AiDoctorScreenProps> = ({
               🔬 AI Crop Doctor
             </h2>
             <p className="text-[11px] text-[#EDD9B8]/75 mt-0.5 font-medium">
-              PlantVillage AI Model · 96% diagnostic accuracy
+              Demo mode · live diagnosis service not connected
             </p>
           </div>
           <span className="text-xl">🌿</span>
@@ -142,7 +147,7 @@ export const AiDoctorScreen: React.FC<AiDoctorScreenProps> = ({
             Diagnose Your Crop
           </h3>
           <p className="text-[11px] text-[#EDD9B8]/80 mt-1 max-w-xs mx-auto leading-relaxed">
-            Take a photo of your crop leaf and our AI will identify diseases, fungal pests & prescribe treatment
+            Use a sample diagnosis to preview the flow. Connect a trusted AI service before using real crop photos for advice.
           </p>
         </div>
 
@@ -285,7 +290,7 @@ export const AiDoctorScreen: React.FC<AiDoctorScreenProps> = ({
             <div className="text-2xl mb-1 select-none">📁</div>
             <div className="text-xs font-bold text-[var(--text2)] flex items-center justify-center gap-1">
               <Clock className="w-3 h-3 text-emerald-700" />
-              <span>Past Reports</span>
+              <span>Sample Reports (demo)</span>
             </div>
             <div className="text-[9px] text-[var(--text3)] mt-0.5">
               View past diagnosis history & logs
@@ -293,7 +298,7 @@ export const AiDoctorScreen: React.FC<AiDoctorScreenProps> = ({
           </div>
         </div>
 
-        {/* Recent Diagnoses List */}
+        {/* Sample Diagnosis History (demo) List */}
         <div className="bg-[var(--white)] rounded-2xl p-3 border border-[var(--border)]">
           <div className="font-serif-soil text-xs font-bold text-[var(--text)] mb-2">
             🌾 Recent Diagnoses
