@@ -21,6 +21,8 @@ import {
   Tooltip,
   CartesianGrid
 } from 'recharts';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MarketPriceTrend } from './MarketPriceTrend';
 
 interface MarketScreenProps {
   onNavigate: (screen: ScreenId) => void;
@@ -128,123 +130,26 @@ export const MarketScreen: React.FC<MarketScreenProps> = ({
 
       {/* Main Body */}
       <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-3.5">
-        {/* RECHARTS HISTORICAL PRICE TRENDS CARD */}
-        <div className="bg-[var(--white)] rounded-2xl p-3.5 border border-[var(--border)] shadow-xs space-y-2.5">
-          {/* Chart Header */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-[var(--leaf-pale)] flex items-center justify-center text-[var(--leaf2)]">
-                <LineChartIcon className="w-4 h-4" />
-              </div>
-              <div>
-                <h4 className="font-serif-soil text-xs font-bold text-[var(--text)]">
-                  7-Day Price Trend ({activeChartCrop.crop})
-                </h4>
-                <p className="text-[9px] text-[var(--text3)]">
-                  {activeChartCrop.mandi.split(',')[0]} · Daily Close
-                </p>
-              </div>
-            </div>
-
-            <div className="text-right">
-              <div className="font-serif-soil text-base font-extrabold text-[var(--leaf)]">
-                ₹{activeChartCrop.price}
-              </div>
-              <div
-                className={`text-[9px] font-bold flex items-center justify-end gap-0.5 ${
-                  activeChartCrop.changeType === 'up' ? 'text-emerald-700' : 'text-rose-700'
-                }`}
-              >
-                {activeChartCrop.changeType === 'up' ? '+' : '-'}
-                {activeChartCrop.changePercent}% 7-Day
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Crop Selector Pills for Chart */}
-          <div className="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-            {MANDI_PRICES.slice(0, 6).map((crop) => (
-              <button
-                key={crop.id}
-                onClick={() => setChartCropId(crop.id)}
-                className={`px-2 py-1 rounded-lg text-[10px] font-bold whitespace-nowrap transition-all flex items-center gap-1 ${
-                  chartCropId === crop.id
-                    ? 'bg-[var(--soil)] text-[#EDD9B8] shadow-xs'
-                    : 'bg-[var(--cream2)] text-[var(--text2)] border border-[var(--border)] hover:bg-[var(--leaf-pale)]'
-                }`}
-              >
-                <span>{crop.emoji}</span>
-                <span>{crop.crop}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Recharts LineChart Container */}
-          <div className="w-full h-44 pt-1 bg-[var(--cream2)] rounded-xl p-2 border border-[var(--border)]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={activeChartCrop.history}
-                margin={{ top: 8, right: 8, left: -22, bottom: 0 }}
-              >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  vertical={false}
-                  stroke="rgba(45, 106, 45, 0.15)"
-                />
-                <XAxis
-                  dataKey="day"
-                  tick={{ fontSize: 10, fill: '#665D4F' }}
-                  axisLine={{ stroke: '#DDD0BC' }}
-                  tickLine={false}
-                />
-                <YAxis
-                  tick={{ fontSize: 10, fill: '#665D4F' }}
-                  axisLine={false}
-                  tickLine={false}
-                  tickFormatter={(val) => `₹${val}`}
-                  domain={['dataMin - 2', 'dataMax + 2']}
-                />
-                <Tooltip content={<CustomTooltip unit={activeChartCrop.unit.split('·')[0].trim()} />} />
-                <Line
-                  type="monotone"
-                  dataKey="price"
-                  name={`${activeChartCrop.crop} Rate`}
-                  stroke="#2D6A2D"
-                  strokeWidth={2.5}
-                  dot={{ r: 3.5, fill: '#2D6A2D', stroke: '#FFFFFF', strokeWidth: 1.5 }}
-                  activeDot={{ r: 5, fill: '#1B4D1B' }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="mandiAverage"
-                  name="State APMC Avg"
-                  stroke="#D97706"
-                  strokeWidth={1.5}
-                  strokeDasharray="4 4"
-                  dot={{ r: 2, fill: '#D97706' }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Chart Insights & Stats Strip */}
-          <div className="grid grid-cols-3 gap-2 text-center text-xs">
-            <div className="bg-[var(--white)] border border-[var(--border)] rounded-xl p-1.5">
-              <div className="text-[9px] text-[var(--text3)] uppercase">7-Day Low</div>
-              <div className="font-serif-soil font-bold text-xs text-[var(--text)]">₹{minPrice}</div>
-            </div>
-            <div className="bg-[var(--white)] border border-[var(--border)] rounded-xl p-1.5">
-              <div className="text-[9px] text-[var(--text3)] uppercase">7-Day High</div>
-              <div className="font-serif-soil font-bold text-xs text-emerald-700">₹{maxPrice}</div>
-            </div>
-            <div className="bg-[var(--white)] border border-[var(--border)] rounded-xl p-1.5">
-              <div className="text-[9px] text-[var(--text3)] uppercase">Forecast</div>
-              <div className="font-bold text-[10px] text-[var(--leaf2)]">
-                {activeChartCrop.changeType === 'up' ? '▲ Upward' : '▼ Easing'}
-              </div>
-            </div>
+        {/* Mandi Intelligence Provider Banner & Disclaimer */}
+        <div className="bg-emerald-950/40 border border-emerald-600/30 rounded-xl p-2.5 text-[10px] text-emerald-900 dark:text-emerald-200 flex items-start gap-2">
+          <span className="text-sm shrink-0">🏛️</span>
+          <div>
+            <span className="font-bold block text-emerald-800 dark:text-emerald-300">
+              Provider: Soil Mates Mandi Intelligence Network (Demonstration Model)
+            </span>
+            <span>
+              Benchmark APMC rates compiled for Madhya Pradesh & Maharashtra mandis. Connect official Agmarknet / e-NAM feeds in production settings.
+            </span>
           </div>
         </div>
+
+        {/* RECHARTS HISTORICAL PRICE TRENDS COMPONENT */}
+        <MarketPriceTrend
+          onSelectCrop={(crop) => {
+            setSelectedCrop(crop);
+            setChartCropId(crop.id);
+          }}
+        />
 
         {/* AI Forecast Banner */}
         <div className="bg-[var(--leaf-pale)] border border-[rgba(45,106,45,0.2)] rounded-2xl p-3.5 shadow-xs">
@@ -279,17 +184,19 @@ export const MarketScreen: React.FC<MarketScreenProps> = ({
               { id: 'grains', label: '🌾 Grains & Pulses' },
               { id: 'fruits', label: '🍎 Fruits' }
             ].map((tab) => (
-              <button
+              <motion.button
                 key={tab.id}
+                whileTap={{ scale: 0.92 }}
+                whileHover={{ scale: 1.03 }}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex-shrink-0 ${
+                className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex-shrink-0 cursor-pointer ${
                   activeTab === tab.id
                     ? 'bg-[var(--soil)] text-[#EDD9B8] shadow-sm'
                     : 'bg-[var(--cream2)] text-[var(--text2)] border border-[var(--border)] hover:bg-[var(--leaf-pale)]'
                 }`}
               >
                 {tab.label}
-              </button>
+              </motion.button>
             ))}
           </div>
 
@@ -325,8 +232,10 @@ export const MarketScreen: React.FC<MarketScreenProps> = ({
 
           <div className="divide-y divide-[var(--leaf-pale)]">
             {filteredPrices.map((item) => (
-              <div
+              <motion.div
                 key={item.id}
+                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.01 }}
                 onClick={() => {
                   setSelectedCrop(item);
                   setChartCropId(item.id);
@@ -370,7 +279,7 @@ export const MarketScreen: React.FC<MarketScreenProps> = ({
                     </span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

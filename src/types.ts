@@ -1,4 +1,4 @@
-export type UserRole = 'farmer' | 'consumer' | 'vendor';
+export type UserRole = 'farmer' | 'consumer' | 'buyer' | 'vendor' | 'admin';
 
 export type ScreenId =
   | 's-splash'
@@ -14,7 +14,8 @@ export type ScreenId =
   | 's-orders'
   | 's-track'
   | 's-profile'
-  | 's-vendor';
+  | 's-vendor'
+  | 's-admin';
 
 export type ProductCategory = 'vegetables' | 'fruits' | 'grains' | 'dairy' | 'herbs' | 'materials' | 'staples';
 

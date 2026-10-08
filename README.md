@@ -1,163 +1,185 @@
-# 🌱 Soil Mates - AI Crop Doctor & Direct Agri-Marketplace
+# 🌱 Soil Mates - Complete Full-Stack Agricultural Marketplace & AI Crop Doctor
 
 [![React 19](https://img.shields.io/badge/React-19.0-61dafb.svg?style=flat-square&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6.svg?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-6.x-646cff.svg?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![Node.js Express](https://img.shields.io/badge/Node.js-Express_4.21-339933.svg?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB_&_Mongoose-47A248.svg?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
+[![Gemini AI](https://img.shields.io/badge/AI-Google_GenAI_SDK-4285F4.svg?style=flat-square&logo=google)](https://ai.google.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8.svg?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-> **Soil Mates** connects smallholder farmers directly to urban consumers and vendors with AI-powered crop diagnosis, live Mandi price intelligence, blockchain-verified produce traceability, and physical QR code scanning.
+> **"Empowering farmers with AI, transparent markets, direct selling, digital trust, and intelligent agricultural decision support."**
+
+Soil Mates is a modern, production-grade direct farmer-to-consumer agricultural platform. It connects smallholder farmers, retail consumers, bulk vendors, and platform administrators with server-side Google Gemini crop diagnosis, real-time APMC mandi market intelligence, agricultural weather & irrigation advisory, blockchain-inspired traceability (SoilChain), and end-to-end order fulfillment with farmgate UPI escrow protection.
+
+---
+
+## 🌟 Supported User Roles
+
+1. **👨‍🌾 Farmers**:
+   - Manage produce listings (add, edit, toggle availability)
+   - Real-time farmgate order fulfillment & dispatch tracking
+   - AI Crop Doctor with camera/file upload & structured remediation
+   - Mandi market rates & price forecasts across Indian APMCs
+   - Farm revenue analytics & yield calculation
+
+2. **🛒 Consumers (Buyers)**:
+   - Direct-from-farm produce catalog with category and price filters
+   - Add to cart with server-side stock & price validation
+   - Farmgate escrow order checkout & live rider tracking
+   - Star ratings and verified buyer reviews
+
+3. **🏪 Vendors (Bulk Buyers & Retail Marts)**:
+   - Bulk procurement and institutional trade requests
+   - High-volume lot contracting and mandi benchmarking
+   - Vendor review management and farm inspection audit trails
+
+4. **🛡️ Administrators**:
+   - Platform governance dashboard with revenue analytics and Recharts charts
+   - Directory management for farmers, vendors, consumers, and listings
+   - System health diagnostics (MongoDB connection, RSS memory, uptime, AI readiness)
 
 ---
 
 ## 🚀 Key Features
 
-### 1. 🔬 AI Crop Doctor & Leaf Scanner
-- **Instant Plant Disease Diagnosis**: Capture or upload crop leaf images to identify pests, leaf blights, powdery mildew, and nutrient deficiencies.
-- **Multilingual Prescription**: Delivers actionable remediation steps, organic alternatives (Neem oil, Trichoderma), chemical sprays, and recovery timelines in Hindi, English, Punjabi, Marathi, and Telugu.
-- **Voice Diagnostic Assistant**: Integrated voice prompt modal supporting localized voice queries.
+### 1. 🔬 Server-Side AI Crop Doctor (Gemini 2.5 / 3.8 Flash)
+- **Secure Server-Side Architecture**: Camera snapshots and image uploads are securely sent to Express backend endpoints (`/api/diagnosis`). API keys are never exposed to the client.
+- **Structured Agronomic Output**: Evaluates leaf pathology and returns structured JSON:
+  - Botanical/pathogen name, confidence score, and severity indicator (High / Medium / Low)
+  - Observable symptoms and primary causes
+  - Step-by-step treatment protocol, cultural prevention practices
+  - Organic alternatives (bio-fungicides, Neem oil, Trichoderma) and chemical sprays
+  - Agricultural decision-support disclaimer advising local Krishi Vigyan Kendra (KVK) consultation
 
-### 2. 📊 Live Mandi Rates & Historical Price Trends
-- **APMC Market Intelligence**: Real-time mandi rates from Azadpur, Vashi, Bhopal Karond, and Lasalgaon.
-- **Interactive Recharts Trends**: 7-day to 30-day historical wholesale price charts comparing spot mandi prices against state APMC averages.
-- **AI Price Forecast**: Predictive 7-day price forecasting advising farmers whether to sell immediately or hold inventory.
+### 2. ☀️ Real-Time Agri Weather & Irrigation Advisory
+- Displays local temperature, relative humidity, wind speed, and rain probability.
+- Real-time advisory guidance advising farmers on optimal evening/morning drip irrigation windows and harvest safety.
 
-### 3. 🔗 Blockchain Produce Origin & Traceability (SoilChain V2)
-- **Immutable Provenance**: Complete farm-to-table audit trail recording GPS coordinates, harvest time, temperature-controlled cold-chain transit, and lab pesticide tests (0.00 PPM chemical residue).
-- **Cryptographic Hash Verification**: SHA-256 block ledger hashes with one-click copy and block explorer verification.
+### 3. 📊 Mandi Market Intelligence & Price Forecasting
+- Benchmark APMC mandi rates for major Indian agricultural commodities (Sharbati wheat, yellow soybean, desi tomatoes, Nashik red onions, mustard).
+- Interactive Recharts 7-day to 30-day historical wholesale price charts comparing spot mandi prices against state APMC averages.
+- Provider abstraction architecture ready for direct integration with Agmarknet or e-NAM feeds.
 
-### 4. 📷 Device Camera QR Scanner
-- **Physical Tag Scanning**: Built-in camera scanner powered by `jsqr` to scan QR codes on physical produce crates and packaging.
-- **Hardware Controls**: Real-time laser reticle, flashlight/torch toggle, front/rear camera switcher, and demo barcode tags.
+### 4. 🔗 SoilChain Provenance & QR Scanning
+- Farm-to-kitchen audit trail capturing farm GPS, harvest timestamps, cold-chain temperature readings, and 0.00 PPM chemical residue lab tests.
+- Camera QR scanner using device video stream to scan physical crate tags.
 
-### 5. ⭐ Vendor Trust & Rating System
-- **Verified Farmer Profiles**: Displays Aadhaar-verified status, customer trust score index (e.g. 98%), total batches sold, and repeat buyer rates.
-- **Star Reviews & Feedback**: Star rating distribution (5★ to 1★), verified buyer badges, upvoting helpful reviews, and review submission with quality tags (*"Super Fresh"*, *"Zero Pesticide"*, *"On-Time Delivery"*).
-- **Top-Rated Filter**: One-tap filter on the marketplace to view top-rated farmers (≥ 4.8★).
-
-### 6. 🌾 Farm-Direct Marketplace & Logistics
-- **Direct Buying & Selling**: Frictionless produce ordering with real-time subtotal calculation, delivery ETA, and quantity selector.
-- **Live Order Tracking**: Interactive step-by-step delivery progress from harvest dispatch to doorstep.
-- **Farmer Direct Chat**: In-app chatbot & direct messaging drawer to negotiate and inquire with local growers.
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend Framework**: React 19 (SPA) with TypeScript
-- **Styling**: Tailwind CSS v4 & Lucide React icons
-- **Charts**: Recharts for historical price trend analysis
-- **Computer Vision & QR**: `jsqr` client-side canvas barcode scanning + HTML5 Video MediaStream API
-- **AI Integration**: Google GenAI SDK ready for server-side / edge crop diagnostics
-- **Build Tool**: Vite 6
+### 5. 🛡️ Enterprise Security & Validation
+- Helmet security headers and CORS protection
+- JWT-based role authorization middleware
+- Server-side inventory and price re-verification preventing cart price tampering
+- Resilient hybrid database layer: routes to MongoDB via Mongoose when available, while providing seamless zero-downtime in-memory persistence in development containers
 
 ---
 
-## 📦 Project Structure
+## 🛠️ Architecture & Tech Stack
 
 ```text
-├── src/
-│   ├── components/
-│   │   ├── AiDoctorScreen.tsx       # AI Leaf scanner and crop doctor
-│   │   ├── CameraQRScannerModal.tsx # Live camera QR code scanner
-│   │   ├── VendorReviewsModal.tsx   # Star ratings & vendor reviews modal
-│   │   ├── MarketScreen.tsx         # Mandi prices & Recharts price trends
-│   │   ├── ProduceOriginModal.tsx   # SoilChain blockchain traceability modal
-│   │   ├── ProductDetailScreen.tsx  # Product details, ratings & checkout
-│   │   ├── HomeScreen.tsx           # Produce grid with ratings & scan button
-│   │   ├── VendorHubScreen.tsx      # B2B bulk crate procurement hub
-│   │   ├── OrdersScreen.tsx         # User order history
-│   │   ├── TrackOrderScreen.tsx     # Real-time delivery tracker
-│   │   ├── CartScreen.tsx           # Cart & checkout workflow
-│   │   ├── VoiceQueryModal.tsx      # Multilingual voice query assistant
-│   │   └── ChatBotPanel.tsx         # Direct farmer/agri chatbot
-│   ├── data/
-│   │   └── agriData.ts              # Seed data for crops, mandis, blockchain & reviews
-│   ├── types.ts                     # TypeScript definitions
-│   ├── App.tsx                      # Root application & screen routing
-│   └── main.tsx                     # React DOM entrypoint
-├── architecture.md                  # System architecture & component tree
-├── PRD.md                           # Product Requirements Document
-├── rules.md                         # Business logic & operational rules
-├── design.md                        # Design guidelines & color palette
-├── phases.doc.md                    # Roadmap & deployment phases
-├── memory.md                        # Project state & technical memory
-├── package.json
-└── vite.config.ts
+Browser / Client (React 19 + TypeScript + Tailwind CSS)
+            │
+            ▼
+Vite + Express Unified Full-Stack Gateway (Port 3000)
+            │
+            ├─► /api/auth       (JWT authentication & role authorization)
+            ├─► /api/products   (Search, categories, inventory management)
+            ├─► /api/orders     (Escrow checkout & order lifecycle)
+            ├─► /api/diagnosis  (Secure multipart image upload)
+            ├─► /api/market     (APMC mandi rates & trend history)
+            └─► /api/admin      (Platform metrics & system diagnostics)
+            │
+            ├─► Google Gemini API (@google/genai TypeScript SDK)
+            └─► MongoDB / Mongoose (with fallback in-memory store)
 ```
 
 ---
 
-## 🚦 Getting Started
+## 💻 Local Development Setup
 
 ### Prerequisites
-
-- Node.js 18.x or later
+- Node.js >= 20.x
 - npm or bun
+- (Optional) MongoDB 7.x (or use the built-in resilient in-memory store)
 
-### Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/<your-username>/soil-mates.git
-   cd soil-mates
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables**:
-   ```bash
-   cp .env.example .env
-   ```
-   Add your Google Gemini API key if you want to enable live cloud model analysis:
-   ```env
-   GEMINI_API_KEY="your-gemini-api-key"
-   ```
-
-4. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
-   The application will run at `http://localhost:3000`.
-
-5. **Build for production**:
-   ```bash
-   npm run build
-   ```
-
----
-
-## 🚢 Publishing to GitHub
-
-To publish this project to your own GitHub account:
-
-1. Create a new repository on [GitHub](https://github.com/new) (e.g. `soil-mates`).
-2. Run the following commands in your terminal:
+### 1. Unified Full-Stack Mode (Recommended)
+Runs Express on port 3000 serving both API routes and Vite dev middleware:
 
 ```bash
-git init
-git add .
-git commit -m "feat: initial release of Soil Mates - Crop Doctor & Agri Marketplace"
-git branch -M main
-git remote add origin https://github.com/<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>.git
-git push -u origin main
+# Install dependencies
+npm install
+
+# Start unified dev server
+npm run dev
+```
+
+Visit: **http://localhost:3000**  
+API Health Check: **http://localhost:3000/api/health**
+
+### 2. Standalone Server Mode
+To run the backend independently on port 4000:
+
+```bash
+npm run server
+```
+
+### 3. Running Backend Tests
+Execute the automated test suite testing health, product creation, order validation, stock controls, and admin role authorization:
+
+```bash
+npm test
 ```
 
 ---
 
-## 📄 Documentation
+## 🐳 Docker Setup
 
-- [PRD.md](./PRD.md) - Product Requirements & User Personas
-- [architecture.md](./architecture.md) - System Architecture & Data Flow
-- [rules.md](./rules.md) - Marketplace & Blockchain Validation Rules
-- [design.md](./design.md) - Design Constitution & Tokens
-- [phases.doc.md](./phases.doc.md) - Milestone Phases
+Run frontend, backend, and MongoDB simultaneously using Docker Compose:
+
+```bash
+# Build and start services
+docker-compose up --build
+
+# Run in background
+docker-compose up -d
+```
+
+Services exposed:
+- **Soil Mates Application**: `http://localhost:3000`
+- **Standalone Backend**: `http://localhost:4000`
+- **MongoDB**: `localhost:27017`
+
+---
+
+## ⚙️ Environment Variables
+
+Copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Description | Default |
+|---|---|---|
+| `PORT` | Unified application port | `3000` |
+| `BACKEND_PORT` | Standalone backend port | `4000` |
+| `MONGODB_URI` | MongoDB connection URI | `mongodb://localhost:27017/soilmates` |
+| `MONGODB_DB` | Database name | `soilmates` |
+| `GEMINI_API_KEY` | Google Gemini API Key | *(Injected by environment or secrets)* |
+| `AUTH_SECRET` | JWT signing secret | `soil-mates-super-secret-jwt-key-2026` |
+| `CORS_ORIGIN` | Allowed CORS origins | `*` |
+| `VITE_API_BASE_URL` | API base URL for client | *(Empty for same-origin proxy)* |
+
+---
+
+## 📄 Documentation Index
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Full-stack system architecture & data flows
+- [API.md](./API.md) - Complete REST API specification
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - Production deployment guidelines
+- [ENVIRONMENT.md](./ENVIRONMENT.md) - Environment configuration reference
+- [SECURITY.md](./SECURITY.md) - Security policies and practices
 
 ---
 
 ## 📜 License
-
-This project is licensed under the MIT License.
+MIT License. Built for modern agricultural ecosystems.

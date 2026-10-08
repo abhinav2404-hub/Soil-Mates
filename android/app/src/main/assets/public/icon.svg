@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="soilGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D5A27" />
+      <stop offset="100%" stop-color="#1E3F1A" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F39C12" />
+      <stop offset="100%" stop-color="#E67E22" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6BBF6B" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#2D5A27" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background with rounded corners for native launcher -->
+  <rect width="512" height="512" rx="112" fill="url(#soilGrad)" />
+  <circle cx="256" cy="256" r="210" fill="url(#glow)" />
+
+  <!-- Soil Base Mound -->
+  <path d="M96 380 Q256 340 416 380 Q430 420 256 430 Q82 420 96 380 Z" fill="#8B5A2B" opacity="0.9" />
+  <path d="M128 385 Q256 355 384 385 Q396 410 256 418 Q116 410 128 385 Z" fill="#A0522D" />
+
+  <!-- Sprout Stem -->
+  <path d="M256 370 Q256 260 256 180" stroke="#6BBF6B" stroke-width="24" stroke-linecap="round" fill="none" />
+
+  <!-- Left Leaf -->
+  <path d="M256 270 C190 270 140 210 160 140 C230 140 260 210 256 270 Z" fill="#4E9F3D" />
+  <path d="M256 270 C200 245 175 195 180 155" stroke="#2D5A27" stroke-width="4" stroke-linecap="round" fill="none" />
+
+  <!-- Right Leaf -->
+  <path d="M256 230 C322 230 372 170 352 100 C282 100 252 170 256 230 Z" fill="#6BBF6B" />
+  <path d="M256 230 C312 205 337 155 332 115" stroke="#2D5A27" stroke-width="4" stroke-linecap="round" fill="none" />
+
+  <!-- Sun / Pulse of Innovation -->
+  <circle cx="370" cy="120" r="42" fill="url(#goldGrad)" opacity="0.95" />
+  <path d="M370 60 L370 74 M370 166 L370 180 M310 120 L324 120 M416 120 L430 120 M328 78 L338 88 M402 152 L412 162 M328 162 L338 152 M402 88 L412 78" stroke="#F39C12" stroke-width="6" stroke-linecap="round" />
+
+  <!-- Digital Circuit Nodes (AI / Blockchain trace) -->
+  <circle cx="160" cy="140" r="9" fill="#EDD9B8" />
+  <circle cx="352" cy="100" r="9" fill="#EDD9B8" />
+  <circle cx="256" cy="180" r="11" fill="#FFFFFF" />
+  <circle cx="256" cy="370" r="9" fill="#EDD9B8" />
+</svg>

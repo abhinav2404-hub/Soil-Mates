@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Database Service
+  mongodb:
+    image: mongo:7.0-jammy
+    container_name: soilmates-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: soilmates
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - soilmates-net
+
+  # Unified Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soilmates-backend
+    restart: always
+    command: ["npm", "run", "server"]
+    ports:
+      - '4000:4000'
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - BACKEND_PORT=4000
+      - MONGODB_URI=mongodb://mongodb:27017/soilmates
+      - MONGODB_DB=soilmates
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - AUTH_SECRET=${AUTH_SECRET:-soil-mates-super-secret-jwt-key-2026}
+      - CORS_ORIGIN=*
+    depends_on:
+      - mongodb
+    networks:
+      - soilmates-net
+
+  # Frontend / Full-Stack Unified Service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: soilmates-app
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - VITE_API_BASE_URL=
+      - MONGODB_URI=mongodb://mongodb:27017/soilmates
+      - MONGODB_DB=soilmates
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - AUTH_SECRET=${AUTH_SECRET:-soil-mates-super-secret-jwt-key-2026}
+    depends_on:
+      - backend
+      - mongodb
+    networks:
+      - soilmates-net
+
+networks:
+  soilmates-net:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local

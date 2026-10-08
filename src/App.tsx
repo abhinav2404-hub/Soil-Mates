@@ -19,7 +19,7 @@ import {
 } from './data/agriData';
 import { PhoneContainer } from './components/PhoneContainer';
 import { BottomNav } from './components/BottomNav';
-import { SplashScreen } from './components/SplashScreen';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LoginScreen } from './components/LoginScreen';
 import { HomeScreen } from './components/HomeScreen';
 import { FarmerHubScreen } from './components/FarmerHubScreen';
@@ -44,11 +44,41 @@ import { PWAInstallModal } from './components/PWAInstallModal';
 import { DocsViewerModal } from './components/DocsViewerModal';
 import { YieldPredictionModal } from './components/YieldPredictionModal';
 import { FarmerMaterialListerModal } from './components/FarmerMaterialListerModal';
+import { AdminDashboardScreen } from './components/AdminDashboardScreen';
 import { Toast } from './components/Toast';
+import { api } from './services/api';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<ScreenId>('s-splash');
-  const [userRole, setUserRole] = useState<UserRole>('farmer');
+  // Authentication State
+  const [userRole, setUserRole] = useState<UserRole>(() => {
+    const savedUser = localStorage.getItem('soilMatesUser');
+    if (savedUser) {
+      try {
+        const parsed = JSON.parse(savedUser);
+        return parsed.role?.toLowerCase() || 'consumer';
+      } catch {
+        return 'consumer';
+      }
+    }
+    return 'farmer';
+  });
+
+  // Startup Route: If already authenticated skip Login; if unauthenticated open Login directly
+  const [currentScreen, setCurrentScreen] = useState<ScreenId>(() => {
+    const savedToken = localStorage.getItem('soilMatesToken');
+    const savedUser = localStorage.getItem('soilMatesUser');
+    if (savedToken && savedUser) {
+      try {
+        const parsed = JSON.parse(savedUser);
+        const r = parsed.role?.toLowerCase();
+        return r === 'farmer' ? 's-farmer' : r === 'admin' ? 's-admin' : r === 'vendor' ? 's-vendor' : 's-home';
+      } catch {
+        return 's-home';
+      }
+    }
+    // Unauthenticated user flow: OPEN APK -> LOGIN PAGE DIRECTLY
+    return 's-login';
+  });
   const [products, setProducts] = useState<ProduceItem[]>(INITIAL_PRODUCTS);
   const [selectedProduct, setSelectedProduct] = useState<ProduceItem>(INITIAL_PRODUCTS[0]);
   const [cart, setCart] = useState<CartItem[]>([
@@ -90,6 +120,48 @@ export default function App() {
     localStorage.setItem('soilMatesDarkMode', isDarkMode ? '1' : '0');
   }, [isDarkMode]);
 
+  // Initial load from backend API
+  useEffect(() => {
+    const initBackendData = async () => {
+      try {
+        const [prodRes, ordRes] = await Promise.all([
+          api.getProducts().catch(() => ({ success: false, data: [] as any[] })),
+          api.getOrders().catch(() => ({ success: false, data: [] as any[] }))
+        ]);
+        const prodData = (prodRes as any).data;
+        if (prodRes.success && Array.isArray(prodData) && prodData.length > 0) {
+          const mapped: ProduceItem[] = prodData.map((p: any) => ({
+            id: p.id || p._id,
+            name: p.name,
+            category: p.category,
+            emoji: p.emoji || '🌾',
+            farmName: p.farmName || 'Farmer Farm',
+            location: p.location || 'Madhya Pradesh',
+            pricePerKg: p.price,
+            unit: p.unit || 'kg',
+            availableKg: p.quantity,
+            rating: p.rating || 4.8,
+            reviewsCount: p.reviewsCount || 10,
+            vendorTrustScore: p.vendorTrustScore || 95,
+            repeatBuyerRate: p.repeatBuyerRate || 85,
+            isFreshToday: p.isFreshToday ?? true,
+            isOrganic: p.isOrganic ?? false,
+            deliveryHours: p.deliveryHours || 3,
+            farmerAadhaarVerified: true,
+            harvestTime: p.harvestTime || 'Fresh Today',
+            grade: p.grade || 'Grade A',
+            description: p.description || ''
+          }));
+          setProducts(mapped);
+          setSelectedProduct(mapped[0]);
+        }
+      } catch (err) {
+        console.warn('[App] Backend init notice:', err);
+      }
+    };
+    initBackendData();
+  }, []);
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => {
@@ -98,13 +170,23 @@ export default function App() {
   };
 
   const handleNavigate = (screen: ScreenId) => {
+    // Strict guard: splash screen is completely removed from navigation
+    if ((screen as string) === 's-splash') {
+      const token = localStorage.getItem('soilMatesToken');
+      setCurrentScreen(token ? 's-home' : 's-login');
+      setIsChatOpen(false);
+      return;
+    }
     setCurrentScreen(screen);
     setIsChatOpen(false);
   };
 
   const handleLogin = (role: UserRole) => {
     setUserRole(role);
-    if (role === 'vendor') {
+    if (role === 'admin') {
+      setCurrentScreen('s-admin');
+      showToast('🛡️ Welcome, Platform Administrator! Command Center online.');
+    } else if (role === 'vendor') {
       setCurrentScreen('s-vendor');
       showToast('Vendor Hub activated.');
     } else if (role === 'farmer') {
@@ -148,14 +230,48 @@ export default function App() {
     showToast('Item removed from cart.');
   };
 
-  const handlePlaceOrder = (newOrder: OrderItem) => {
+  const handlePlaceOrder = async (newOrder: OrderItem) => {
     setOrders((prev) => [newOrder, ...prev]);
     setSelectedOrder(newOrder);
+
+    // Persist to backend database API
+    try {
+      await api.createOrder({
+        items: cart.map((c) => ({ productId: c.produce.id, quantity: c.quantity })),
+        deliveryAddress: {
+          street: 'Arera Colony Phase 2',
+          city: 'Bhopal',
+          state: 'Madhya Pradesh',
+          pincode: '462016'
+        }
+      });
+      console.log('[App] Order persisted to Soil Mates API');
+    } catch (err) {
+      console.warn('[App] Local order placed, API sync note:', err);
+    }
     setCart([]);
   };
 
-  const handleAddProduct = (newProduct: ProduceItem) => {
+  const handleAddProduct = async (newProduct: ProduceItem) => {
     setProducts((prev) => [newProduct, ...prev]);
+    try {
+      await api.createProduct({
+        name: newProduct.name,
+        category: newProduct.category,
+        price: newProduct.pricePerKg,
+        unit: newProduct.unit,
+        quantity: newProduct.availableKg,
+        location: newProduct.location,
+        farmName: newProduct.farmName,
+        emoji: newProduct.emoji,
+        grade: newProduct.grade,
+        isOrganic: newProduct.isOrganic,
+        description: newProduct.description
+      });
+      showToast(`🌾 ${newProduct.name} saved to marketplace & database!`);
+    } catch (err) {
+      console.warn('[App] Local product added:', err);
+    }
   };
 
   const handleApplyYieldToListing = (cropName: string, quantityKg: number, pricePerKg: number) => {
@@ -277,15 +393,10 @@ export default function App() {
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  return (
-    <PhoneContainer onOpenInstallModal={() => setIsInstallModalOpen(true)}>
-      {/* Dynamic Screen Routing */}
-      <div className="relative flex-1 flex flex-col overflow-hidden">
-        {currentScreen === 's-splash' && (
-          <SplashScreen onNavigate={handleNavigate} />
-        )}
-
-        {currentScreen === 's-login' && (
+  const renderScreenContent = () => {
+    switch (currentScreen) {
+      case 's-login':
+        return (
           <LoginScreen
             userRole={userRole}
             onSetRole={setUserRole}
@@ -297,9 +408,9 @@ export default function App() {
             onShowToast={showToast}
             products={products}
           />
-        )}
-
-        {currentScreen === 's-home' && (
+        );
+      case 's-home':
+        return (
           <HomeScreen
             products={products}
             cartCount={totalCartCount}
@@ -311,9 +422,9 @@ export default function App() {
             onOpenVendorReviews={handleOpenVendorReviews}
             onOpenInstallModal={() => setIsInstallModalOpen(true)}
           />
-        )}
-
-        {currentScreen === 's-farmer' && (
+        );
+      case 's-farmer':
+        return (
           <FarmerHubScreen
             dispatches={farmerDispatches}
             onUpdateDispatches={setFarmerDispatches}
@@ -325,45 +436,45 @@ export default function App() {
             onOpenYieldCalculator={() => setIsYieldCalculatorOpen(true)}
             onOpenMaterialLister={() => setIsMaterialListerOpen(true)}
           />
-        )}
-
-        {currentScreen === 's-vendor' && (
+        );
+      case 's-vendor':
+        return (
           <VendorHubScreen
             onNavigate={handleNavigate}
             onOpenSupport={() => setIsSupportModalOpen(true)}
             onStartVoice={handleStartVoice}
             onOpenChat={() => setIsChatOpen(true)}
           />
-        )}
-
-        {currentScreen === 's-ai' && (
+        );
+      case 's-ai':
+        return (
           <AiDoctorScreen
             onNavigate={handleNavigate}
             onSetDiagnosis={setCurrentDiagnosis}
             onStartVoice={handleStartVoice}
             onShowToast={showToast}
           />
-        )}
-
-        {currentScreen === 's-result' && (
+        );
+      case 's-result':
+        return (
           <DiagnosisResultScreen
             diagnosis={currentDiagnosis}
             onNavigate={handleNavigate}
             onAddToCart={(medicine) => handleAddToCart(medicine, 1)}
             onShowToast={showToast}
           />
-        )}
-
-        {currentScreen === 's-market' && (
+        );
+      case 's-market':
+        return (
           <MarketScreen
             onNavigate={handleNavigate}
             onShowToast={showToast}
             onOpenOriginModal={handleOpenOriginModal}
             onOpenQRScanner={() => setIsQRScannerOpen(true)}
           />
-        )}
-
-        {currentScreen === 's-buy' && (
+        );
+      case 's-buy':
+        return (
           <ProductDetailScreen
             product={selectedProduct}
             onNavigate={handleNavigate}
@@ -377,18 +488,18 @@ export default function App() {
             onHelpfulClick={handleHelpfulClick}
             onShowToast={showToast}
           />
-        )}
-
-        {currentScreen === 's-sell' && (
+        );
+      case 's-sell':
+        return (
           <SellProduceScreen
             onNavigate={handleNavigate}
             onAddProduct={handleAddProduct}
             onShowToast={showToast}
             onOpenYieldCalculator={() => setIsYieldCalculatorOpen(true)}
           />
-        )}
-
-        {currentScreen === 's-cart' && (
+        );
+      case 's-cart':
+        return (
           <CartScreen
             cart={cart}
             onNavigate={handleNavigate}
@@ -397,26 +508,26 @@ export default function App() {
             onPlaceOrder={handlePlaceOrder}
             onShowToast={showToast}
           />
-        )}
-
-        {currentScreen === 's-orders' && (
+        );
+      case 's-orders':
+        return (
           <OrdersScreen
             orders={orders}
             onNavigate={handleNavigate}
             onSelectOrder={setSelectedOrder}
             onShowToast={showToast}
           />
-        )}
-
-        {currentScreen === 's-track' && (
+        );
+      case 's-track':
+        return (
           <TrackOrderScreen
             order={selectedOrder}
             onNavigate={handleNavigate}
             onShowToast={showToast}
           />
-        )}
-
-        {currentScreen === 's-profile' && (
+        );
+      case 's-profile':
+        return (
           <ProfileScreen
             userRole={userRole}
             isDarkMode={isDarkMode}
@@ -434,7 +545,47 @@ export default function App() {
             onNavigate={handleNavigate}
             onShowToast={showToast}
           />
-        )}
+        );
+      case 's-admin':
+        return (
+          <AdminDashboardScreen
+            onNavigate={handleNavigate}
+            onShowToast={showToast}
+          />
+        );
+      default:
+        return (
+          <LoginScreen
+            userRole={userRole}
+            onSetRole={setUserRole}
+            onLogin={handleLogin}
+            onOpenLanguage={() => setIsLanguageModalOpen(true)}
+            onStartVoice={handleStartVoice}
+            currentLanguage={currentLanguage}
+            onAddProduct={handleAddProduct}
+            onShowToast={showToast}
+            products={products}
+          />
+        );
+    }
+  };
+
+  return (
+    <PhoneContainer onOpenInstallModal={() => setIsInstallModalOpen(true)}>
+      {/* Dynamic Screen Routing with Framer Motion Screen Transitions */}
+      <div className="relative flex-1 flex flex-col overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentScreen}
+            initial={{ opacity: 0, y: 10, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.99 }}
+            transition={{ duration: 0.22, ease: [0.25, 1, 0.5, 1] }}
+            className="flex-1 flex flex-col overflow-hidden w-full h-full"
+          >
+            {renderScreenContent()}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Persistent Bottom Nav for Main Screens */}
@@ -463,6 +614,10 @@ export default function App() {
         currentLanguage={currentLanguage}
         onClose={() => setIsVoiceModalOpen(false)}
         onShowToast={showToast}
+        onSelectOption={(roleStr) => {
+          handleLogin(roleStr as UserRole);
+          setIsVoiceModalOpen(false);
+        }}
       />
 
       <SupportModal

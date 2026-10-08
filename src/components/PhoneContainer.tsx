@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Smartphone, Monitor } from 'lucide-react';
 
 interface PhoneContainerProps {
@@ -7,22 +7,7 @@ interface PhoneContainerProps {
 }
 
 export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpenInstallModal }) => {
-  const [timeStr, setTimeStr] = useState<string>('9:41');
   const [isWideLayout, setIsWideLayout] = useState<boolean>(false);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      let hours = now.getHours();
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const isPm = hours >= 12;
-      hours = hours % 12 || 12;
-      setTimeStr(`${hours}:${minutes} ${isPm ? 'PM' : 'AM'}`);
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="relative min-h-screen w-full flex flex-col items-center justify-center p-0 sm:p-4 md:p-6 bg-stone-900/90 selection:bg-emerald-600 selection:text-white">
@@ -33,6 +18,16 @@ export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpen
           Soil Mates Mobile Platform
         </span>
         <div className="flex items-center gap-2">
+          {/* Direct APK Download Link */}
+          <a
+            href="/SoilMates.apk"
+            download="SoilMates.apk"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all active:scale-95 shadow-xs"
+            title="Download SoilMates.apk directly"
+          >
+            <span>⬇️</span>
+            <span>Download APK</span>
+          </a>
           {onOpenInstallModal && (
             <button
               onClick={onOpenInstallModal}
@@ -74,23 +69,6 @@ export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpen
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.45)'
         }}
       >
-        {/* Status Bar */}
-        <div
-          className="h-10 px-5 flex items-center justify-between flex-shrink-0 select-none z-30"
-          style={{ backgroundColor: 'var(--soil)' }}
-        >
-          <span className="text-[#EDD9B8] text-xs font-bold tracking-wider">{timeStr}</span>
-          <div className="flex items-center gap-2">
-            <span className="text-[#EDD9B8] text-[11px] font-bold tracking-widest uppercase">SOIL MATES</span>
-            <div className="flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#EDD9B8]"></span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#EDD9B8]"></span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#EDD9B8]"></span>
-              <span className="text-[#EDD9B8] text-xs ml-1">🔋</span>
-            </div>
-          </div>
-        </div>
-
         {/* Inner Screen Content */}
         <div className="relative flex-1 flex flex-col overflow-hidden">
           {children}

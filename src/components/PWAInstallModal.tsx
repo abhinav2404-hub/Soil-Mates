@@ -125,6 +125,34 @@ bubblewrap build
           </button>
         </div>
 
+        {/* Direct APK File Download Banner */}
+        <div className="mx-4 mt-3 p-3 bg-gradient-to-r from-emerald-700 to-emerald-800 text-white rounded-2xl shadow-md flex items-center justify-between gap-2.5 flex-shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center text-lg shrink-0">
+              📦
+            </div>
+            <div>
+              <div className="text-xs font-extrabold flex items-center gap-1.5">
+                <span>SoilMates.apk</span>
+                <span className="bg-emerald-400 text-emerald-950 text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">
+                  Direct Download
+                </span>
+              </div>
+              <div className="text-[10px] text-emerald-100">
+                Built-in Android APK package · 852 KB
+              </div>
+            </div>
+          </div>
+          <a
+            href="/SoilMates.apk"
+            download="SoilMates.apk"
+            className="px-3 py-1.5 rounded-xl bg-white text-emerald-900 hover:bg-emerald-50 text-xs font-extrabold shadow-sm transition-all active:scale-95 flex items-center gap-1.5 shrink-0"
+          >
+            <Download className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Download APK</span>
+          </a>
+        </div>
+
         {/* Tab switcher */}
         <div className="flex bg-[var(--leaf-pale)] border-b border-[var(--border)] p-1 gap-1 flex-shrink-0 overflow-x-auto no-scrollbar">
           <button
@@ -307,6 +335,30 @@ bubblewrap build
 
           {activeTab === 'apk-build' && (
             <div className="space-y-3">
+              {/* Direct Pre-Built APK Download Card */}
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-500 rounded-2xl flex items-center justify-between gap-2 shadow-xs">
+                <div>
+                  <div className="text-xs font-bold text-emerald-950 dark:text-emerald-100 flex items-center gap-1.5">
+                    <span>📦 Direct Pre-Built APK File</span>
+                    <span className="bg-emerald-600 text-white text-[8px] font-black px-1.5 py-0.2 rounded-full">
+                      READY
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-emerald-800 dark:text-emerald-300">
+                    Download SoilMates.apk directly to install on your Android device (852 KB)
+                  </div>
+                </div>
+                <a
+                  href="/SoilMates.apk"
+                  download="SoilMates.apk"
+                  onClick={() => onShowToast('Downloading SoilMates.apk...')}
+                  className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-xs transition-all active:scale-95 flex items-center gap-1.5 shrink-0"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download APK</span>
+                </a>
+              </div>
+
               <p className="text-[11px] text-[var(--text2)]">
                 To build a standalone signed native <strong>.apk</strong> binary for Google Play Store or direct sideloading, use either toolchain:
               </p>

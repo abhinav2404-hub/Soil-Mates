@@ -191,6 +191,15 @@ export const DiagnosisResultScreen: React.FC<DiagnosisResultScreenProps> = ({
           </div>
         </div>
 
+        {/* Agricultural Decision-Support Disclaimer */}
+        <div className="mx-3.5 mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-600/30 text-[10px] text-amber-900 dark:text-amber-200 leading-relaxed flex items-start gap-2">
+          <span className="text-sm shrink-0">🌾</span>
+          <div>
+            <strong className="block font-bold">Agricultural Decision-Support Disclaimer:</strong>
+            AI diagnoses are advisory guidelines intended to support on-field management. For severe blight or uncertain cases, please consult your district Krishi Vigyan Kendra (KVK) agronomist before high-volume chemical application.
+          </div>
+        </div>
+
         {/* Action Buttons */}
         <div className="px-3.5 mt-3.5 space-y-2">
           {/* Buy Prescribed Medicine Button */}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScreenId, UserRole, SupportedLanguage } from '../types';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Fingerprint } from 'lucide-react';
+import { biometricService } from '../services/biometricService';
 
 interface ProfileScreenProps {
   userRole: UserRole;
@@ -31,22 +32,29 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onNavigate,
   onShowToast
 }) => {
+  const isAdmin = userRole === 'admin';
   const isFarmer = userRole === 'farmer';
   const isVendor = userRole === 'vendor';
 
-  const name = isVendor
+  const name = isAdmin
+    ? 'Soil Mates Operations Admin'
+    : isVendor
     ? 'Bhopal Fresh Mart'
     : isFarmer
     ? 'Ramesh Patel'
     : 'Priya Sharma';
 
-  const location = isVendor
+  const location = isAdmin
+    ? 'Soil Mates Platform HQ, Bhopal'
+    : isVendor
     ? 'Karond Mandi, Bhopal'
     : isFarmer
     ? 'Vidisha, Madhya Pradesh'
     : 'Arera Colony, Bhopal';
 
-  const badgeText = isVendor
+  const badgeText = isAdmin
+    ? '🛡️ Platform Administrator · Level 1'
+    : isVendor
     ? '🏪 Verified Agri Vendor · 4 yrs'
     : isFarmer
     ? '🌱 Verified Farmer · 3 yrs'
@@ -317,6 +325,60 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
           </div>
 
+          {/* Biometric Security */}
+          <div
+            onClick={async () => {
+              const status = await biometricService.checkAvailability();
+              if (status.isAvailable) {
+                const verified = await biometricService.authenticate(
+                  `Verify ${status.typeName} to manage Soil Mates security`
+                );
+                if (verified) {
+                  onShowToast(`✅ ${status.typeName} verified and active on this device`);
+                } else {
+                  onShowToast('Biometric prompt closed');
+                }
+              } else {
+                onShowToast('Biometrics not available on this device');
+              }
+            }}
+            className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors border-b border-[var(--border)]"
+          >
+            <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-base flex-shrink-0 shadow-xs">
+              <Fingerprint className="w-4 h-4 text-white" />
+            </div>
+            <div className="flex-1">
+              <h5 className="text-xs font-bold text-[var(--text)] flex items-center gap-1.5">
+                <span>Biometric Security (Fingerprint / Face)</span>
+                <span className="bg-emerald-600 text-white text-[8px] px-1.5 py-0.2 rounded font-extrabold">
+                  ENABLED
+                </span>
+              </h5>
+              <p className="text-[10px] text-[var(--text3)]">1-tap biometric login & Android Keystore protection</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
+          </div>
+
+          {/* Admin Command Center */}
+          <div
+            onClick={() => onNavigate('s-admin')}
+            className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors bg-purple-500/10 border-b border-purple-500/20"
+          >
+            <div className="w-8 h-8 rounded-lg bg-purple-700 text-white flex items-center justify-center text-base flex-shrink-0 shadow-xs">
+              🛡️
+            </div>
+            <div className="flex-1">
+              <h5 className="text-xs font-bold text-purple-950 dark:text-purple-200 flex items-center gap-1.5">
+                <span>Admin Command Center</span>
+                <span className="bg-purple-600 text-white text-[8px] px-1.5 py-0.2 rounded font-extrabold">
+                  GOVERNANCE
+                </span>
+              </h5>
+              <p className="text-[10px] text-purple-800 dark:text-purple-300">Live platform metrics, user directory, system health</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-purple-700" />
+          </div>
+
           {/* Android App & APK Download Hub */}
           <div
             onClick={onOpenInstallModal}
@@ -362,8 +424,10 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
         <div className="p-4">
           <button
             onClick={() => {
+              localStorage.removeItem('soilMatesToken');
+              localStorage.removeItem('soilMatesUser');
               onShowToast('Logged out of farm account.');
-              onNavigate('s-splash');
+              onNavigate('s-login');
             }}
             className="w-full py-2.5 rounded-xl border border-[var(--soil)]/30 text-xs font-bold text-[var(--soil2)] hover:bg-[var(--cream2)] transition-colors"
           >
@@ -376,5 +440,5 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
 };
 
 function isConsumer(role: UserRole): boolean {
-  return role === 'consumer';
+  return role === 'consumer' || role === 'buyer';
 }

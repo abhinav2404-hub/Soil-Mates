@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { ProduceItem, ProductCategory, ScreenId } from '../types';
 import { MANDI_PRICES } from '../data/agriData';
 import { Camera, Star, ShieldCheck, Download } from 'lucide-react';
+import { WeatherWidget } from './WeatherWidget';
+import { motion } from 'framer-motion';
 
 interface HomeScreenProps {
   products: ProduceItem[];
@@ -154,6 +156,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
       {/* Main Scrollable Body */}
       <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-3">
+        {/* Real-time Agricultural Weather & Irrigation Advisory Widget */}
+        <WeatherWidget />
+
         {/* Farm Direct Banner with QR Scan Prominence */}
         <div
           className="rounded-2xl p-3.5 text-[#EDD9B8] relative overflow-hidden shadow-xs"
@@ -209,17 +214,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {/* Category Pills */}
         <div className="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5">
           {categories.map((cat) => (
-            <button
+            <motion.button
               key={cat.id}
+              whileTap={{ scale: 0.92 }}
+              whileHover={{ scale: 1.03 }}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1 cursor-pointer ${
                 activeCategory === cat.id
                   ? 'bg-[var(--soil)] text-[#EDD9B8] shadow-xs'
                   : 'bg-[var(--white)] text-[var(--text2)] border border-[var(--border)] hover:bg-[var(--leaf-pale)]'
               }`}
             >
               <span>{cat.label}</span>
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -235,16 +242,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </span>
         </div>
 
-        {/* Product Grid */}
+        {/* Product Grid with Framer Motion cards */}
         <div className="grid grid-cols-2 gap-2.5">
           {filteredProducts.map((p) => (
-            <div
+            <motion.div
               key={p.id}
+              whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -3, scale: 1.01 }}
+              transition={{ duration: 0.15 }}
               onClick={() => {
                 onSelectProduct(p);
                 onNavigate('s-buy');
               }}
-              className="bg-[var(--white)] rounded-2xl overflow-hidden border border-[var(--border)] cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex flex-col group"
+              className="bg-[var(--white)] rounded-2xl overflow-hidden border border-[var(--border)] cursor-pointer hover:shadow-md transition-all flex flex-col group"
             >
               {/* Product Visual */}
               <div className="h-28 bg-[var(--leaf-pale)] flex items-center justify-center text-5xl relative">
@@ -318,19 +328,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     <span className="text-[10px] text-[var(--text3)]">/{p.unit}</span>
                   </div>
 
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.85 }}
+                    whileHover={{ scale: 1.1 }}
                     onClick={(e) => {
                       e.stopPropagation();
                       onAddToCart(p);
                     }}
-                    className="w-7 h-7 rounded-lg bg-[var(--soil)] hover:bg-[var(--soil2)] text-[#EDD9B8] flex items-center justify-center text-base font-bold transition-transform active:scale-90"
+                    className="w-7 h-7 rounded-lg bg-[var(--soil)] hover:bg-[var(--soil2)] text-[#EDD9B8] flex items-center justify-center text-base font-bold shadow-xs cursor-pointer"
                     title="Add 1 unit to cart"
                   >
                     +
-                  </button>
+                  </motion.button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Primary MongoDB 7 Database Engine
+  mongodb:
+    image: mongo:7.0-jammy
+    container_name: soilmates-mongo-db
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_DATABASE: soilmates
+    volumes:
+      - soilmates_mongodb_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - soilmates_network
+
+  # Mongo Express Web GUI for Visual Inspection
+  mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    container_name: soilmates-mongo-express
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+      ME_CONFIG_BASICAUTH: 'false'
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - soilmates_network
+
+networks:
+  soilmates_network:
+    name: soilmates_network
+    driver: bridge
+
+volumes:
+  soilmates_mongodb_data:
+    name: soilmates_mongodb_data
+    driver: local
