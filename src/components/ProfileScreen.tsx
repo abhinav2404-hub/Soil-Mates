@@ -380,23 +380,38 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           </div>
 
           {/* Android App & APK Download Hub */}
-          <div
-            onClick={onOpenInstallModal}
-            className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors bg-emerald-500/10 border-y border-emerald-500/20"
-          >
-            <div className="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center text-base flex-shrink-0 shadow-xs">
-              📱
+          <div className="p-3.5 bg-emerald-500/10 border-y border-emerald-500/20 space-y-2">
+            <div
+              onClick={onOpenInstallModal}
+              className="flex items-center gap-3 cursor-pointer group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center text-base flex-shrink-0 shadow-xs">
+                📱
+              </div>
+              <div className="flex-1">
+                <h5 className="text-xs font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
+                  <span>Android App & APK Hub</span>
+                  <span className="bg-emerald-600 text-white text-[8px] px-1.5 py-0.2 rounded font-extrabold">
+                    READY
+                  </span>
+                </h5>
+                <p className="text-[10px] text-emerald-800 dark:text-emerald-300">WebAPK install, Capacitor script & GitHub CI</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-emerald-700" />
             </div>
-            <div className="flex-1">
-              <h5 className="text-xs font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
-                <span>Android App & APK Hub</span>
-                <span className="bg-emerald-600 text-white text-[8px] px-1.5 py-0.2 rounded font-extrabold">
-                  INSTALL / BUILD
-                </span>
-              </h5>
-              <p className="text-[10px] text-emerald-800 dark:text-emerald-300">WebAPK install, Capacitor script & GitHub CI</p>
+
+            {/* Direct APK Download Button inside Profile export menu */}
+            <div className="pt-1 flex items-center gap-2">
+              <a
+                href="/SoilMates.apk"
+                download="SoilMates.apk"
+                onClick={() => onShowToast('Downloading SoilMates.apk...')}
+                className="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-xs transition-transform active:scale-95"
+              >
+                <span>⬇️</span>
+                <span>Download SoilMates.apk (Direct)</span>
+              </a>
             </div>
-            <ChevronRight className="w-4 h-4 text-emerald-700" />
           </div>
 
           {/* Project Architecture & PRD Specs */}

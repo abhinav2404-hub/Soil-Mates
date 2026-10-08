@@ -27,6 +27,10 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
     const url = `${API_BASE_URL}${endpoint}`;
+    const method = options.method || 'GET';
+    const startTime = typeof performance !== 'undefined' ? performance.now() : Date.now();
+
+    console.log(`[ApiClient] 🚀 Sending ${method} request to: ${endpoint}`);
 
     try {
       const isFormData = options.body instanceof FormData;
@@ -42,21 +46,28 @@ class ApiClient {
         }
       });
 
+      const duration = Math.round((typeof performance !== 'undefined' ? performance.now() : Date.now()) - startTime);
+      console.log(`[ApiClient] 📡 Response received for ${endpoint} [Status: ${response.status}] in ${duration}ms`);
+
       if (response.status === 401) {
-        // If unauthorized, do not clear if using demo credentials
-        console.warn('[ApiClient] 401 Unauthorized for', endpoint);
+        console.warn(`[ApiClient] ⚠️ 401 Unauthorized for endpoint: ${endpoint}`);
       }
 
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.message || `Request failed with status ${response.status}`);
+        const errorMsg = data.message || `Request failed with status ${response.status} (${response.statusText})`;
+        console.error(`[ApiClient] ❌ Error response from ${endpoint}:`, errorMsg);
+        throw new Error(errorMsg);
       }
 
       return data;
     } catch (error: any) {
-      if (error.name === 'TypeError' && error.message.includes('fetch')) {
-        throw new Error('Unable to connect to Soil Mates server. Please verify your connection.');
+      const duration = Math.round((typeof performance !== 'undefined' ? performance.now() : Date.now()) - startTime);
+      console.error(`[ApiClient] 🔥 Request failure for ${endpoint} after ${duration}ms:`, error.message || error);
+
+      if (error.name === 'TypeError' && (error.message.includes('fetch') || error.message.includes('NetworkError'))) {
+        throw new Error('Unable to connect to Soil Mates backend server. Please verify network connectivity.');
       }
       throw error;
     }
