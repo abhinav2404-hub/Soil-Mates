@@ -9,7 +9,7 @@ const upload = multer({
   limits: { fileSize: 8 * 1024 * 1024 } // 8MB limit
 });
 
-router.post('/', authenticate, upload.single('image'), diagnoseCrop);
-router.get('/history', authenticate, getDiagnosisHistory);
+router.post('/', authenticate as any, upload.single('image') as any, diagnoseCrop as any);
+router.get('/history', authenticate as any, getDiagnosisHistory as any);
 
 export default router;
