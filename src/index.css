@@ -2,24 +2,25 @@
 
 @layer base {
   :root {
-    --soil: #5C3D1E;
-    --soil2: #7A5230;
-    --soil3: #A0724A;
-    --leaf: #2D6A2D;
-    --leaf2: #3D8B3D;
-    --leaf3: #6BBF6B;
-    --leaf-pale: #EBF5EB;
-    --sky: #E8F4F8;
-    --cream: #FDF8F0;
-    --cream2: #F5EDD8;
-    --amber: #D4820A;
+    --forest: #2D5A27; /* Primary Forest Green */
+    --soil: #2D5A27;   /* Primary Forest Green for headers & primary actions */
+    --soil2: #3E7338;
+    --soil3: #5C3D1E;  /* Secondary Text */
+    --leaf: #2D5A27;
+    --leaf2: #3E7338;
+    --leaf3: #6BBF6B;  /* Supporting Leaf Green */
+    --leaf-pale: #EBF5EB; /* Pale Green Surface */
+    --sky: #E8F4F8;    /* Pale Information Surface */
+    --cream: #FBF8F2;  /* Main Background */
+    --cream2: #F3EFE6;
+    --amber: #D4820A;  /* Harvest Amber */
     --amber-pale: #FEF3E0;
-    --coral: #C0392B;
+    --coral: #C0392B;  /* Error Red */
     --coral-pale: #FDECEA;
-    --text: #1C1208;
-    --text2: #5C3D1E;
-    --text3: #A0724A;
-    --white: #ffffff;
+    --text: #1C1208;   /* Primary Text */
+    --text2: #5C3D1E;  /* Secondary Text */
+    --text3: #7A5B3E;
+    --white: #FFFFFF;  /* Card Background */
     --border: rgba(92, 61, 30, 0.12);
   }
 

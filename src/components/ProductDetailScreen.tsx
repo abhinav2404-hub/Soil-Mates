@@ -12,6 +12,7 @@ import {
   Award,
   ChevronRight
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ProductDetailScreenProps {
   product: ProduceItem;
@@ -75,17 +76,17 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
     <div className="h-full flex flex-col overflow-hidden bg-[var(--cream)]">
       {/* Back Header */}
       <div
-        className="px-4 py-3 flex items-center justify-between flex-shrink-0"
+        className="px-4 py-3 flex items-center justify-between flex-shrink-0 text-white"
         style={{ backgroundColor: 'var(--soil)' }}
       >
         <div className="flex items-center gap-3">
           <button
             onClick={() => onNavigate('s-home')}
-            className="text-[#EDD9B8] hover:text-white p-1 transition-transform active:scale-95"
+            className="text-white hover:text-stone-200 p-1 transition-transform active:scale-95 cursor-pointer"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <h3 className="font-serif-soil text-base font-extrabold text-[#EDD9B8]">
+          <h3 className="font-serif-soil text-base font-bold text-white">
             Product Details
           </h3>
         </div>
@@ -94,7 +95,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
         {onOpenQRScanner && (
           <button
             onClick={onOpenQRScanner}
-            className="px-2.5 py-1 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/30 text-emerald-300 text-[10px] font-bold flex items-center gap-1.5 transition-colors"
+            className="px-2.5 py-1 rounded-xl bg-white/20 hover:bg-white/30 border border-white/25 text-white text-[10px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
             title="Scan Physical Crate Tag with Camera"
           >
             <Camera className="w-3.5 h-3.5" />
@@ -346,23 +347,25 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.85 }}
                   onClick={handleDecrement}
                   disabled={quantity <= 1}
-                  className="w-8 h-8 rounded-lg bg-[var(--cream2)] border border-[var(--border)] text-[var(--soil)] font-extrabold text-sm flex items-center justify-center hover:bg-[var(--border)] transition-colors disabled:opacity-40"
+                  className="w-8 h-8 rounded-lg bg-[var(--cream2)] border border-[var(--border)] text-[var(--soil)] font-extrabold text-sm flex items-center justify-center hover:bg-[var(--border)] transition-colors disabled:opacity-40 cursor-pointer"
                 >
                   −
-                </button>
-                <span className="font-serif-soil text-lg font-extrabold text-[var(--text)] min-w-8 text-center">
+                </motion.button>
+                <span className="font-serif-soil text-lg font-extrabold text-[var(--text)] min-w-8 text-center tabular-nums">
                   {quantity}
                 </span>
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.85 }}
                   onClick={handleIncrement}
                   disabled={quantity >= product.availableKg}
-                  className="w-8 h-8 rounded-lg bg-[var(--cream2)] border border-[var(--border)] text-[var(--soil)] font-extrabold text-sm flex items-center justify-center hover:bg-[var(--border)] transition-colors disabled:opacity-40"
+                  className="w-8 h-8 rounded-lg bg-[var(--cream2)] border border-[var(--border)] text-[var(--soil)] font-extrabold text-sm flex items-center justify-center hover:bg-[var(--border)] transition-colors disabled:opacity-40 cursor-pointer"
                 >
                   +
-                </button>
+                </motion.button>
                 <span className="text-xs text-[var(--text3)] font-semibold">
                   {product.unit}
                 </span>
@@ -370,7 +373,7 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
 
               <div className="text-right">
                 <span className="text-[10px] text-[var(--text3)] block">Subtotal</span>
-                <span className="font-serif-soil text-xl font-extrabold text-[var(--leaf)]">
+                <span className="font-serif-soil text-xl font-extrabold text-[var(--leaf)] tabular-nums">
                   ₹{totalPrice}
                 </span>
               </div>
@@ -379,23 +382,25 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
 
           {/* Action Buttons */}
           <div className="space-y-2 pt-1">
-            <button
+            <motion.button
+              whileTap={{ scale: 0.96 }}
+              whileHover={{ scale: 1.01 }}
               onClick={() => {
                 onAddToCart(product, quantity);
                 onNavigate('s-cart');
               }}
-              className="w-full py-3.5 rounded-xl text-xs font-bold shadow-sm transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-              style={{ backgroundColor: 'var(--leaf)', color: '#EDD9B8' }}
+              className="w-full py-3.5 rounded-xl text-xs font-bold text-white bg-[#2D5A27] hover:bg-[#3E7338] shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>🛒 Add {quantity} {product.unit} to Cart (₹{totalPrice})</span>
-            </button>
+              <span>Add {quantity} {product.unit} to Cart (₹{totalPrice})</span>
+            </motion.button>
 
-            <button
+            <motion.button
+              whileTap={{ scale: 0.96 }}
               onClick={() => onOpenFarmerChat(product.farmName)}
-              className="w-full py-2.5 rounded-xl text-xs font-bold text-[var(--leaf2)] border border-[var(--leaf2)]/40 bg-transparent hover:bg-[var(--leaf-pale)] transition-colors flex items-center justify-center gap-1.5"
+              className="w-full py-2.5 rounded-xl text-xs font-bold text-[var(--leaf2)] border border-[var(--leaf2)]/40 bg-transparent hover:bg-[var(--leaf-pale)] transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>💬 Direct Chat with Farmer ({product.farmName.split(' ')[0]})</span>
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>

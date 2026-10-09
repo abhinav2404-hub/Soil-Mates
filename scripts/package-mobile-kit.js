@@ -12,7 +12,10 @@ async function packageZip() {
         entry.name === 'node_modules' ||
         entry.name === '.git' ||
         entry.name === 'dist' ||
-        entry.name === 'downloads'
+        entry.name === 'downloads' ||
+        entry.name === 'SoilMates.apk' ||
+        entry.name.endsWith('.apk') ||
+        entry.name.endsWith('.tflite')
       ) {
         continue;
       }

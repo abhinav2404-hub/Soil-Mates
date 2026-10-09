@@ -159,10 +159,15 @@ export interface CropDiagnosis {
   urgencyDays: string;
   symptoms: string[];
   treatmentSteps: string[];
+  organicRemedies?: string[];
+  chemicalRemedies?: string[];
+  causes?: string[];
+  preventiveMeasures?: string[];
   recommendedProduct: {
     name: string;
     dosage: string;
     price: number;
+    unit?: string;
   };
   hindiNarration: string;
   englishNarration: string;

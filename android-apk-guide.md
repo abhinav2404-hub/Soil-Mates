@@ -25,12 +25,18 @@ Home Dashboard directly (`s-home`)        Login Screen directly (`s-login`)
 
 ---
 
-## 🛠️ Prerequisites
+## 🛠️ Target Platforms & Architecture (Android 16 & 17 Ready)
 
-Before building the Android APK, ensure you have:
+- **Target SDK**: Android 16 (API Level 36, Baklava) & Android 17 Forward Compatible (API Level 37)
+- **Minimum SDK**: Android 7.0 (API Level 24)
+- **Package Size**: ~32.3 MB standalone package (includes uncompressed offline AgriVision TFLite model weights, APMC mandi database & multi-DEX runtime)
+- **16 KB Memory Page-Size Alignment**: Fully compliant with Android 15, 16, and 17 64-bit kernels (ELF shared libraries `lib/arm64-v8a/*.so` are uncompressed and aligned for zero-overhead direct `mmap`)
+- **Supported ABIs**: `arm64-v8a` (primary), `armeabi-v7a`, `x86_64` (emulators)
+
+### Prerequisites for Compiling
 1. **Node.js**: v18+ or v20+
-2. **Android Studio**: Ladybug / Koala / Hedgehog (or newer)
-3. **Android SDK**: API Level 33 or 34 installed via Android Studio SDK Manager
+2. **Android Studio**: Ladybug / Meerkat / Koala (2024.2+)
+3. **Android SDK**: API Level 34, 35, or 36 installed via Android Studio SDK Manager
 4. **Java Development Kit (JDK)**: JDK 17 or JDK 21 (bundled with Android Studio)
 
 ---

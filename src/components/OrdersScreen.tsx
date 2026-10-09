@@ -28,15 +28,15 @@ export const OrdersScreen: React.FC<OrdersScreenProps> = ({
     <div className="h-full flex flex-col overflow-hidden bg-[var(--cream)]">
       {/* Header */}
       <div
-        className="px-4 pt-3.5 pb-3 flex-shrink-0"
+        className="px-4 pt-3.5 pb-3 flex-shrink-0 text-white"
         style={{ backgroundColor: 'var(--soil)' }}
       >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-serif-soil text-xl font-extrabold text-[#EDD9B8]">
-              📦 My Orders
+            <h2 className="font-serif-soil text-xl font-bold text-white">
+              My Orders
             </h2>
-            <p className="text-[11px] text-[#EDD9B8]/75 mt-0.5 font-medium">
+            <p className="text-[11px] text-white/80 mt-0.5 font-medium">
               Track cold chain logistics & farm history
             </p>
           </div>

@@ -132,14 +132,17 @@ bubblewrap build
               📦
             </div>
             <div>
-              <div className="text-xs font-extrabold flex items-center gap-1.5">
+              <div className="text-xs font-extrabold flex items-center gap-1.5 flex-wrap">
                 <span>SoilMates.apk</span>
                 <span className="bg-emerald-400 text-emerald-950 text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">
-                  Direct Download
+                  Direct APK (32.3 MB)
+                </span>
+                <span className="bg-emerald-300 text-emerald-950 text-[8px] font-black px-1.5 py-0.2 rounded-full uppercase">
+                  Android 16 & 17 Ready
                 </span>
               </div>
               <div className="text-[10px] text-emerald-100">
-                Built-in Android APK package · 852 KB
+                Full-size package (32.3 MB) · 16KB Page Aligned · Offline AI Models
               </div>
             </div>
           </div>
@@ -336,26 +339,29 @@ bubblewrap build
           {activeTab === 'apk-build' && (
             <div className="space-y-3">
               {/* Direct Pre-Built APK Download Card */}
-              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-500 rounded-2xl flex items-center justify-between gap-2 shadow-xs">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-500 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-xs">
                 <div>
-                  <div className="text-xs font-bold text-emerald-950 dark:text-emerald-100 flex items-center gap-1.5">
-                    <span>📦 Direct Pre-Built APK File</span>
+                  <div className="text-xs font-bold text-emerald-950 dark:text-emerald-100 flex items-center gap-1.5 flex-wrap">
+                    <span>📦 Direct Standalone APK (32.3 MB)</span>
                     <span className="bg-emerald-600 text-white text-[8px] font-black px-1.5 py-0.2 rounded-full">
                       READY
                     </span>
+                    <span className="bg-amber-600 text-white text-[8px] font-black px-1.5 py-0.2 rounded-full">
+                      API 36 / 37 (Android 16 & 17)
+                    </span>
                   </div>
-                  <div className="text-[10px] text-emerald-800 dark:text-emerald-300">
-                    Download SoilMates.apk directly to install on your Android device (852 KB)
+                  <div className="text-[10px] text-emerald-800 dark:text-emerald-300 mt-0.5">
+                    Full-size APK (32.3 MB) with bundled offline AI Crop Doctor weights & 16KB page-aligned ARM64 binaries for modern smartphones.
                   </div>
                 </div>
                 <a
                   href="/SoilMates.apk"
                   download="SoilMates.apk"
-                  onClick={() => onShowToast('Downloading SoilMates.apk...')}
-                  className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-xs transition-all active:scale-95 flex items-center gap-1.5 shrink-0"
+                  onClick={() => onShowToast('Downloading SoilMates.apk (32.3 MB)...')}
+                  className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 shrink-0"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>Download APK</span>
+                  <span>Download APK (32.3 MB)</span>
                 </a>
               </div>
 

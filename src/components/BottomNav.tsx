@@ -41,19 +41,19 @@ export const BottomNav: React.FC<BottomNavProps> = ({
       whileTap={{ scale: 0.88 }}
       whileHover={{ scale: 1.05 }}
       onClick={() => onNavigate(target)}
-      className="flex-1 py-1.5 flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none relative"
+      className="flex-1 py-1 px-1 flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none relative min-h-[48px] min-w-[44px] touch-manipulation"
     >
       <span className="text-xl leading-none transition-transform duration-150">
         {icon}
       </span>
       {badge !== undefined && badge > 0 && (
-        <span className="absolute top-1 right-[28%] w-3.5 h-3.5 rounded-full bg-emerald-500 text-[8px] font-black text-white flex items-center justify-center shadow-xs">
+        <span className="absolute top-1 right-[24%] w-3.5 h-3.5 rounded-full bg-emerald-500 text-[8px] font-black text-white flex items-center justify-center shadow-xs">
           {badge}
         </span>
       )}
       <span
-        className={`text-[9px] font-extrabold tracking-wider transition-colors duration-150 ${
-          isActive ? 'text-[#6BBF6B]' : 'text-[#EDD9B8]/50'
+        className={`text-[10px] font-semibold tracking-normal transition-colors duration-150 ${
+          isActive ? 'text-[#6BBF6B]' : 'text-[#EDD9B8]/75'
         }`}
       >
         {label}
@@ -61,7 +61,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
       {isActive && (
         <motion.div
           layoutId="bottomNavDot"
-          className="w-1 h-1 rounded-full bg-[#6BBF6B] mt-0.5"
+          className="w-1.5 h-1.5 rounded-full bg-[#6BBF6B] mt-0.5"
           transition={{ type: 'spring', stiffness: 500, damping: 30 }}
         />
       )}
@@ -70,7 +70,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
 
   return (
     <div
-      className="h-16 flex items-center justify-around flex-shrink-0 border-t border-[rgba(237,217,184,0.15)] select-none z-20"
+      className="h-16 flex items-center justify-around flex-shrink-0 border-t border-[rgba(237,217,184,0.15)] select-none z-20 pb-[env(safe-area-inset-bottom,0px)]"
       style={{ backgroundColor: 'var(--soil)' }}
     >
       {userRole === 'admin' ? (
@@ -78,32 +78,32 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <NavItem
             target="s-admin"
             icon="🛡️"
-            label="ADMIN"
+            label="Admin"
             isActive={currentScreen === 's-admin'}
           />
           <NavItem
             target="s-home"
             icon="🛒"
-            label="MARKET"
+            label="Market"
             isActive={currentScreen === 's-home' || currentScreen === 's-buy'}
           />
           <NavItem
             target="s-market"
             icon="📊"
-            label="PRICES"
+            label="Mandi Prices"
             isActive={currentScreen === 's-market'}
           />
           <NavItem
             target="s-orders"
             icon="📦"
-            label="ORDERS"
+            label="Orders"
             badge={ordersCount}
             isActive={currentScreen === 's-orders' || currentScreen === 's-track'}
           />
           <NavItem
             target="s-ai"
             icon="🔬"
-            label="AI DOCTOR"
+            label="Crop Doctor"
             isActive={currentScreen === 's-ai' || currentScreen === 's-result'}
           />
         </>
@@ -112,25 +112,25 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <NavItem
             target="s-vendor"
             icon="🏪"
-            label="VENDOR"
+            label="Vendor Hub"
             isActive={currentScreen === 's-vendor'}
           />
           <NavItem
             target="s-market"
             icon="📊"
-            label="PRICES"
+            label="Mandi Prices"
             isActive={currentScreen === 's-market'}
           />
           <NavItem
             target="s-sell"
             icon="🧾"
-            label="LIST"
+            label="Listings"
             isActive={currentScreen === 's-sell'}
           />
           <NavItem
             target="s-orders"
             icon="📦"
-            label="ORDERS"
+            label="Orders"
             badge={ordersCount}
             isActive={currentScreen === 's-orders' || currentScreen === 's-track'}
           />
@@ -138,11 +138,11 @@ export const BottomNav: React.FC<BottomNavProps> = ({
             whileTap={{ scale: 0.88 }}
             whileHover={{ scale: 1.05 }}
             onClick={onOpenSupport}
-            className="flex-1 py-1.5 flex flex-col items-center justify-center gap-0.5 cursor-pointer"
+            className="flex-1 py-1.5 flex flex-col items-center justify-center gap-0.5 cursor-pointer min-h-[48px] min-w-[44px]"
           >
             <span className="text-xl leading-none">📞</span>
-            <span className="text-[9px] font-extrabold tracking-wider text-[#EDD9B8]/50">
-              HELP
+            <span className="text-[10px] font-semibold tracking-normal text-[#EDD9B8]/75">
+              Support
             </span>
           </motion.button>
         </>
@@ -151,31 +151,31 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <NavItem
             target="s-farmer"
             icon="👨‍🌾"
-            label="FARM HUB"
+            label="Farm Hub"
             isActive={currentScreen === 's-farmer'}
           />
           <NavItem
             target="s-ai"
             icon="🔬"
-            label="AI DOCTOR"
+            label="Crop Doctor"
             isActive={currentScreen === 's-ai' || currentScreen === 's-result'}
           />
           <NavItem
             target="s-market"
             icon="📊"
-            label="MANDI"
+            label="Mandi"
             isActive={currentScreen === 's-market'}
           />
           <NavItem
             target="s-sell"
             icon="📸"
-            label="AI SELL"
+            label="Sell Produce"
             isActive={currentScreen === 's-sell'}
           />
           <NavItem
             target="s-home"
             icon="🛒"
-            label="MARKET"
+            label="Marketplace"
             isActive={currentScreen === 's-home' || currentScreen === 's-buy'}
           />
         </>
@@ -184,31 +184,31 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <NavItem
             target="s-home"
             icon="🏠"
-            label="HOME"
+            label="Home"
             isActive={currentScreen === 's-home' || currentScreen === 's-buy'}
           />
           <NavItem
             target="s-ai"
             icon="🔬"
-            label="AI DOCTOR"
+            label="Crop Doctor"
             isActive={currentScreen === 's-ai' || currentScreen === 's-result'}
           />
           <NavItem
             target="s-market"
             icon="📊"
-            label="PRICES"
+            label="Mandi Prices"
             isActive={currentScreen === 's-market'}
           />
           <NavItem
             target="s-sell"
             icon="🌱"
-            label="SELL"
+            label="Sell"
             isActive={currentScreen === 's-sell'}
           />
           <NavItem
             target="s-orders"
             icon="📦"
-            label="ORDERS"
+            label="My Orders"
             badge={ordersCount}
             isActive={currentScreen === 's-orders' || currentScreen === 's-track'}
           />

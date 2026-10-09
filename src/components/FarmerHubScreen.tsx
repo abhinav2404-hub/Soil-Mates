@@ -155,26 +155,31 @@ export const FarmerHubScreen: React.FC<FarmerHubScreenProps> = ({
     <div className="h-full flex flex-col overflow-y-auto no-scrollbar bg-[var(--cream)] pb-20">
       {/* Top Farmgate Command Banner */}
       <div
-        className="px-4 pt-4 pb-4 flex-shrink-0 text-[#EDD9B8]"
+        className="px-4 pt-4 pb-4 flex-shrink-0 text-white"
         style={{ backgroundColor: 'var(--soil)' }}
       >
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-xl shadow-xs">
-              👨‍🌾
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-[#6BBF6B] shadow-sm flex-shrink-0 bg-stone-800">
+              <img
+                src="/src/assets/images/farmer_profile_portrait_1791568889913.jpg"
+                alt="Ramesh Patel - Certified Organic Farmer"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <h2 className="font-serif-soil text-lg font-extrabold text-[#EDD9B8] leading-tight">
+              <div className="flex items-center gap-2">
+                <h2 className="font-serif-soil text-lg font-bold text-white leading-tight">
                   Ramesh Patel Farm
                 </h2>
-                <span className="bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-[9px] font-bold px-1.5 py-0.5 rounded">
-                  Aadhaar ✓
+                <span className="text-[10px] text-emerald-300 font-semibold">
+                  Aadhaar Verified
                 </span>
               </div>
-              <p className="text-[10px] text-[#EDD9B8]/75 flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-emerald-400" />
-                <span>Sonpur Village, Vidisha MP · SoilChain #FC-9482</span>
+              <p className="text-[11px] text-stone-200/90 flex items-center gap-1 mt-0.5">
+                <MapPin className="w-3 h-3 text-[#6BBF6B]" />
+                <span>Sonpur Village, Vidisha · SoilChain #FC-9482</span>
               </p>
             </div>
           </div>
@@ -183,16 +188,16 @@ export const FarmerHubScreen: React.FC<FarmerHubScreenProps> = ({
           <div className="flex items-center gap-1.5 flex-wrap justify-end">
             <button
               onClick={onOpenMaterialLister}
-              className="p-1.5 px-2.5 rounded-xl bg-amber-500/25 hover:bg-amber-500/35 border border-amber-400/40 text-amber-200 text-[10px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-xs"
-              title="List daily food items (milk, ghee, flour, honey) or farm materials (fodder, compost)"
+              className="p-1.5 px-2.5 rounded-xl bg-amber-500/30 hover:bg-amber-500/40 border border-amber-300/40 text-amber-100 text-[10px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-xs cursor-pointer"
+              title="List food items or farm materials"
             >
               <span>🧺</span>
-              <span>Food & Materials</span>
+              <span>Materials</span>
             </button>
 
             <button
               onClick={onOpenYieldCalculator}
-              className="p-1.5 px-2.5 rounded-xl bg-emerald-500/25 hover:bg-emerald-500/35 border border-emerald-400/40 text-emerald-200 text-[10px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-xs"
+              className="p-1.5 px-2.5 rounded-xl bg-[#6BBF6B]/30 hover:bg-[#6BBF6B]/40 border border-[#6BBF6B]/40 text-emerald-100 text-[10px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-xs cursor-pointer"
               title="AI Yield & Mandi Price Calculator"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
@@ -201,7 +206,7 @@ export const FarmerHubScreen: React.FC<FarmerHubScreenProps> = ({
 
             <button
               onClick={() => onNavigate('s-sell')}
-              className="p-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-[#EDD9B8] text-[10px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-xs"
+              className="p-1.5 px-2.5 rounded-xl bg-white/15 hover:bg-white/25 border border-white/25 text-white text-[10px] font-bold flex items-center gap-1 transition-all active:scale-95 shadow-xs cursor-pointer"
               title="Shoot harvest to list with AI"
             >
               <Camera className="w-3.5 h-3.5" />
@@ -210,7 +215,7 @@ export const FarmerHubScreen: React.FC<FarmerHubScreenProps> = ({
 
             <button
               onClick={() => onNavigate('s-profile')}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-[#EDD9B8] transition-colors"
+              className="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-xs text-white transition-colors cursor-pointer"
               title="Profile & Settings"
             >
               👤

@@ -66,19 +66,30 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       <div className="flex-1 overflow-y-auto no-scrollbar pb-6">
         {/* Profile Hero */}
         <div
-          className="p-5 flex items-center gap-3.5 flex-shrink-0"
+          className="p-5 flex items-center gap-3.5 flex-shrink-0 text-white"
           style={{ backgroundColor: 'var(--soil)' }}
         >
-          <div className="w-14 h-14 rounded-full bg-[#EDD9B8]/20 border-2 border-[#EDD9B8]/35 flex items-center justify-center text-3xl shadow-sm">
-            {isVendor ? '🏪' : isFarmer ? '👨‍🌾' : '👩'}
-          </div>
+          {isFarmer ? (
+            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#6BBF6B] shadow-sm flex-shrink-0 bg-stone-800">
+              <img
+                src="/src/assets/images/farmer_profile_portrait_1791568889913.jpg"
+                alt={name}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-14 h-14 rounded-full bg-white/20 border-2 border-white/30 flex items-center justify-center text-3xl shadow-sm flex-shrink-0">
+              {isVendor ? '🏪' : '👩'}
+            </div>
+          )}
 
           <div className="flex-1">
-            <h3 className="font-serif-soil text-lg font-extrabold text-[#EDD9B8]">
+            <h3 className="font-serif-soil text-lg font-bold text-white">
               {name}
             </h3>
-            <p className="text-[11px] text-[#EDD9B8]/70 mt-0.5">📍 {location}</p>
-            <div className="mt-1.5 inline-block bg-[rgba(107,191,107,0.25)] border border-[#6BBF6B]/30 rounded-md px-2 py-0.5 text-[9px] text-[#6BBF6B] font-bold">
+            <p className="text-[11px] text-stone-200 mt-0.5 font-medium">📍 {location}</p>
+            <div className="mt-1.5 inline-block bg-white/20 rounded-md px-2 py-0.5 text-[9px] text-[#6BBF6B] font-bold">
               {badgeText}
             </div>
           </div>
@@ -401,16 +412,21 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             </div>
 
             {/* Direct APK Download Button inside Profile export menu */}
-            <div className="pt-1 flex items-center gap-2">
+            <div className="pt-1 flex flex-col gap-1.5">
               <a
                 href="/SoilMates.apk"
                 download="SoilMates.apk"
-                onClick={() => onShowToast('Downloading SoilMates.apk...')}
-                className="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-xs transition-transform active:scale-95"
+                onClick={() => onShowToast('Downloading SoilMates.apk (32.3 MB)...')}
+                className="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-xs transition-transform active:scale-95"
               >
-                <span>⬇️</span>
-                <span>Download SoilMates.apk (Direct)</span>
+                <span>📦</span>
+                <span>Download SoilMates.apk (32.3 MB · Android 16/17)</span>
               </a>
+              <div className="flex items-center justify-between text-[9px] text-emerald-800 dark:text-emerald-300 px-1 font-semibold">
+                <span>⚡ 16KB Page Aligned</span>
+                <span>🤖 Offline AI Weights</span>
+                <span>🛡️ API 36 / 37 Ready</span>
+              </div>
             </div>
           </div>
 

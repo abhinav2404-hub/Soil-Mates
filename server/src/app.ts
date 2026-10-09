@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -35,6 +37,22 @@ export function createExpressApp() {
       database: isMongoConnected ? 'connected' : 'in-memory-fallback',
       version: '1.0.0'
     });
+  });
+
+  // Dedicated direct APK download route with official Android MIME type
+  app.get('/SoilMates.apk', (req: Request, res: Response, next) => {
+    const apkPublicPath = path.resolve(process.cwd(), 'public/SoilMates.apk');
+    const apkRootPath = path.resolve(process.cwd(), 'SoilMates.apk');
+    const targetPath = fs.existsSync(apkPublicPath) ? apkPublicPath : apkRootPath;
+
+    if (fs.existsSync(targetPath)) {
+      res.setHeader('Content-Type', 'application/vnd.android.package-archive');
+      res.setHeader('Content-Disposition', 'attachment; filename="SoilMates.apk"');
+      res.setHeader('X-Android-Target-SDK', '36');
+      res.setHeader('X-Android-Min-SDK', '24');
+      return res.sendFile(targetPath);
+    }
+    next();
   });
 
   // API Routes

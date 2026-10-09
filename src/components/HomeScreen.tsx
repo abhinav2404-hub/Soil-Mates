@@ -159,55 +159,55 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {/* Real-time Agricultural Weather & Irrigation Advisory Widget */}
         <WeatherWidget />
 
-        {/* Farm Direct Banner with QR Scan Prominence */}
-        <div
-          className="rounded-2xl p-3.5 text-[#EDD9B8] relative overflow-hidden shadow-xs"
-          style={{ backgroundColor: 'var(--soil)' }}
-        >
-          <div className="relative z-10 max-w-[85%]">
-            <span className="bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-[9px] px-1.5 py-0.5 rounded font-extrabold tracking-wide uppercase">
-              Farmgate Assurance
-            </span>
-            <h3 className="font-serif-soil text-sm font-extrabold text-[#EDD9B8] mt-1 leading-snug">
+        {/* Farm Direct Banner with High-Fidelity Harvest Visual */}
+        <div className="rounded-2xl relative overflow-hidden shadow-xs border border-[var(--border)] group">
+          <img
+            src="/src/assets/images/hero_organic_harvest_1791568854320.jpg"
+            alt="Lush organic farm harvest at golden morning light"
+            referrerPolicy="no-referrer"
+            className="w-full h-44 object-cover brightness-[0.88] transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Measured Scrim for WCAG AA readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20 flex flex-col justify-end p-4 text-white">
+            <div className="text-[11px] font-semibold tracking-wider text-[#6BBF6B] uppercase">
+              Farmgate Fresh Guarantee
+            </div>
+            <h3 className="font-serif-soil text-base sm:text-lg font-bold text-white mt-0.5 leading-snug">
               Direct From Soil to Kitchen Table
             </h3>
-            <p className="text-[10px] text-[#EDD9B8]/75 mt-0.5">
-              100% verified farmer ratings, 0.00 PPM pesticide residue, and real-time blockchain lot verification.
+            <p className="text-xs text-stone-200 mt-1 max-w-[90%] font-medium">
+              Zero middlemen · 100% fair farmer payout · Harvested at dawn
             </p>
 
-            <div className="mt-2.5 flex items-center gap-2">
+            <div className="mt-3 flex items-center gap-2">
               <button
                 onClick={() => onNavigate('s-ai')}
-                className="px-3 py-1 rounded-xl text-[10px] font-bold shadow-xs active:scale-95 transition-transform"
-                style={{ backgroundColor: 'var(--leaf)', color: '#EDD9B8' }}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-[#2D5A27] hover:bg-[#3E7338] shadow-sm active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer"
               >
-                🔬 AI Crop Doctor
+                <span>🔬</span>
+                <span>AI Crop Doctor</span>
               </button>
 
               {onOpenQRScanner && (
                 <button
                   onClick={onOpenQRScanner}
-                  className="px-2.5 py-1 rounded-xl bg-white/15 hover:bg-white/25 text-[#EDD9B8] text-[10px] font-bold flex items-center gap-1 border border-white/20 transition-colors"
+                  className="px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 backdrop-blur text-white text-xs font-semibold flex items-center gap-1.5 border border-white/25 transition-all active:scale-95 cursor-pointer"
                 >
-                  <Camera className="w-3 h-3" />
-                  <span>Scan Crate QR</span>
+                  <Camera className="w-3.5 h-3.5 text-white" />
+                  <span>Scan Crate</span>
                 </button>
               )}
 
               {onOpenInstallModal && (
                 <button
                   onClick={onOpenInstallModal}
-                  className="px-2.5 py-1 rounded-xl bg-amber-400/20 hover:bg-amber-400/30 text-amber-200 text-[10px] font-bold flex items-center gap-1 border border-amber-400/30 transition-colors"
+                  className="px-3 py-1.5 rounded-xl bg-amber-500/80 hover:bg-amber-500 text-white text-xs font-semibold flex items-center gap-1 border border-amber-300/40 transition-all active:scale-95 cursor-pointer"
                 >
-                  <Download className="w-3 h-3" />
-                  <span>Get APK</span>
+                  <Download className="w-3.5 h-3.5 text-white" />
+                  <span>APK</span>
                 </button>
               )}
             </div>
-          </div>
-
-          <div className="absolute -right-2 -bottom-2 text-6xl opacity-20 pointer-events-none select-none">
-            🌾
           </div>
         </div>
 
@@ -257,54 +257,55 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               className="bg-[var(--white)] rounded-2xl overflow-hidden border border-[var(--border)] cursor-pointer hover:shadow-md transition-all flex flex-col group"
             >
               {/* Product Visual */}
-              <div className="h-28 bg-[var(--leaf-pale)] flex items-center justify-center text-5xl relative">
-                <span>{p.emoji}</span>
-                {p.isOrganic && (
-                  <span className="absolute top-2 left-2 bg-[var(--amber-pale)] text-[var(--amber)] text-[8px] font-extrabold px-1.5 py-0.5 rounded-md border border-[var(--amber)]/30">
-                    ORGANIC
+              <div className="h-28 bg-[var(--leaf-pale)] flex items-center justify-center text-5xl relative overflow-hidden">
+                <span className="transform transition-transform duration-300 group-hover:scale-110">{p.emoji}</span>
+                {p.discountPercent ? (
+                  <span className="absolute top-2 right-2 text-[10px] font-bold text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded">
+                    Save {p.discountPercent}%
                   </span>
-                )}
-                {p.discountPercent && (
-                  <span className="absolute top-2 right-2 bg-rose-100 text-rose-700 text-[8px] font-extrabold px-1.5 py-0.5 rounded-md">
-                    ↓ {p.discountPercent}% OFF
-                  </span>
-                )}
+                ) : null}
               </div>
 
               {/* Product Info */}
-              <div className="p-2.5 flex-1 flex flex-col justify-between">
+              <div className="p-3 flex-1 flex flex-col justify-between">
                 <div>
-                  {p.isFreshToday && !p.discountPercent && !p.isOrganic && (
-                    <span className="bg-[var(--leaf-pale)] text-[var(--leaf2)] text-[9px] font-bold px-1.5 py-0.5 rounded-md inline-block mb-1">
-                      ✓ Fresh Today
-                    </span>
-                  )}
-                  <div className="text-xs font-bold text-[var(--text)] line-clamp-1 group-hover:text-[var(--leaf2)] transition-colors">
-                    {p.name}
-                  </div>
-                  <div className="text-[10px] text-[var(--text3)] line-clamp-1 mt-0.5">
-                    🌱 {p.farmName}
+                  {/* Quiet unboxed kicker */}
+                  <div className="text-[10px] text-[var(--soil3)] font-medium flex items-center gap-1.5">
+                    <span>{p.isOrganic ? 'Certified Organic' : 'Direct Farmgate'}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{p.grade}</span>
                   </div>
 
-                  {/* Star Rating & Reviews Trigger */}
+                  <div className="text-sm font-bold text-[var(--text)] mt-0.5 line-clamp-1 group-hover:text-[var(--soil2)] transition-colors">
+                    {p.name}
+                  </div>
+
+                  <div className="text-[11px] text-[var(--text2)] flex items-center justify-between mt-1">
+                    <span className="truncate">{p.farmName}</span>
+                    <span className="text-[10px] font-medium text-[var(--soil3)] shrink-0 tabular-nums">
+                      {p.availableKg} {p.unit}
+                    </span>
+                  </div>
+
+                  {/* Rating & Trust */}
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
                       onOpenVendorReviews?.(p);
                     }}
-                    className="flex items-center gap-1 mt-1 cursor-pointer hover:opacity-85 py-0.5 rounded"
+                    className="flex items-center gap-1 mt-1.5 cursor-pointer py-0.5"
                     title="View Farmer Reviews & Trust Credentials"
                   >
                     <Star className="w-3 h-3 fill-amber-400 text-amber-500" />
-                    <span className="text-[10px] font-extrabold text-[var(--text)]">
+                    <span className="text-xs font-bold text-[var(--text)] tabular-nums">
                       {p.rating.toFixed(1)}
                     </span>
-                    <span className="text-[9px] text-[var(--text3)]">
+                    <span className="text-[10px] text-[var(--text3)]">
                       ({p.reviewsCount})
                     </span>
                     {p.vendorTrustScore && (
-                      <span className="ml-auto text-[8px] font-extrabold text-emerald-800 bg-emerald-100 px-1 py-0.2 rounded">
-                        {p.vendorTrustScore}%
+                      <span className="ml-auto text-[10px] font-medium text-emerald-800">
+                        {p.vendorTrustScore}% trust
                       </span>
                     )}
                   </div>
@@ -314,31 +315,30 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                       e.stopPropagation();
                       onOpenOriginModal?.(p.id);
                     }}
-                    className="text-[9px] text-[var(--leaf2)] font-bold hover:underline flex items-center gap-0.5 mt-1"
+                    className="text-[10px] text-[var(--soil)] font-semibold hover:underline flex items-center gap-1 mt-1 cursor-pointer"
                   >
-                    <span>🔗 Trace Origin</span>
+                    <span>Origin details →</span>
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-[var(--border)]/50">
+                <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-[var(--border)]">
                   <div>
-                    <span className="font-serif-soil text-sm font-extrabold text-[var(--leaf)]">
+                    <span className="font-serif-soil text-base font-bold text-[var(--soil)] tabular-nums">
                       ₹{p.pricePerKg}
                     </span>
-                    <span className="text-[10px] text-[var(--text3)]">/{p.unit}</span>
+                    <span className="text-xs text-[var(--text3)] font-medium">/{p.unit}</span>
                   </div>
 
                   <motion.button
-                    whileTap={{ scale: 0.85 }}
-                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={(e) => {
                       e.stopPropagation();
                       onAddToCart(p);
                     }}
-                    className="w-7 h-7 rounded-lg bg-[var(--soil)] hover:bg-[var(--soil2)] text-[#EDD9B8] flex items-center justify-center text-base font-bold shadow-xs cursor-pointer"
-                    title="Add 1 unit to cart"
+                    className="h-8 px-2.5 rounded-lg bg-[#2D5A27] hover:bg-[#3E7338] text-white flex items-center justify-center text-xs font-bold shadow-xs cursor-pointer min-h-[32px] min-w-[32px]"
+                    title="Add to cart"
                   >
-                    +
+                    + Add
                   </motion.button>
                 </div>
               </div>

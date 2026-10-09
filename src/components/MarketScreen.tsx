@@ -93,23 +93,23 @@ export const MarketScreen: React.FC<MarketScreenProps> = ({
     <div className="h-full flex flex-col overflow-hidden bg-[var(--cream)]">
       {/* Header */}
       <div
-        className="px-4 pt-3.5 pb-3 flex-shrink-0"
+        className="px-4 pt-3.5 pb-3 flex-shrink-0 text-white"
         style={{ backgroundColor: 'var(--soil)' }}
       >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-serif-soil text-xl font-extrabold text-[#EDD9B8]">
-              📊 Market Prices
+            <h2 className="font-serif-soil text-xl font-bold text-white">
+              Market Mandi Prices
             </h2>
-            <p className="text-[11px] text-[#EDD9B8]/75 mt-0.5 font-medium">
-              Live Mandi Rates · Historical Trends & Forecasts
+            <p className="text-[11px] text-white/80 mt-0.5 font-medium">
+              Live Mandi Rates · Verified APMC Benchmarks
             </p>
           </div>
           <div className="flex items-center gap-1.5">
             {onOpenQRScanner && (
               <button
                 onClick={onOpenQRScanner}
-                className="px-2.5 py-1 rounded-xl bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold flex items-center gap-1 hover:bg-emerald-500/35 transition-transform active:scale-95 shadow-xs"
+                className="px-2.5 py-1 rounded-xl bg-white/20 border border-white/25 text-white text-[10px] font-semibold flex items-center gap-1 hover:bg-white/30 transition-transform active:scale-95 shadow-xs cursor-pointer"
                 title="Scan Physical Produce Tag"
               >
                 <Camera className="w-3.5 h-3.5" />
@@ -118,7 +118,7 @@ export const MarketScreen: React.FC<MarketScreenProps> = ({
             )}
             <button
               onClick={() => onOpenOriginModal?.()}
-              className="px-2.5 py-1 rounded-xl bg-[rgba(107,191,107,0.2)] border border-[#6BBF6B]/40 text-[#6BBF6B] text-[10px] font-bold flex items-center gap-1 hover:bg-[#6BBF6B]/30 transition-transform active:scale-95"
+              className="px-2.5 py-1 rounded-xl bg-[#6BBF6B]/30 border border-[#6BBF6B]/40 text-emerald-100 text-[10px] font-bold flex items-center gap-1 hover:bg-[#6BBF6B]/40 transition-transform active:scale-95 cursor-pointer"
               title="Trace Produce Origin on Blockchain"
             >
               <ShieldCheck className="w-3.5 h-3.5" />

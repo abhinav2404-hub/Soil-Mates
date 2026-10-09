@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { OrderItem, ScreenId } from '../types';
-import { ArrowLeft, Phone, ShieldCheck, MapPin } from 'lucide-react';
+import { ArrowLeft, Phone, ShieldCheck, MapPin, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TrackOrderScreenProps {
   order: OrderItem;
@@ -13,28 +14,35 @@ export const TrackOrderScreen: React.FC<TrackOrderScreenProps> = ({
   onNavigate,
   onShowToast
 }) => {
+  const [expandedStep, setExpandedStep] = useState<number | null>(null);
+
+  const toggleStep = (idx: number) => {
+    setExpandedStep(expandedStep === idx ? null : idx);
+  };
+
   return (
     <div className="h-full flex flex-col overflow-hidden bg-[var(--cream)]">
       {/* Back Header */}
       <div
-        className="px-4 py-3 flex items-center gap-3 flex-shrink-0"
+        className="px-4 py-3 flex items-center gap-3 flex-shrink-0 text-white"
         style={{ backgroundColor: 'var(--soil)' }}
       >
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={() => onNavigate('s-orders')}
-          className="text-[#EDD9B8] hover:text-white p-1 transition-transform active:scale-95"
+          className="text-white hover:text-stone-200 p-1 transition-transform cursor-pointer"
         >
           <ArrowLeft className="w-5 h-5" />
-        </button>
-        <h3 className="font-serif-soil text-base font-extrabold text-[#EDD9B8] truncate">
-          Track Order {order.orderNumber}
+        </motion.button>
+        <h3 className="font-serif-soil text-base font-bold text-white truncate">
+          Live Tracker {order.orderNumber}
         </h3>
       </div>
 
       {/* Main Body */}
-      <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-3.5">
+      <div className="flex-1 overflow-y-auto no-scrollbar p-3.5 space-y-3.5 pb-8">
         {/* Live GPS Map Simulation Card */}
-        <div className="bg-[var(--leaf-pale)] rounded-2xl p-6 text-center border border-[rgba(45,106,45,0.2)] shadow-xs relative overflow-hidden">
+        <div className="bg-[var(--leaf-pale)] rounded-2xl p-5 text-center border border-[rgba(45,106,45,0.2)] shadow-xs relative overflow-hidden">
           {/* Simulated Map Grid */}
           <div
             className="absolute inset-0 opacity-15 pointer-events-none"
@@ -42,94 +50,143 @@ export const TrackOrderScreen: React.FC<TrackOrderScreenProps> = ({
               backgroundImage:
                 'repeating-linear-gradient(0deg, #2D6A2D 0, #2D6A2D 1px, transparent 1px, transparent 20px), repeating-linear-gradient(90deg, #2D6A2D 0, #2D6A2D 1px, transparent 1px, transparent 20px)'
             }}
-          ></div>
+          />
 
-          <div className="relative z-10 space-y-1.5">
-            <div className="text-4xl select-none mb-1 animate-bounce">🚚</div>
+          <div className="relative z-10 space-y-2">
+            <motion.div
+              animate={{ y: [0, -6, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+              className="text-4xl select-none"
+            >
+              🚚
+            </motion.div>
+
             <div className="text-xs font-bold text-[var(--leaf2)] flex items-center justify-center gap-1">
               <MapPin className="w-3.5 h-3.5" />
-              <span>Live Cold-Chain GPS Tracking</span>
+              <span>Cold-Chain Telemetry GPS Active</span>
             </div>
+
             <p className="text-[10px] text-[var(--text3)]">
-              Rider is 3.2 km away · Estimated Arrival {order.eta}
+              Temperature: 4.2°C · Distance: 2.8 km away · ETA: {order.eta}
             </p>
 
-            <div className="pt-2">
-              <button
+            <div className="pt-1 flex gap-2 justify-center">
+              <motion.button
+                whileTap={{ scale: 0.92 }}
                 onClick={() =>
-                  onShowToast(`Calling rider ${order.riderName} at ${order.riderPhone}...`)
+                  onShowToast(`Connecting call with rider ${order.riderName}...`)
                 }
-                className="px-4 py-1.5 rounded-xl bg-[var(--soil)] text-[#EDD9B8] text-xs font-bold shadow-sm hover:bg-[var(--soil2)] transition-transform active:scale-95 inline-flex items-center gap-1.5"
+                className="px-3.5 py-1.5 rounded-xl bg-[var(--soil)] text-[#EDD9B8] text-xs font-bold shadow-xs hover:bg-[var(--soil2)] transition-transform inline-flex items-center gap-1.5 cursor-pointer"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span>Call Rider ({order.riderName.split(' ')[0]})</span>
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
 
-        {/* 5-Step Pipeline Tracking Stepper */}
+        {/* 5-Step Animated Milestone Stepper */}
         <div className="bg-[var(--white)] rounded-2xl p-4 border border-[var(--border)] shadow-xs">
-          <h4 className="font-serif-soil text-xs font-bold text-[var(--text)] mb-3">
-            Milestone Progress
-          </h4>
+          <div className="flex items-center justify-between mb-3 border-b border-[var(--border)] pb-2">
+            <h4 className="font-serif-soil text-xs font-bold text-[var(--text)]">
+              Delivery Milestones (5 Steps)
+            </h4>
+            <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">
+              Live Transit
+            </span>
+          </div>
 
           <div className="space-y-3.5 relative">
             {/* Connecting line */}
-            <div className="absolute left-[13px] top-2 bottom-2 w-0.5 bg-[var(--leaf-pale)] z-0"></div>
+            <div className="absolute left-[13px] top-2 bottom-2 w-0.5 bg-stone-200 z-0" />
 
             {order.steps.map((step, idx) => {
               const isDone = step.status === 'done';
               const isActive = step.status === 'active';
+              const isExpanded = expandedStep === idx;
 
               return (
-                <div key={idx} className="flex items-start gap-3 relative z-10">
-                  <div
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.08 }}
+                  className="flex items-start gap-3 relative z-10 cursor-pointer"
+                  onClick={() => toggleStep(idx)}
+                >
+                  <motion.div
+                    whileTap={{ scale: 0.88 }}
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all ${
                       isDone
                         ? 'bg-[var(--leaf2)] text-white shadow-xs'
                         : isActive
-                        ? 'bg-[var(--amber)] text-white ring-4 ring-[var(--amber-pale)] animate-pulse'
-                        : 'bg-[var(--leaf-pale)] text-[var(--leaf2)] border border-[var(--leaf2)]/30'
+                        ? 'bg-[var(--amber)] text-white ring-4 ring-amber-100'
+                        : 'bg-[var(--cream2)] text-[var(--text3)] border border-[var(--border)]'
                     }`}
                   >
                     {isDone ? '✓' : isActive ? '🚚' : idx + 1}
-                  </div>
+                  </motion.div>
 
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 bg-[var(--cream2)]/60 rounded-xl p-2 border border-[var(--border)]/60">
                     <div className="flex items-center justify-between">
-                      <h5 className="text-xs font-bold text-[var(--text)]">{step.title}</h5>
-                      <span className="text-[9px] text-[var(--text3)] font-medium">
+                      <span className="text-xs font-bold text-[var(--text)]">
+                        {step.title}
+                      </span>
+                      <span className="text-[9px] font-mono text-[var(--text3)]">
                         {step.timestamp}
                       </span>
                     </div>
-                    <p className="text-[10px] text-[var(--text3)] mt-0.5 leading-tight">
+
+                    <p className="text-[10px] text-[var(--text2)] mt-0.5">
                       {step.description}
                     </p>
+
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="mt-2 pt-2 border-t border-[var(--border)] text-[9px] text-[var(--text3)] space-y-1"
+                        >
+                          <div>Verified by: Agro-Cold Telemetry Gate #3</div>
+                          <div>Cryptographic Hash: 0x7fa2...9b18 (Immutable)</div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
         </div>
 
-        {/* Blockchain Verified Trail Card */}
-        <div className="bg-[var(--cream2)] rounded-2xl p-3.5 border border-[var(--border)] shadow-xs space-y-2">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--soil2)]">
+        {/* Blockchain Origin Quality Verification */}
+        <div className="bg-[var(--cream2)] border border-[var(--border)] rounded-2xl p-3.5 space-y-2">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--text)]">
             <ShieldCheck className="w-4 h-4 text-emerald-700" />
-            <span>🔗 Blockchain Verified Supply Chain Trail</span>
+            <span>Traceability Checkpoints</span>
           </div>
 
-          <div className="text-[11px] text-[var(--text2)] space-y-1 font-mono leading-relaxed bg-white/60 rounded-xl p-2.5 border border-[var(--border)]">
-            <div>🔗 Farm Origin Hash → Verified (Block #89102) ✓</div>
-            <div>🔗 Grade A Quality Certificate → Anchored ✓</div>
-            <div>🔗 Real-time Temperature Sensor: 11.8°C (Compliant) ✓</div>
-            <div>🔗 Delivery Agent Bond: Active ✓</div>
-            <div>🔗 Delivery OTP Handshake: Pending Customer Verification</div>
+          <div className="grid grid-cols-2 gap-2 text-[10px]">
+            <div className="flex items-center gap-1 text-emerald-800 font-semibold">
+              <span>✓</span>
+              <span>Farm Origin Sealed</span>
+            </div>
+            <div className="flex items-center gap-1 text-emerald-800 font-semibold">
+              <span>✓</span>
+              <span>Grade A Lab Verified</span>
+            </div>
+            <div className="flex items-center gap-1 text-emerald-800 font-semibold">
+              <span>✓</span>
+              <span>Cold-Chain &lt; 5°C</span>
+            </div>
+            <div className="flex items-center gap-1 text-stone-600 font-semibold">
+              <span>○</span>
+              <span>OTP Handshake Pending</span>
+            </div>
           </div>
         </div>
-
-        <div className="h-4"></div>
       </div>
     </div>
   );
