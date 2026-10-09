@@ -40,7 +40,77 @@ async function runTestSuite() {
     }
   });
 
-  // 2. Product Listing
+  // 2. Authentication - User Registration
+  const testFarmerEmail = `sunita.${Date.now()}@soilmates.in`;
+  await test('POST /api/auth/register creates a new FARMER user', async () => {
+    const res = await fetch(`${baseUrl}/api/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Sunita Devi',
+        email: testFarmerEmail,
+        password: 'SoilMates@2026',
+        role: 'FARMER',
+        phone: '+91 98765 43210',
+        location: 'Khandwa, MP',
+        farmDetails: {
+          farmName: 'Devi Organic Farms',
+          acres: 5,
+          crops: ['Soybean', 'Cotton']
+        }
+      })
+    });
+    const data: any = await res.json();
+    if (res.status !== 201 || !data.success || !data.token || data.user.email !== testFarmerEmail) {
+      throw new Error(`Registration failed: ${JSON.stringify(data)}`);
+    }
+  });
+
+  // 3. Authentication - User Login with Seeded Account
+  let farmerToken = '';
+  await test('POST /api/auth/login succeeds with seeded credentials', async () => {
+    const res = await fetch(`${baseUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        identifier: 'farmer@soilmates.in',
+        password: 'SoilMates@2026'
+      })
+    });
+    const data: any = await res.json();
+    if (res.status !== 200 || !data.success || !data.token) {
+      throw new Error(`Login failed: ${JSON.stringify(data)}`);
+    }
+    farmerToken = data.token;
+  });
+
+  // 4. Authentication - Reject invalid password
+  await test('POST /api/auth/login rejects incorrect password (401)', async () => {
+    const res = await fetch(`${baseUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        identifier: 'farmer@soilmates.in',
+        password: 'WrongPassword999'
+      })
+    });
+    if (res.status !== 401) {
+      throw new Error(`Expected 401 Unauthorized, received ${res.status}`);
+    }
+  });
+
+  // 5. Authentication - GET /api/auth/me
+  await test('GET /api/auth/me returns authenticated user profile', async () => {
+    const res = await fetch(`${baseUrl}/api/auth/me`, {
+      headers: { Authorization: `Bearer ${farmerToken}` }
+    });
+    const data: any = await res.json();
+    if (res.status !== 200 || !data.success || data.user.email !== 'farmer@soilmates.in') {
+      throw new Error(`Failed to fetch profile: ${JSON.stringify(data)}`);
+    }
+  });
+
+  // 6. Product Listing
   await test('GET /api/products returns products list', async () => {
     const res = await fetch(`${baseUrl}/api/products`);
     const data: any = await res.json();
@@ -49,14 +119,14 @@ async function runTestSuite() {
     }
   });
 
-  // 3. Product Creation with Role Authorization
+  // 7. Product Creation with Role Authorization
   let createdProductId: string = '';
   await test('POST /api/products allows FARMER to create listing', async () => {
     const res = await fetch(`${baseUrl}/api/products`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer demo-farmer'
+        Authorization: `Bearer ${farmerToken}`
       },
       body: JSON.stringify({
         name: 'Organic Kesar Mangoes',

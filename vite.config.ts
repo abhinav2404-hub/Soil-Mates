@@ -97,9 +97,9 @@ export default defineConfig(() => {
       }
     },
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      hmr: process.env.DISABLE_HMR === 'true' ? false : true,
-      watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      // HMR is disabled in AI Studio dev iframe environment
+      hmr: false,
+      watch: null,
       proxy: {
         '/api': {
           target: 'http://localhost:3000',

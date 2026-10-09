@@ -20,7 +20,10 @@ export function createExpressApp() {
   app.use(
     helmet({
       contentSecurityPolicy: false,
-      crossOriginEmbedderPolicy: false
+      crossOriginEmbedderPolicy: false,
+      crossOriginOpenerPolicy: false,
+      crossOriginResourcePolicy: false,
+      frameguard: false
     })
   );
 
