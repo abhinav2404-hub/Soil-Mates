@@ -9,6 +9,12 @@ export function useOrders() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchOrders = useCallback(async () => {
+    const token = localStorage.getItem('soilMatesToken');
+    if (!token) {
+      setOrders(INITIAL_ORDERS);
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     setError(null);
     try {

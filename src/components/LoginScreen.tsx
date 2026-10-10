@@ -738,36 +738,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           <span>Continue with Google</span>
         </button>
 
-        {/* One-Tap Demo Quick Roles */}
-        <div>
-          <div className="text-[10px] text-stone-500 font-bold mb-1.5 uppercase text-center">
-            One-Tap Quick Demo Profile
-          </div>
-          <div className="grid grid-cols-4 gap-1.5">
-            {[
-              { role: 'farmer', label: 'Farmer', icon: '👨‍🌾' },
-              { role: 'consumer', label: 'Buyer', icon: '🛒' },
-              { role: 'vendor', label: 'Vendor', icon: '🏪' },
-              { role: 'admin', label: 'Admin', icon: '🛡️' }
-            ].map((d) => (
-              <motion.button
-                key={d.role}
-                type="button"
-                whileTap={{ scale: 0.9 }}
-                whileHover={{ scale: 1.05 }}
-                onClick={() => {
-                  handleRoleSelect(d.role as UserRole);
-                  triggerLoginSuccess(d.role as UserRole, `Logged in as ${d.label}!`);
-                }}
-                className="py-1.5 px-1 rounded-xl bg-white dark:bg-stone-800 border border-[var(--border)] text-center text-xs font-bold text-[var(--text)] hover:border-emerald-500 shadow-2xs cursor-pointer flex flex-col items-center"
-              >
-                <span className="text-sm">{d.icon}</span>
-                <span className="text-[10px] mt-0.5">{d.label}</span>
-              </motion.button>
-            ))}
-          </div>
-        </div>
-
         {/* Biometric One-Touch Sign-In Button */}
         {biometricStatus?.isAvailable && authMode === 'login' && (
           <motion.button
