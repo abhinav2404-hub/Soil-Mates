@@ -96,17 +96,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <span className="hidden sm:inline">Trace</span>
             </button>
 
-            {/* Install App / APK Button */}
-            {onOpenInstallModal && (
-              <button
-                onClick={onOpenInstallModal}
-                className="p-1.5 px-2 rounded-xl bg-amber-500/25 hover:bg-amber-500/35 border border-amber-400/40 text-amber-300 text-[10px] font-bold flex items-center gap-1 transition-colors shadow-xs active:scale-95"
-                title="Install Android App / Download APK"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">APK</span>
-              </button>
-            )}
+
 
             {/* Cart Button */}
             <button

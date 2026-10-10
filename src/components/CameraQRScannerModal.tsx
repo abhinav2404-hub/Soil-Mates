@@ -322,10 +322,10 @@ export const CameraQRScannerModal: React.FC<CameraQRScannerModalProps> = ({
             <div className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center p-6">
               {/* Corner Reticle Box */}
               <div
-                className={`relative w-48 h-48 rounded-2xl transition-all duration-300 border-2 ${
+                className={`relative w-48 h-48 rounded-2xl transition-all duration-300 border-2 animate-pulse ${
                   scannedResult
                     ? 'border-emerald-400 bg-emerald-500/20 scale-105'
-                    : 'border-emerald-400/80 bg-transparent'
+                    : 'border-emerald-400/80 bg-transparent shadow-[0_0_15px_rgba(52,211,153,0.3)]'
                 }`}
               >
                 {/* 4 Corner Markers */}

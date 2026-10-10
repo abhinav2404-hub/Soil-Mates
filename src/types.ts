@@ -11,6 +11,7 @@ export type ScreenId =
   | 's-buy'
   | 's-sell'
   | 's-cart'
+  | 's-payment'
   | 's-orders'
   | 's-track'
   | 's-profile'

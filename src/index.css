@@ -25,25 +25,25 @@
   }
 
   body.dark-mode {
-    --soil: #23180F;
+    --soil: #1F2E21;
     --soil2: #D9B98C;
     --soil3: #B98B5B;
     --leaf: #6BBF6B;
     --leaf2: #8EDB8E;
     --leaf3: #A9E8A9;
-    --leaf-pale: #17321E;
+    --leaf-pale: #1A2E20;
     --sky: #152A31;
-    --cream: #0F1411;
-    --cream2: #1B231C;
+    --cream: #0B100D;
+    --cream2: #162018;
     --amber: #F1B655;
     --amber-pale: #332713;
     --coral: #F07167;
     --coral-pale: #351B19;
-    --text: #F7EAD7;
-    --text2: #DDC6A5;
-    --text3: #A89070;
-    --white: #151B17;
-    --border: rgba(237, 217, 184, 0.14);
+    --text: #F9F3EA;
+    --text2: #E2CDAF;
+    --text3: #B89E7C;
+    --white: #18221B;
+    --border: rgba(239, 222, 195, 0.22);
   }
 }
 

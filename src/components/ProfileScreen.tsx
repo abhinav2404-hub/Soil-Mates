@@ -390,45 +390,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             <ChevronRight className="w-4 h-4 text-purple-700" />
           </div>
 
-          {/* Android App & APK Download Hub */}
-          <div className="p-3.5 bg-emerald-500/10 border-y border-emerald-500/20 space-y-2">
-            <div
-              onClick={onOpenInstallModal}
-              className="flex items-center gap-3 cursor-pointer group"
-            >
-              <div className="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center text-base flex-shrink-0 shadow-xs">
-                📱
-              </div>
-              <div className="flex-1">
-                <h5 className="text-xs font-bold text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5">
-                  <span>Android App & APK Hub</span>
-                  <span className="bg-emerald-600 text-white text-[8px] px-1.5 py-0.2 rounded font-extrabold">
-                    READY
-                  </span>
-                </h5>
-                <p className="text-[10px] text-emerald-800 dark:text-emerald-300">WebAPK install, Capacitor script & GitHub CI</p>
-              </div>
-              <ChevronRight className="w-4 h-4 text-emerald-700" />
-            </div>
 
-            {/* Direct APK Download Button inside Profile export menu */}
-            <div className="pt-1 flex flex-col gap-1.5">
-              <a
-                href="/SoilMates.apk"
-                download="SoilMates.apk"
-                onClick={() => onShowToast('Downloading SoilMates.apk (32.3 MB)...')}
-                className="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-xs transition-transform active:scale-95"
-              >
-                <span>📦</span>
-                <span>Download SoilMates.apk (32.3 MB · Android 16/17)</span>
-              </a>
-              <div className="flex items-center justify-between text-[9px] text-emerald-800 dark:text-emerald-300 px-1 font-semibold">
-                <span>⚡ 16KB Page Aligned</span>
-                <span>🤖 Offline AI Weights</span>
-                <span>🛡️ API 36 / 37 Ready</span>
-              </div>
-            </div>
-          </div>
 
           {/* Project Architecture & PRD Specs */}
           <div

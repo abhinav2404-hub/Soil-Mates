@@ -17,29 +17,9 @@ export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpen
           Soil Mates AgriTech
         </span>
         <div className="flex items-center gap-2">
-          {/* Standalone Android APK download */}
-          <a
-            href="/SoilMates.apk"
-            download="SoilMates.apk"
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#2D5A27] hover:bg-[#3E7338] text-white font-semibold transition-all active:scale-95 shadow-xs"
-            title="Download standalone SoilMates.apk for Android 16 & 17 (16 KB page-aligned)"
-          >
-            <span>📦</span>
-            <span>APK (32.3 MB)</span>
-          </a>
-          {onOpenInstallModal && (
-            <button
-              onClick={onOpenInstallModal}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-700 hover:bg-stone-600 text-stone-200 font-medium transition-all active:scale-95 shadow-xs cursor-pointer"
-              title="Open Mobile APK & Android Package Hub"
-            >
-              <span>📱</span>
-              <span>Install Kit</span>
-            </button>
-          )}
           <button
             onClick={() => setIsWideLayout(!isWideLayout)}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-700/80 hover:bg-stone-700 text-stone-200 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-700/80 hover:bg-stone-700 text-stone-200 transition-colors cursor-pointer"
             title="Toggle phone frame vs expanded width"
           >
             {isWideLayout ? (

@@ -30,6 +30,7 @@ import { MarketScreen } from './components/MarketScreen';
 import { ProductDetailScreen } from './components/ProductDetailScreen';
 import { SellProduceScreen } from './components/SellProduceScreen';
 import { CartScreen } from './components/CartScreen';
+import { PaymentMethodScreen } from './components/PaymentMethodScreen';
 import { OrdersScreen } from './components/OrdersScreen';
 import { TrackOrderScreen } from './components/TrackOrderScreen';
 import { ProfileScreen } from './components/ProfileScreen';
@@ -505,6 +506,15 @@ export default function App() {
             onNavigate={handleNavigate}
             onUpdateQuantity={handleUpdateCartQuantity}
             onRemoveItem={handleRemoveCartItem}
+            onPlaceOrder={handlePlaceOrder}
+            onShowToast={showToast}
+          />
+        );
+      case 's-payment':
+        return (
+          <PaymentMethodScreen
+            cart={cart}
+            onNavigate={handleNavigate}
             onPlaceOrder={handlePlaceOrder}
             onShowToast={showToast}
           />

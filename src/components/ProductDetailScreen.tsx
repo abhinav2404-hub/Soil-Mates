@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ProduceItem, ScreenId, VendorReview } from '../types';
+import { PriceTrendChart } from './PriceTrendChart';
 import {
   ArrowLeft,
   ShieldCheck,
@@ -215,6 +216,9 @@ export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({
           <div className="text-xs text-[var(--text2)] leading-relaxed bg-[var(--white)] rounded-xl p-3 border border-[var(--border)]">
             {product.description}
           </div>
+
+          {/* 7-Day Price Trend Chart */}
+          <PriceTrendChart product={product} />
 
           {/* Blockchain Traceability Card with Physical QR Tag Scanner */}
           <div className="bg-[var(--leaf-pale)] rounded-2xl p-3.5 border border-[rgba(45,106,45,0.2)] space-y-2">

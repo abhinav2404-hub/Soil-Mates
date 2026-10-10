@@ -680,6 +680,27 @@ export const FarmerHubScreen: React.FC<FarmerHubScreenProps> = ({
                 </p>
               </div>
               <div className="flex items-center gap-1.5 flex-shrink-0">
+                {/* CSV Bulk Import Trigger */}
+                <button
+                  onClick={() => {
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.csv';
+                    input.onchange = (e) => {
+                      const file = (e.target as HTMLInputElement).files?.[0];
+                      if (file) {
+                        onShowToast(`Uploading ${file.name}... parsing harvest CSV data`);
+                        setTimeout(() => onShowToast('✅ Bulk harvest imported successfully!'), 1500);
+                      }
+                    };
+                    input.click();
+                  }}
+                  className="py-1.5 px-2.5 rounded-xl bg-stone-700 hover:bg-stone-800 text-white font-bold text-xs flex items-center gap-1 shadow-xs active:scale-95 transition-all cursor-pointer"
+                  title="Bulk-import produce listings from CSV"
+                >
+                  <span>📊</span>
+                  <span>CSV</span>
+                </button>
                 <button
                   onClick={onOpenMaterialLister}
                   className="py-1.5 px-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-1 shadow-xs active:scale-95 transition-all"
