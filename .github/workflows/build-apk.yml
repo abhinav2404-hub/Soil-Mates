@@ -38,8 +38,12 @@ jobs:
       - name: Build web assets
         run: bun run build
 
-      - name: Sync Capacitor Android platform
-        run: bunx cap sync android
+      - name: Prepare Capacitor Android platform
+        run: |
+          if [ ! -d android ]; then
+            bunx cap add android
+          fi
+          bunx cap sync android
 
       - name: Build debug APK
         working-directory: ./android
