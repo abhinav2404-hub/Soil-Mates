@@ -36,11 +36,8 @@ jobs:
       - name: Build web assets
         run: bun run build
 
-      - name: Install Capacitor Android platform
-        run: |
-          bun add @capacitor/core @capacitor/cli @capacitor/android
-          bunx cap add android
-          bunx cap sync android
+      - name: Sync Capacitor Android platform
+        run: bunx cap sync android
 
       - name: Build debug APK
         working-directory: ./android
