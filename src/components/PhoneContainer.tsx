@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Smartphone, Monitor } from 'lucide-react';
+import { Download, Smartphone, Monitor } from 'lucide-react';
 
 interface PhoneContainerProps {
   children: React.ReactNode;
@@ -17,7 +17,20 @@ export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpen
           Soil Mates AgriTech
         </span>
         <div className="flex items-center gap-2">
+          {onOpenInstallModal && (
+            <button
+              type="button"
+              onClick={onOpenInstallModal}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600/80 hover:bg-emerald-600 text-white font-bold transition-colors cursor-pointer"
+              title="Open Mobile APK & Android Package Hub"
+              aria-label="Open Mobile APK and Android Package Hub"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>APK & Mobile</span>
+            </button>
+          )}
           <button
+            type="button"
             onClick={() => setIsWideLayout(!isWideLayout)}
             className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-700/80 hover:bg-stone-700 text-stone-200 transition-colors cursor-pointer"
             title="Toggle phone frame vs expanded width"
