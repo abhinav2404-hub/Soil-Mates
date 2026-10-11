@@ -10,18 +10,18 @@ export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpen
   const [isWideLayout, setIsWideLayout] = useState<boolean>(false);
 
   return (
-    <div className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center p-0 sm:p-3 md:p-6 bg-[var(--cream)] sm:bg-stone-900/90 selection:bg-emerald-600 selection:text-white overflow-x-hidden">
+    <div className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center p-0 sm:p-3 md:p-6 bg-[var(--cream)] sm:bg-stone-900/90 selection:bg-emerald-600 selection:text-white overflow-hidden">
       {/* Desktop Viewport Switcher Toolbar */}
-      <div className="hidden sm:flex items-center justify-between w-full max-w-md md:max-w-lg mb-2.5 px-3.5 py-1.5 rounded-full bg-stone-800/90 backdrop-blur border border-stone-700/60 text-xs text-stone-300 shadow-md">
-        <span className="flex items-center gap-2 font-medium text-emerald-400">
+      <div className="flex w-full max-w-md md:max-w-lg mb-2.5 px-3.5 py-1.5 rounded-full bg-stone-800/90 backdrop-blur border border-stone-700/60 text-xs text-stone-200 shadow-lg shadow-stone-900/20 mx-auto">
+        <span className="flex items-center gap-2 font-medium text-emerald-400 truncate">
           Soil Mates AgriTech
         </span>
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2">
           {onOpenInstallModal && (
             <button
               type="button"
               onClick={onOpenInstallModal}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600/80 hover:bg-emerald-600 text-white font-bold transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600/80 hover:bg-emerald-600 text-white font-bold transition-colors cursor-pointer whitespace-nowrap"
               title="Open Mobile APK & Android Package Hub"
               aria-label="Open Mobile APK and Android Package Hub"
             >
@@ -32,7 +32,7 @@ export const PhoneContainer: React.FC<PhoneContainerProps> = ({ children, onOpen
           <button
             type="button"
             onClick={() => setIsWideLayout(!isWideLayout)}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-700/80 hover:bg-stone-700 text-stone-200 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-700/80 hover:bg-stone-700 text-stone-200 transition-colors cursor-pointer whitespace-nowrap"
             title="Toggle phone frame vs expanded width"
           >
             {isWideLayout ? (
