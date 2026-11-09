@@ -167,5 +167,4 @@ docs/            # Project documentation & architecture specs
 
 ---
 
-## 📄 License
-Soil Mates Open Agricultural License. Designed for 600M+ farmers globally.
+
