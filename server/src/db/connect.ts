@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import { config } from '../config/env';
 
+// Fail fast when MongoDB is unreachable to prevent hanging queries
+mongoose.set('bufferCommands', false);
+
 export let isMongoConnected = false;
 
 interface ConnectionStatus {
