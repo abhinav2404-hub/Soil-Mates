@@ -1,18 +1,24 @@
 # 🌱 Soil Mates - Agricultural Marketplace & AI Crop Doctor
 
-Soil Mates is a full-stack agricultural mobile and web application connecting farmers, consumers, vendors, and agricultural administrators. It features an AI Crop Doctor (powered by Gemini API), live Mandi market price trends (Recharts), secure biometric authentication (Capacitor Biometric Auth), blockchain produce traceability, and a direct APK builder.
-
+Soil Mates is a full-stack React and TypeScript app for India's agricultural community, built with Vite, Express, MongoDB, and Capacitor for Android. It brings together AI-assisted crop diagnosis, mandi price trends and alerts, farmer/buyer/vendor experiences, voice access in English and Hindi, biometric unlock, and Android APK build tools.
 ---
 
 ## 📱 Features
 
-- **Direct Startup Flow**: Opens directly to Login when unauthenticated and to the Home dashboard when authenticated (no introductory marketing splash screen).
-- **AI Crop Doctor**: Leaf disease scanner with Gemini AI integration.
-- **Market Price Trend**: Recharts-powered 7-day historical mandi price trends with interactive commodity switcher pills.
-- **Biometric Authentication**: Fingerprint & Face ID touch unlock (`@aparajita/capacitor-biometric-auth`).
-- **Direct APK Generator**: Pre-built Android APK available for instant download (`SoilMates.apk`) and Gradle compilation scripts.
-- **Multilingual Support**: English & Hindi vernacular support with speech synthesis and voice query assistant.
+- **Role-based entry**: Farmer, buyer, and shop/trader sign-in and account creation flows.
+- **AI Crop Doctor**: Gemini-assisted leaf disease diagnosis with a diagnosis history.
+- **Mandi market trends**: Interactive seven-day commodity price charts and profile alerts for price changes.
+- **Voice and languages**: English and Hindi support, speech synthesis, and voice-assisted access.
+- **Biometric unlock**: Fingerprint and Face ID support on compatible devices.
+- **PWA and Android**: Installable web app, Capacitor Android wrapper, downloadable APK, and Gradle build scripts.
 
+## 🖼️ App previews
+
+These preview illustrations show the sign-in flow and Crop Doctor workflow. They are UI previews; the final screens may vary by device and app version.
+
+| Sign-in | Crop Doctor |
+| --- | --- |
+| ![Soil Mates sign-in screen preview](./assets/screenshots/sign-in-preview.svg) | ![Soil Mates Crop Doctor workflow preview](./assets/screenshots/crop-doctor-preview.svg) |
 ---
 
 ## 🛠️ System Prerequisites & Setup Guide
