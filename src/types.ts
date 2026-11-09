@@ -180,9 +180,25 @@ export type SupportedLanguage =
   | 'Marathi'
   | 'Tamil'
   | 'Telugu'
+  | 'Bengali'
+  | 'Gujarati'
   | 'Kannada'
   | 'Punjabi'
-  | 'Bengali';
+  | 'Odia'
+  | 'Malayalam'
+  | 'Urdu'
+  | 'Assamese'
+  | 'Maithili'
+  | 'Nepali'
+  | 'Konkani'
+  | 'Sindhi'
+  | 'Manipuri'
+  | 'Dogri'
+  | 'Bodo'
+  | 'Santali'
+  | 'Kashmiri'
+  | 'Sanskrit';
+
 
 export interface LanguageMeta {
   code: SupportedLanguage;

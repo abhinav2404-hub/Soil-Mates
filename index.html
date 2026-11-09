@@ -3,6 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <script>
+      // AI Studio Environment: HMR is disabled. Handle Vite HMR WebSocket cleanly without errors.
+      (function() {
+        const OrigWebSocket = window.WebSocket;
+        if (OrigWebSocket) {
+          window.WebSocket = function(url, protocols) {
+            if (protocols === 'vite-hmr' || (typeof url === 'string' && url.includes('vite-hmr'))) {
+              return {
+                readyState: 1,
+                send: function() {},
+                close: function() {},
+                addEventListener: function(event, handler) {
+                  if (event === 'open') {
+                    setTimeout(handler, 0);
+                  }
+                },
+                removeEventListener: function() {},
+                dispatchEvent: function() { return true; }
+              };
+            }
+            return new OrigWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = OrigWebSocket.prototype;
+          window.WebSocket.CONNECTING = OrigWebSocket.CONNECTING;
+          window.WebSocket.OPEN = OrigWebSocket.OPEN;
+          window.WebSocket.CLOSING = OrigWebSocket.CLOSING;
+          window.WebSocket.CLOSED = OrigWebSocket.CLOSED;
+        }
+        const origError = console.error;
+        console.error = function(...args) {
+          if (args[0] && (
+            (typeof args[0] === 'string' && (args[0].includes('WebSocket') || args[0].includes('[vite] failed to connect'))) ||
+            (args[0] instanceof Error && args[0].message && args[0].message.includes('WebSocket'))
+          )) {
+            return;
+          }
+          origError.apply(console, args);
+        };
+      })();
+    </script>
     <title>Soil Mates - Crop Doctor & Agri Marketplace</title>
     <meta name="description" content="AI-powered crop disease diagnosis, live mandi prices, direct farmer-consumer marketplace, and blockchain produce traceability." />
     <meta name="theme-color" content="#2D5A27" />

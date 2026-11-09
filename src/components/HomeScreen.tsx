@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { ProduceItem, ProductCategory, ScreenId } from '../types';
 import { MANDI_PRICES } from '../data/agriData';
-import { Camera, Star, ShieldCheck, Download } from 'lucide-react';
+import { Camera, Star, ShieldCheck } from 'lucide-react';
 import { WeatherWidget } from './WeatherWidget';
 import { motion } from 'framer-motion';
 
@@ -185,16 +185,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 >
                   <Camera className="w-3.5 h-3.5 text-white" />
                   <span>Scan Crate</span>
-                </button>
-              )}
-
-              {onOpenInstallModal && (
-                <button
-                  onClick={onOpenInstallModal}
-                  className="px-3 py-1.5 rounded-xl bg-amber-500/80 hover:bg-amber-500 text-white text-xs font-semibold flex items-center gap-1 border border-amber-300/40 transition-all active:scale-95 cursor-pointer"
-                >
-                  <Download className="w-3.5 h-3.5 text-white" />
-                  <span>APK</span>
                 </button>
               )}
             </div>

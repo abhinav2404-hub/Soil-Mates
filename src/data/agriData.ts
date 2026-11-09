@@ -14,10 +14,26 @@ export const SUPPORTED_LANGUAGES: LanguageMeta[] = [
   { code: 'Marathi', name: 'Marathi', native: 'मराठी' },
   { code: 'Tamil', name: 'Tamil', native: 'தமிழ்' },
   { code: 'Telugu', name: 'Telugu', native: 'తెలుగు' },
+  { code: 'Bengali', name: 'Bengali', native: 'বাংলা' },
+  { code: 'Gujarati', name: 'Gujarati', native: 'ગુજરાતી' },
   { code: 'Kannada', name: 'Kannada', native: 'ಕನ್ನಡ' },
   { code: 'Punjabi', name: 'Punjabi', native: 'ਪੰਜਾਬੀ' },
-  { code: 'Bengali', name: 'Bengali', native: 'বাংলা' }
+  { code: 'Odia', name: 'Odia', native: 'ଓଡ଼ିଆ' },
+  { code: 'Malayalam', name: 'Malayalam', native: 'മലയാളം' },
+  { code: 'Urdu', name: 'Urdu', native: 'اردو' },
+  { code: 'Assamese', name: 'Assamese', native: 'অসমীয়া' },
+  { code: 'Maithili', name: 'Maithili', native: 'मैथिली' },
+  { code: 'Nepali', name: 'Nepali', native: 'नेपाली' },
+  { code: 'Konkani', name: 'Konkani', native: 'कोंकणी' },
+  { code: 'Sindhi', name: 'Sindhi', native: 'سنڌي' },
+  { code: 'Manipuri', name: 'Manipuri', native: 'মৈতৈলোন্' },
+  { code: 'Dogri', name: 'Dogri', native: 'डोगरी' },
+  { code: 'Bodo', name: 'Bodo', native: 'बड़ो' },
+  { code: 'Santali', name: 'Santali', native: 'संताली' },
+  { code: 'Kashmiri', name: 'Kashmiri', native: 'कॉशुर' },
+  { code: 'Sanskrit', name: 'Sanskrit', native: 'संस्कृतम्' }
 ];
+
 
 export const INITIAL_PRODUCTS: ProduceItem[] = [
   {

@@ -42,7 +42,6 @@ import { ProduceOriginModal } from './components/ProduceOriginModal';
 import { CameraQRScannerModal } from './components/CameraQRScannerModal';
 import { VendorReviewsModal } from './components/VendorReviewsModal';
 import { PWAInstallModal } from './components/PWAInstallModal';
-import { DocsViewerModal } from './components/DocsViewerModal';
 import { YieldPredictionModal } from './components/YieldPredictionModal';
 import { FarmerMaterialListerModal } from './components/FarmerMaterialListerModal';
 import { AdminDashboardScreen } from './components/AdminDashboardScreen';
@@ -108,26 +107,37 @@ export default function App() {
   const [isSupportModalOpen, setIsSupportModalOpen] = useState<boolean>(false);
   const [isOriginModalOpen, setIsOriginModalOpen] = useState<boolean>(false);
   const [originProduce, setOriginProduce] = useState<ProduceItem | null>(null);
-  const [isDocsModalOpen, setIsDocsModalOpen] = useState<boolean>(false);
   const [isYieldCalculatorOpen, setIsYieldCalculatorOpen] = useState<boolean>(false);
   const [isMaterialListerOpen, setIsMaterialListerOpen] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [activeFarmerChat, setActiveFarmerChat] = useState<string | undefined>(undefined);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [quotaExceeded, setQuotaExceeded] = useState<boolean>(false);
 
-  // Sync dark mode class
+  // Monitor Google Maps Platform quota exceeded event
   useEffect(() => {
+    const handleQuota = () => setQuotaExceeded(true);
+    window.addEventListener('gmp-quota-exceeded', handleQuota);
+    return () => window.removeEventListener('gmp-quota-exceeded', handleQuota);
+  }, []);
+
+  // Sync dark and bright mode classes
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode);
     document.body.classList.toggle('dark-mode', isDarkMode);
+    document.body.classList.toggle('dark', isDarkMode);
     localStorage.setItem('soilMatesDarkMode', isDarkMode ? '1' : '0');
   }, [isDarkMode]);
+
 
   // Initial load from backend API
   useEffect(() => {
     const initBackendData = async () => {
       try {
+        const token = localStorage.getItem('soilMatesToken');
         const [prodRes, ordRes] = await Promise.all([
           api.getProducts().catch(() => ({ success: false, data: [] as any[] })),
-          api.getOrders().catch(() => ({ success: false, data: [] as any[] }))
+          token ? api.getOrders().catch(() => ({ success: false, data: [] as any[] })) : Promise.resolve({ success: true, data: [] as any[] })
         ]);
         const prodData = (prodRes as any).data;
         if (prodRes.success && Array.isArray(prodData) && prodData.length > 0) {
@@ -548,7 +558,6 @@ export default function App() {
             }}
             onOpenLanguage={() => setIsLanguageModalOpen(true)}
             onOpenSupport={() => setIsSupportModalOpen(true)}
-            onOpenDocs={() => setIsDocsModalOpen(true)}
             onOpenInstallModal={() => setIsInstallModalOpen(true)}
             onOpenYieldCalculator={() => setIsYieldCalculatorOpen(true)}
             onOpenMaterialLister={() => setIsMaterialListerOpen(true)}
@@ -581,7 +590,24 @@ export default function App() {
   };
 
   return (
-    <PhoneContainer onOpenInstallModal={() => setIsInstallModalOpen(true)}>
+    <PhoneContainer>
+      {quotaExceeded && (
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-900 px-4 py-2 text-xs text-center sticky top-0 z-50 shadow-sm flex-shrink-0">
+          <span>
+            Google Maps Platform quota reached. If you are the app owner, visit{' '}
+            <a
+              href="https://developers.google.com/maps/ai/ai-studio?utm_campaign=gmp_mcp_codeassist_v1_aistudio#quota_exceeded_errors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline font-semibold text-amber-950 hover:text-amber-800"
+            >
+              maps developer site
+            </a>{' '}
+            for instructions to update your account.
+          </span>
+        </div>
+      )}
+
       {/* Dynamic Screen Routing with Framer Motion Screen Transitions */}
       <div className="relative flex-1 flex flex-col overflow-hidden">
         <AnimatePresence mode="wait">
@@ -670,13 +696,6 @@ export default function App() {
       <PWAInstallModal
         isOpen={isInstallModalOpen}
         onClose={() => setIsInstallModalOpen(false)}
-        onShowToast={showToast}
-      />
-
-      {/* Project Architectural Specs & PRD Modal */}
-      <DocsViewerModal
-        isOpen={isDocsModalOpen}
-        onClose={() => setIsDocsModalOpen(false)}
         onShowToast={showToast}
       />
 

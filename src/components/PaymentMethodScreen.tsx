@@ -245,7 +245,7 @@ export const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({
                       value={upiId}
                       onChange={(e) => setUpiId(e.target.value)}
                       placeholder="priya@okhdfcbank"
-                      className="w-full px-3 py-2.5 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-semibold text-[var(--text)] outline-none focus:border-emerald-600"
+                      className="w-full px-3 py-2.5 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-500"
                     />
                     <div className="text-[10px] text-[var(--text3)] mt-1">
                       Tip: Enter an UPI ID with <strong className="text-rose-600">"fail"</strong> (e.g. testfail@upi) to test failure simulation.
@@ -268,7 +268,7 @@ export const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({
                         type="text"
                         value={cardNumber}
                         onChange={(e) => setCardNumber(e.target.value)}
-                        className="w-full px-3 py-2.5 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-mono font-semibold text-[var(--text)] outline-none"
+                        className="w-full px-3 py-2.5 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-mono font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
@@ -278,7 +278,7 @@ export const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({
                           type="text"
                           value={cardExpiry}
                           onChange={(e) => setCardExpiry(e.target.value)}
-                          className="w-full px-3 py-2.5 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-mono font-semibold text-[var(--text)] outline-none"
+                          className="w-full px-3 py-2.5 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-mono font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                         />
                       </div>
                       <div>
@@ -288,7 +288,7 @@ export const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({
                           value={cardCvv}
                           onChange={(e) => setCardCvv(e.target.value)}
                           maxLength={4}
-                          className="w-full px-3 py-2.5 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-mono font-semibold text-[var(--text)] outline-none"
+                          className="w-full px-3 py-2.5 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-mono font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                         />
                       </div>
                     </div>
@@ -298,7 +298,7 @@ export const PaymentMethodScreen: React.FC<PaymentMethodScreenProps> = ({
                         type="text"
                         value={cardName}
                         onChange={(e) => setCardName(e.target.value)}
-                        className="w-full px-3 py-2.5 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-semibold text-[var(--text)] outline-none"
+                        className="w-full px-3 py-2.5 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                       />
                     </div>
                   </div>

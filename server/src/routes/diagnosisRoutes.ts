@@ -10,6 +10,7 @@ const upload = multer({
 });
 
 router.post('/', authenticate as any, upload.single('image') as any, diagnoseCrop as any);
+router.post('/scan', authenticate as any, upload.single('image') as any, diagnoseCrop as any);
 router.get('/history', authenticate as any, getDiagnosisHistory as any);
 
 export default router;

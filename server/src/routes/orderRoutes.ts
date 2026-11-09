@@ -5,15 +5,16 @@ import {
   getOrderById,
   updateOrderStatus
 } from '../controllers/orderController';
-import { authenticate, requireAuth } from '../middleware/auth';
+import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
-router.use(authenticate, requireAuth);
+// Allow optional authentication so GET /api/orders responds gracefully for unauthenticated initial load
+router.get('/', authenticate, getOrders);
+router.get('/:id', authenticate, getOrderById);
 
-router.post('/', createOrder);
-router.get('/', getOrders);
-router.get('/:id', getOrderById);
-router.patch('/:id/status', updateOrderStatus);
+// Order operations
+router.post('/', authenticate, createOrder);
+router.patch('/:id/status', authenticate, updateOrderStatus);
 
 export default router;

@@ -539,7 +539,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                       value={upiId}
                       onChange={(e) => setUpiId(e.target.value)}
                       placeholder="priya@okhdfcbank"
-                      className="w-full px-3 py-2 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-semibold text-[var(--text)] outline-none focus:border-emerald-600"
+                      className="w-full px-3 py-2 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600"
                     />
                     <div className="text-[9px] text-[var(--text3)] mt-1">
                       Test: any ID works; an ID containing "fail" simulates a failed payment.
@@ -579,7 +579,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                       type="text"
                       value={cardNumber}
                       onChange={(e) => setCardNumber(e.target.value)}
-                      className="w-full px-3 py-2 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-mono font-semibold text-[var(--text)] outline-none"
+                      className="w-full px-3 py-2 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-mono font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
@@ -589,7 +589,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                         type="text"
                         value={cardExpiry}
                         onChange={(e) => setCardExpiry(e.target.value)}
-                        className="w-full px-3 py-2 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-mono font-semibold text-[var(--text)] outline-none"
+                        className="w-full px-3 py-2 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-mono font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                       />
                     </div>
                     <div>
@@ -599,7 +599,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                         value={cardCvv}
                         onChange={(e) => setCardCvv(e.target.value)}
                         maxLength={4}
-                        className="w-full px-3 py-2 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-mono font-semibold text-[var(--text)] outline-none"
+                        className="w-full px-3 py-2 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-mono font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                       />
                     </div>
                   </div>
@@ -609,7 +609,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                       type="text"
                       value={cardName}
                       onChange={(e) => setCardName(e.target.value)}
-                      className="w-full px-3 py-2 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-semibold text-[var(--text)] outline-none"
+                      className="w-full px-3 py-2 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-900 dark:text-stone-100 outline-none focus:border-emerald-600"
                     />
                   </div>
                 </div>
@@ -776,7 +776,7 @@ export const CartScreen: React.FC<CartScreenProps> = ({
                 value={otpCode}
                 onChange={(e) => setOtpCode(e.target.value)}
                 maxLength={6}
-                className="w-full px-3 py-2.5 bg-stone-100 dark:bg-stone-800 rounded-xl text-center text-lg tracking-widest font-mono font-bold text-stone-900 dark:text-white border border-stone-200 dark:border-stone-700 outline-none"
+                className="w-full px-3 py-2.5 bg-white dark:bg-stone-900 rounded-xl text-center text-lg tracking-widest font-mono font-bold text-stone-900 dark:text-white border-2 border-stone-300 dark:border-stone-700 outline-none focus:border-emerald-600"
               />
               <div className="text-[10px] text-emerald-600 font-bold text-center mt-1.5">
                 ⚡ Test OTP: 111111 (or 123456)

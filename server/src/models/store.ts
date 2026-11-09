@@ -127,9 +127,17 @@ class DataStore {
 
   async getProductById(id: string) {
     if (isMongoConnected) {
-      return await ProductModel.findById(id);
+      try {
+        return await ProductModel.findById(id);
+      } catch {
+        return await ProductModel.findOne({ id });
+      }
     }
-    return this.products.get(id) || null;
+    if (this.products.has(id)) return this.products.get(id);
+    for (const p of this.products.values()) {
+      if (p.id === id || p._id === id || String(p.id) === String(id) || String(p._id) === String(id)) return p;
+    }
+    return null;
   }
 
   async createProduct(data: any) {
@@ -152,16 +160,30 @@ class DataStore {
 
   async updateProduct(id: string, updates: any) {
     if (isMongoConnected) {
-      return await ProductModel.findByIdAndUpdate(id, { ...updates, updatedAt: new Date() }, { new: true });
+      try {
+        return await ProductModel.findByIdAndUpdate(id, { ...updates, updatedAt: new Date() }, { new: true });
+      } catch {
+        return await ProductModel.findOneAndUpdate({ id }, { ...updates, updatedAt: new Date() }, { new: true });
+      }
     }
-    const existing = this.products.get(id);
-    if (!existing) return null;
+    let target = this.products.get(id);
+    let key = id;
+    if (!target) {
+      for (const [k, p] of this.products.entries()) {
+        if (p.id === id || p._id === id || String(p.id) === String(id) || String(p._id) === String(id)) {
+          target = p;
+          key = k;
+          break;
+        }
+      }
+    }
+    if (!target) return null;
     const updated = {
-      ...existing,
+      ...target,
       ...updates,
       updatedAt: new Date()
     };
-    this.products.set(id, updated);
+    this.products.set(key, updated);
     return updated;
   }
 
@@ -211,20 +233,42 @@ class DataStore {
 
   async getOrderById(id: string) {
     if (isMongoConnected) {
-      return await OrderModel.findById(id);
+      try {
+        return await OrderModel.findById(id);
+      } catch {
+        return await OrderModel.findOne({ id });
+      }
     }
-    return this.orders.get(id) || null;
+    if (this.orders.has(id)) return this.orders.get(id);
+    for (const o of this.orders.values()) {
+      if (o.id === id || o._id === id || o.orderNumber === id || String(o.id) === String(id) || String(o._id) === String(id)) return o;
+    }
+    return null;
   }
 
   async updateOrderStatus(id: string, status: OrderStatus) {
     if (isMongoConnected) {
-      return await OrderModel.findByIdAndUpdate(id, { orderStatus: status, updatedAt: new Date() }, { new: true });
+      try {
+        return await OrderModel.findByIdAndUpdate(id, { orderStatus: status, updatedAt: new Date() }, { new: true });
+      } catch {
+        return await OrderModel.findOneAndUpdate({ id }, { orderStatus: status, updatedAt: new Date() }, { new: true });
+      }
     }
-    const order = this.orders.get(id);
+    let order = this.orders.get(id);
+    let key = id;
+    if (!order) {
+      for (const [k, o] of this.orders.entries()) {
+        if (o.id === id || o._id === id || o.orderNumber === id) {
+          order = o;
+          key = k;
+          break;
+        }
+      }
+    }
     if (!order) return null;
     order.orderStatus = status;
     order.updatedAt = new Date();
-    this.orders.set(id, order);
+    this.orders.set(key, order);
     return order;
   }
 

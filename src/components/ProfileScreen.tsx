@@ -10,7 +10,6 @@ interface ProfileScreenProps {
   onToggleDarkMode: () => void;
   onOpenLanguage: () => void;
   onOpenSupport: () => void;
-  onOpenDocs?: () => void;
   onOpenInstallModal?: () => void;
   onOpenYieldCalculator?: () => void;
   onOpenMaterialLister?: () => void;
@@ -25,7 +24,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onToggleDarkMode,
   onOpenLanguage,
   onOpenSupport,
-  onOpenDocs,
   onOpenInstallModal,
   onOpenYieldCalculator,
   onOpenMaterialLister,
@@ -66,27 +64,45 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
       <div className="flex-1 overflow-y-auto no-scrollbar pb-6">
         {/* Profile Hero */}
         <div
-          className="p-5 flex items-center gap-3.5 flex-shrink-0 text-white"
+          className="p-5 flex items-center gap-3.5 flex-shrink-0 text-white relative"
           style={{ backgroundColor: 'var(--soil)' }}
         >
-          {isFarmer ? (
-            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#6BBF6B] shadow-sm flex-shrink-0 bg-stone-800">
+          <div className="relative group cursor-pointer" onClick={() => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e: any) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                  const url = evt.target?.result as string;
+                  localStorage.setItem(`soilMatesAvatar_${userRole}`, url);
+                  onShowToast('✨ Profile picture updated successfully!');
+                  window.location.reload();
+                };
+                reader.readAsDataURL(file);
+              }
+            };
+            input.click();
+          }}>
+            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#6BBF6B] shadow-md flex-shrink-0 bg-stone-800 relative">
               <img
-                src="/src/assets/images/farmer_profile_portrait_1791568889913.jpg"
+                src={localStorage.getItem(`soilMatesAvatar_${userRole}`) || (isFarmer ? '/src/assets/images/farmer_profile_portrait_1791568889913.jpg' : '/src/assets/images/fresh_mandi_produce_1791568878402.jpg')}
                 alt={name}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
               />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-[10px] font-bold text-white">
+                Edit 📷
+              </div>
             </div>
-          ) : (
-            <div className="w-14 h-14 rounded-full bg-white/20 border-2 border-white/30 flex items-center justify-center text-3xl shadow-sm flex-shrink-0">
-              {isVendor ? '🏪' : '👩'}
-            </div>
-          )}
+          </div>
 
           <div className="flex-1">
-            <h3 className="font-serif-soil text-lg font-bold text-white">
-              {name}
+            <h3 className="font-serif-soil text-lg font-bold text-white flex items-center gap-2">
+              <span>{name}</span>
+              <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-normal">Tap avatar to change photo</span>
             </h3>
             <p className="text-[11px] text-stone-200 mt-0.5 font-medium">📍 {location}</p>
             <div className="mt-1.5 inline-block bg-white/20 rounded-md px-2 py-0.5 text-[9px] text-[#6BBF6B] font-bold">
@@ -373,7 +389,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
           {/* Admin Command Center */}
           <div
             onClick={() => onNavigate('s-admin')}
-            className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors bg-purple-500/10 border-b border-purple-500/20"
+            className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors bg-purple-500/10 dark:bg-purple-950/30 border-b border-purple-500/20"
           >
             <div className="w-8 h-8 rounded-lg bg-purple-700 text-white flex items-center justify-center text-base flex-shrink-0 shadow-xs">
               🛡️
@@ -387,29 +403,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
               </h5>
               <p className="text-[10px] text-purple-800 dark:text-purple-300">Live platform metrics, user directory, system health</p>
             </div>
-            <ChevronRight className="w-4 h-4 text-purple-700" />
-          </div>
-
-
-
-          {/* Project Architecture & PRD Specs */}
-          <div
-            onClick={onOpenDocs}
-            className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors bg-[var(--leaf-pale)]/30"
-          >
-            <div className="w-8 h-8 rounded-lg bg-[var(--soil)] text-[#EDD9B8] flex items-center justify-center text-sm font-bold flex-shrink-0">
-              📖
-            </div>
-            <div className="flex-1">
-              <h5 className="text-xs font-bold text-[var(--soil)] flex items-center gap-1.5">
-                <span>Architecture & PRD Specs</span>
-                <span className="bg-emerald-200 text-emerald-900 text-[8px] px-1 py-0.2 rounded font-extrabold">
-                  6 DOCS
-                </span>
-              </h5>
-              <p className="text-[10px] text-[var(--text3)]">PRD, Architecture, Rules, Phases, Design, Memory</p>
-            </div>
-            <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
+            <ChevronRight className="w-4 h-4 text-purple-700 dark:text-purple-400" />
           </div>
         </div>
 
@@ -422,7 +416,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
               onShowToast('Logged out of farm account.');
               onNavigate('s-login');
             }}
-            className="w-full py-2.5 rounded-xl border border-[var(--soil)]/30 text-xs font-bold text-[var(--soil2)] hover:bg-[var(--cream2)] transition-colors"
+            className="w-full py-2.5 rounded-xl border border-[var(--border)] bg-[var(--white)] text-xs font-bold text-[var(--soil2)] hover:bg-[var(--cream2)] shadow-xs transition-colors cursor-pointer"
           >
             ← Logout of Account
           </button>

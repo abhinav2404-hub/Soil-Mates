@@ -23,7 +23,7 @@ export async function diagnoseCrop(req: AuthRequest, res: Response) {
       imageBuffer = Buffer.from(base64String, 'base64');
     }
 
-    if (!imageBuffer) {
+    if (!imageBuffer || imageBuffer.length === 0) {
       return res.status(400).json({
         success: false,
         message: 'No crop image provided. Please capture or upload a leaf photo.'

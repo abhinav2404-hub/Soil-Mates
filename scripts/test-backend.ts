@@ -220,6 +220,67 @@ async function runTestSuite() {
     }
   });
 
+  // 9. AI Crop Doctor Diagnosis API (with base64 leaf data)
+  await test('POST /api/diagnosis/scan diagnoses crop disease from leaf photo', async () => {
+    // 1x1 transparent png in base64
+    const sampleLeafBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    const res = await fetch(`${baseUrl}/api/diagnosis/scan`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${farmerToken}`
+      },
+      body: JSON.stringify({
+        cropHint: 'Tomato',
+        imageBase64: sampleLeafBase64
+      })
+    });
+    const data: any = await res.json();
+    if (!data.success || !data.data || !data.data.crop || !data.data.disease) {
+      throw new Error(`Crop diagnosis failed: ${JSON.stringify(data)}`);
+    }
+  });
+
+  // 10. AI Crop Doctor Diagnosis History
+  await test('GET /api/diagnosis/history returns diagnosis logs', async () => {
+    const res = await fetch(`${baseUrl}/api/diagnosis/history`, {
+      headers: { Authorization: `Bearer ${farmerToken}` }
+    });
+    const data: any = await res.json();
+    if (!data.success || !Array.isArray(data.data) || data.data.length === 0) {
+      throw new Error(`Diagnosis history failed: ${JSON.stringify(data)}`);
+    }
+  });
+
+  // 11. Product Reviews - GET & POST
+  await test('POST & GET /api/products/:id/reviews allows submitting and fetching reviews', async () => {
+    // Post a review
+    const postRes = await fetch(`${baseUrl}/api/products/${createdProductId}/reviews`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${farmerToken}`
+      },
+      body: JSON.stringify({
+        rating: 5,
+        comment: 'Fresh farm-direct quality! Very crisp and natural flavor.',
+        reviewerName: 'Sunita Devi',
+        reviewerLocation: 'Khandwa, MP'
+      })
+    });
+    const postData: any = await postRes.json();
+    if (!postData.success || !postData.data || postData.data.rating !== 5) {
+      throw new Error(`Post review failed: ${JSON.stringify(postData)}`);
+    }
+
+    // Get reviews
+    const getRes = await fetch(`${baseUrl}/api/products/${createdProductId}/reviews`);
+    const getData: any = await getRes.json();
+    if (!getData.success || !Array.isArray(getData.data) || getData.data.length === 0) {
+      throw new Error(`Get reviews failed: ${JSON.stringify(getData)}`);
+    }
+  });
+
   server.close();
 
   console.log(`\nTEST SUMMARY: ${passed} Passed, ${failed} Failed`);

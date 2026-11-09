@@ -80,7 +80,7 @@ export const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
     setTimeout(() => {
       const lower = text.toLowerCase();
       let botReply =
-        'I am your agri assistant. Ask me about crop diagnosis, mandi rates, cold-chain transport, or language settings!';
+        'I am your agri assistant. Ask me about crop diagnosis, mandi rates, tracking orders, billing, or settings!';
       let actionScreen: ScreenId | undefined = undefined;
       let actionLabel: string | undefined = undefined;
 
@@ -95,10 +95,11 @@ export const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
         lower.includes('disease') ||
         lower.includes('leaf') ||
         lower.includes('spot') ||
-        lower.includes('blight')
+        lower.includes('blight') ||
+        lower.includes('symptom')
       ) {
         botReply =
-          'For leaf disease analysis, open AI Crop Doctor and take a close daylight photo of the leaf. Our AI will identify the pathogen and recommend safe dosage.';
+          'For leaf disease analysis (e.g. Tomato blight, Yellow mosaic), open AI Crop Doctor and snap a close daylight photo of the leaf. Our AI detects pathogens instantly and recommends safe organic dosages.';
         actionScreen = 's-ai';
         actionLabel = 'Launch AI Crop Doctor';
       } else if (lower.includes('vendor') || lower.includes('bulk') || lower.includes('procure')) {
@@ -106,14 +107,26 @@ export const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
           'Vendor Hub allows bulk lot reservation directly from verified farmers like Ramesh Patel (220kg Tomato ready).';
         actionScreen = 's-vendor';
         actionLabel = 'Go to Vendor Hub';
-      } else if (lower.includes('hindi') || lower.includes('भाषा') || lower.includes('language')) {
+      } else if (lower.includes('hindi') || lower.includes('भाषा') || lower.includes('language') || lower.includes('punjabi') || lower.includes('marathi') || lower.includes('tamil')) {
         botReply =
-          'आप कभी भी प्रोफाइल या लॉगिन से अपनी भाषा बदल सकते हैं। हिन्दी, मराठी, तमिल, तेलुगु, कन्नड़, पंजाबी, बंगाली उपलब्ध हैं।';
-      } else if (lower.includes('order') || lower.includes('track') || lower.includes('delivery')) {
+          'You can switch languages anytime by tapping Language in your Profile settings. We support all 22+ scheduled Indian languages including Hindi, Marathi, Tamil, Telugu, Gujarati, Bengali, and English.';
+        actionScreen = 's-profile';
+        actionLabel = 'Open Profile Settings';
+      } else if (lower.includes('order') || lower.includes('track') || lower.includes('delivery') || lower.includes('where is my order')) {
         botReply =
-          'Active orders are tracked via real-time GPS cold chain. Pickups from Vidisha and Sehore arrive within 2–3 hours.';
+          'To track your order live: Go to My Orders and tap "Track Order & OTP". You will see real-time GPS cold chain telemetry, courier Mukesh Kumar, and your homestead destination pin!';
         actionScreen = 's-orders';
-        actionLabel = 'View Active Orders';
+        actionLabel = 'View My Orders';
+      } else if (lower.includes('bill') || lower.includes('amount') || lower.includes('payment') || lower.includes('cost')) {
+        botReply =
+          'To check your bill amount and payment history: View your Cart or completed orders in My Orders. All payments are secured via Escrow with 256-bit SSL.';
+        actionScreen = 's-orders';
+        actionLabel = 'Check Order Bills';
+      } else if (lower.includes('setting') || lower.includes('logout') || lower.includes('log out') || lower.includes('profile')) {
+        botReply =
+          'To access settings, switch language, toggle dark mode, or log out of your account: Tap Profile in the bottom navigation bar. You will find all account settings and the Logout button there.';
+        actionScreen = 's-profile';
+        actionLabel = 'Go to Profile Settings';
       } else if (lower.includes('help') || lower.includes('support') || lower.includes('call')) {
         botReply =
           'You can contact our 24x7 Kisan Helpline toll-free at 1800-111-SOIL or chat with agronomy specialists directly.';
@@ -237,7 +250,7 @@ export const ChatBotPanel: React.FC<ChatBotPanelProps> = ({
                 if (e.key === 'Enter') handleSendMessage();
               }}
               placeholder="Ask about crops, disease, mandi..."
-              className="flex-1 px-3 py-2 bg-[var(--cream2)] border border-[var(--border)] rounded-xl text-xs font-medium text-[var(--text)] outline-none focus:border-[var(--leaf2)]"
+              className="flex-1 px-3 py-2 bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-700 rounded-xl text-xs font-medium text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-[var(--leaf2)]"
             />
             <button
               onClick={() => handleSendMessage()}

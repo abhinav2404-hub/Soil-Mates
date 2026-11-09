@@ -33,9 +33,10 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
           </button>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="max-h-80 overflow-y-auto no-scrollbar grid grid-cols-2 gap-2 pr-1">
           {SUPPORTED_LANGUAGES.map((lang) => {
             const isSelected = currentLanguage === lang.code;
+            const isPriority = ['Hindi', 'English', 'Marathi', 'Tamil', 'Telugu', 'Gujarati', 'Bengali', 'Kannada'].includes(lang.code);
             return (
               <button
                 key={lang.code}
@@ -43,13 +44,18 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
                   onSelectLanguage(lang.code);
                   onClose();
                 }}
-                className={`p-2.5 rounded-xl border text-left transition-all ${
+                className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
                   isSelected
-                    ? 'border-[var(--leaf2)] bg-[var(--leaf-pale)] text-[var(--leaf2)] font-bold shadow-xs'
+                    ? 'border-[var(--leaf2)] bg-[var(--leaf-pale)] text-[var(--leaf2)] font-bold shadow-xs ring-1 ring-emerald-500'
+                    : isPriority
+                    ? 'border-emerald-500/40 bg-[var(--white)] text-[var(--text)] hover:bg-[var(--leaf-pale)]/50'
                     : 'border-[var(--border)] bg-[var(--white)] text-[var(--text)] hover:bg-[var(--leaf-pale)]/50'
                 }`}
               >
-                <div className="text-xs font-bold">{lang.name}</div>
+                <div className="text-xs font-bold flex items-center justify-between">
+                  <span>{lang.name}</span>
+                  {isPriority && <span className="text-[9px] text-emerald-600 font-extrabold">★</span>}
+                </div>
                 <div className="text-[10px] text-[var(--text3)] font-medium mt-0.5">
                   {lang.native}
                 </div>
@@ -59,7 +65,7 @@ export const LanguageModal: React.FC<LanguageModalProps> = ({
         </div>
 
         <p className="text-[10px] text-[var(--text3)] text-center pt-1">
-          Soil Mates audio voice & diagnostics adapts automatically.
+          Soil Mates audio voice, speech synthesis & diagnostics adapts to all 23 Indian languages automatically.
         </p>
       </div>
     </div>

@@ -56,6 +56,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   const [regPhone, setRegPhone] = useState<string>('9826145210');
   const [regRole, setRegRole] = useState<UserRole>('farmer');
   const [regLocation, setRegLocation] = useState<string>('Vidisha, Madhya Pradesh');
+  const [regAvatar, setRegAvatar] = useState<string>('');
 
   // Forgot Password Dialog
   const [isForgotOpen, setIsForgotOpen] = useState<boolean>(false);
@@ -271,6 +272,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         if (res.user) {
           localStorage.setItem('soilMatesUser', JSON.stringify(res.user));
         }
+        if (regAvatar) {
+          localStorage.setItem(`soilMatesAvatar_${regRole}`, regAvatar);
+        }
         onSetRole(regRole);
         triggerLoginSuccess(regRole, `Account ready! Welcome, ${regName.trim()}.`);
       } else {
@@ -289,6 +293,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       };
       localStorage.setItem('soilMatesToken', `token-${Date.now()}`);
       localStorage.setItem('soilMatesUser', JSON.stringify(registeredUser));
+      if (regAvatar) {
+        localStorage.setItem(`soilMatesAvatar_${regRole}`, regAvatar);
+      }
       onSetRole(regRole);
       triggerLoginSuccess(regRole, `Welcome, ${regName.trim()}! Account created.`);
     } finally {
@@ -510,11 +517,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
             {/* Phone Number or Email Field */}
             <div>
-              <label className="block text-[11px] font-bold text-[var(--text2)] mb-1">
+              <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200 mb-1">
                 Your Phone Number or Email (फ़ोन या ईमेल)
               </label>
               <div className="relative flex items-center">
-                <span className="absolute left-3 text-stone-400">
+                <span className="absolute left-3 text-stone-500 dark:text-stone-400">
                   {identifier.includes('@') ? (
                     <Mail className="w-4 h-4" />
                   ) : (
@@ -526,7 +533,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   placeholder="e.g. 9826145210 or farmer@soilmates.in"
-                  className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs font-semibold text-[var(--text)] outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                  className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 focus:bg-white dark:focus:bg-stone-900 focus:ring-2 focus:ring-emerald-500/20 shadow-xs transition-all"
                   required
                 />
               </div>
@@ -535,19 +542,19 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             {/* Password Field with Show/Hide Toggle */}
             <div>
               <div className="flex items-center justify-between mb-1">
-                <label className="block text-[11px] font-bold text-[var(--text2)]">
+                <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200">
                   Secret Password (पासवर्ड)
                 </label>
                 <button
                   type="button"
                   onClick={() => setIsForgotOpen(true)}
-                  className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold hover:underline"
+                  className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold hover:underline cursor-pointer"
                 >
                   Forgot password?
                 </button>
               </div>
               <div className="relative flex items-center">
-                <span className="absolute left-3 text-stone-400">
+                <span className="absolute left-3 text-stone-500 dark:text-stone-400">
                   <Lock className="w-4 h-4" />
                 </span>
                 <input
@@ -555,13 +562,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Type your password"
-                  className="w-full pl-9 pr-10 py-2.5 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs font-semibold text-[var(--text)] outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition-all"
+                  className="w-full pl-9 pr-10 py-2.5 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 focus:bg-white dark:focus:bg-stone-900 focus:ring-2 focus:ring-emerald-500/20 shadow-xs transition-all"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 text-stone-400 hover:text-stone-700 transition-colors p-1"
+                  className="absolute right-3 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors p-1 cursor-pointer"
                   title={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -571,7 +578,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
             {/* Remember Me Checkbox */}
             <div className="flex items-center justify-between pt-0.5">
-              <label className="flex items-center gap-2 cursor-pointer select-none text-[11px] text-[var(--text2)] font-medium">
+              <label className="flex items-center gap-2 cursor-pointer select-none text-[11px] text-stone-700 dark:text-stone-300 font-medium">
                 <input
                   type="checkbox"
                   checked={rememberMe}
@@ -606,8 +613,51 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         ) : (
           /* MODE 2: REGISTER FORM */
           <form onSubmit={handleRegisterSubmit} className="space-y-2.5">
+            {/* Profile Picture Camera Capture / Upload */}
+            <div className="flex items-center gap-3 p-2 bg-[var(--cream2)] rounded-2xl border border-[var(--border)]">
+              <div
+                onClick={() => {
+                  const input = document.createElement('input');
+                  input.type = 'file';
+                  input.accept = 'image/*';
+                  input.capture = 'user';
+                  input.onchange = (e: any) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (evt) => {
+                        const url = evt.target?.result as string;
+                        setRegAvatar(url);
+                        onShowToast?.('📷 Profile photo captured successfully!');
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  };
+                  input.click();
+                }}
+                className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center overflow-hidden cursor-pointer shadow-md relative group flex-shrink-0"
+              >
+                {regAvatar ? (
+                  <img src={regAvatar} alt="Avatar" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-xl">📷</span>
+                )}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-[8px] text-white font-bold">
+                  Capture
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="text-[11px] font-bold text-[var(--text)]">
+                  Profile Photo (कैमरा / गैलरी)
+                </div>
+                <div className="text-[9px] text-[var(--text3)]">
+                  Tap to snap with device camera or pick file
+                </div>
+              </div>
+            </div>
+
             <div>
-              <label className="block text-[11px] font-bold text-[var(--text2)] mb-1">
+              <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200 mb-1">
                 Your Full Name (पूरा नाम)
               </label>
               <input
@@ -615,14 +665,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 value={regName}
                 onChange={(e) => setRegName(e.target.value)}
                 placeholder="e.g. Ramesh Patel"
-                className="w-full px-3 py-2 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs text-[var(--text)] outline-none focus:border-emerald-600 font-semibold"
+                className="w-full px-3 py-2 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 font-semibold"
                 required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block text-[11px] font-bold text-[var(--text2)] mb-1">
+                <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200 mb-1">
                   Email
                 </label>
                 <input
@@ -630,12 +680,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
                   placeholder="farmer@soilmates.in"
-                  className="w-full px-3 py-2 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs text-[var(--text)] outline-none focus:border-emerald-600 font-semibold"
+                  className="w-full px-3 py-2 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 font-semibold"
                   required
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-[var(--text2)] mb-1">
+                <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200 mb-1">
                   Phone (फ़ोन)
                 </label>
                 <input
@@ -643,20 +693,20 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   value={regPhone}
                   onChange={(e) => setRegPhone(e.target.value)}
                   placeholder="9826145210"
-                  className="w-full px-3 py-2 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs text-[var(--text)] outline-none focus:border-emerald-600 font-semibold"
+                  className="w-full px-3 py-2 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 font-semibold"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-[var(--text2)] mb-1">
+              <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200 mb-1">
                 Your Role
               </label>
               <select
                 value={regRole}
                 onChange={(e) => setRegRole(e.target.value as UserRole)}
-                className="w-full px-3 py-2 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs text-[var(--text)] font-bold outline-none focus:border-emerald-600"
+                className="w-full px-3 py-2 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-stone-100 font-bold outline-none focus:border-emerald-600 cursor-pointer"
               >
                 <option value="farmer">👨‍🌾 Farmer (I grow and sell crops)</option>
                 <option value="consumer">🛒 Consumer (I buy fresh crops)</option>
@@ -665,7 +715,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-[var(--text2)] mb-1">
+              <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200 mb-1">
                 Village or City
               </label>
               <input
@@ -673,12 +723,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 value={regLocation}
                 onChange={(e) => setRegLocation(e.target.value)}
                 placeholder="e.g. Vidisha, MP"
-                className="w-full px-3 py-2 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs text-[var(--text)] outline-none focus:border-emerald-600 font-semibold"
+                className="w-full px-3 py-2 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 font-semibold"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-[var(--text2)] mb-1">
+              <label className="block text-[11px] font-bold text-stone-800 dark:text-stone-200 mb-1">
                 Create Password
               </label>
               <input
@@ -686,7 +736,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="At least 6 letters"
-                className="w-full px-3 py-2 bg-white dark:bg-stone-800 border border-[var(--border)] rounded-xl text-xs text-[var(--text)] outline-none focus:border-emerald-600 font-semibold"
+                className="w-full px-3 py-2 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-600 font-semibold"
                 required
               />
             </div>
@@ -797,7 +847,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   value={forgotIdentifier}
                   onChange={(e) => setForgotIdentifier(e.target.value)}
                   placeholder="Enter phone or email..."
-                  className="w-full px-3 py-2 bg-stone-100 dark:bg-stone-800 rounded-xl text-xs border border-stone-200 dark:border-stone-700 outline-none focus:border-emerald-500 font-semibold"
+                  className="w-full px-3 py-2 bg-white dark:bg-stone-900 border-2 border-stone-300 dark:border-stone-700 rounded-xl text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-emerald-500 font-semibold"
                   required
                 />
                 <button

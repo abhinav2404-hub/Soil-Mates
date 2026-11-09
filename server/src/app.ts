@@ -67,5 +67,11 @@ export function createExpressApp() {
   app.use('/api/products', reviewRoutes);
   app.use('/api/admin', adminRoutes);
 
+  // 404 for unhandled API routes
+  app.use('/api', notFoundHandler);
+
+  // Global error handler
+  app.use(errorHandler);
+
   return app;
 }
