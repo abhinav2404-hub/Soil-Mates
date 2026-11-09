@@ -2,6 +2,8 @@ name: Build Android APK
 
 on:
   push:
+    branches: [main, "fix/**"]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -36,15 +38,16 @@ jobs:
       - name: Build web assets
         run: bun run build
 
-      - name: Install Capacitor Android platform
+      - name: Prepare Capacitor Android platform
         run: |
-          bun add @capacitor/core @capacitor/cli @capacitor/android
-          bunx cap add android
+          if [ ! -d android ]; then
+            bunx cap add android
+          fi
           bunx cap sync android
 
       - name: Build debug APK
         working-directory: ./android
-        run: ./gradlew assembleDebug --stacktrace
+        run: bash ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
