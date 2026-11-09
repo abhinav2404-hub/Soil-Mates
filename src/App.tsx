@@ -570,6 +570,7 @@ export default function App() {
           <AdminDashboardScreen
             onNavigate={handleNavigate}
             onShowToast={showToast}
+            currentLanguage={currentLanguage}
           />
         );
       default:

@@ -93,30 +93,35 @@ The resulting APK is generated at:
 
 ---
 
-## 🔐 Method 2: Building Production / Release APK (`.apk`)
+## 🔐 Method 2: Building Production / Release APK (`.apk`) via `gradlew assembleRelease`
 
-For distributing to testers or publishing outside Google Play.
+For generating a release APK ready for device testing, QA distribution, or Play Store upload:
 
-### Step 1: Generate a Keystore (One-Time)
-Run this command in terminal to create a private signing key:
-
+### Quick Command (Automated Build & Gradle Release Script)
+Run from project root:
 ```bash
-keytool -genkey -v -keystore soilmates-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias soilmates
+npm run build:apk:release
 ```
-Enter a secure keystore password when prompted and remember the alias (`soilmates`).
+This automatically compiles web assets (`npm run build`), syncs native Capacitor plugins (`cap sync android`), and executes `gradlew assembleRelease` inside the `android/` directory.
 
-### Step 2: Configure Signing in `android/app/build.gradle` (or via Android Studio)
-In Android Studio:
-1. Go to **Build** ➔ **Generate Signed Bundle / APK...**
-2. Choose **APK** ➔ click **Next**.
-3. Select your `soilmates-release-key.jks` file, enter passwords, and choose **Release**.
-4. Check **V1 (Jar Signature)** and **V2 (Full APK Signature)**.
-5. Click **Create**.
-
-Your signed release APK will be located at:
-```text
-android/app/build/outputs/apk/release/app-release.apk
-```
+### Step-by-Step Manual Gradle Release Build
+1. **Build Web App & Sync Native Assets**:
+   ```bash
+   npm run build
+   npx cap sync android
+   ```
+2. **Navigate to the Native Android Directory**:
+   ```bash
+   cd android
+   ```
+3. **Execute Gradle Release Command**:
+   - **Linux / macOS / Bash**: `./gradlew assembleRelease`
+   - **Windows PowerShell / Command Prompt**: `gradlew.bat assembleRelease`
+4. **Locate Generated Output Release APK**:
+   ```text
+   android/app/build/outputs/apk/release/app-release.apk
+   (or app-release-unsigned.apk)
+   ```
 
 ---
 

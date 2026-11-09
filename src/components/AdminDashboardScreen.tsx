@@ -32,16 +32,19 @@ import {
   CartesianGrid
 } from 'recharts';
 import { api } from '../services/api';
-import { ScreenId } from '../types';
+import { ScreenId, SupportedLanguage } from '../types';
+import { t } from '../services/i18n';
 
 interface AdminDashboardScreenProps {
   onNavigate: (screen: ScreenId) => void;
   onShowToast: (msg: string) => void;
+  currentLanguage?: SupportedLanguage;
 }
 
 export const AdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({
   onNavigate,
-  onShowToast
+  onShowToast,
+  currentLanguage = 'Hindi'
 }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'products' | 'orders' | 'health'>('overview');
   const [stats, setStats] = useState<any>(null);
@@ -147,9 +150,9 @@ export const AdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({
           <div>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-              <h1 className="text-sm font-bold text-[var(--text)] tracking-wide">Soil Mates Command Center</h1>
+              <h1 className="text-sm font-bold text-[var(--text)] tracking-wide">{t(currentLanguage, 'adminTitle')}</h1>
             </div>
-            <p className="text-[10px] text-[var(--text3)]">Platform Governance & Agricultural Marketplace Analytics</p>
+            <p className="text-[10px] text-[var(--text3)]">{t(currentLanguage, 'adminSub')}</p>
           </div>
         </div>
         <button
@@ -157,18 +160,18 @@ export const AdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({
           className="flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-lg bg-[var(--leaf-pale)] text-[var(--leaf2)] hover:bg-[var(--border)] transition-colors cursor-pointer"
         >
           <RefreshCw className={`w-3 h-3 ${isLoading ? 'animate-spin' : ''}`} />
-          <span>Refresh</span>
+          <span>{t(currentLanguage, 'refresh')}</span>
         </button>
       </div>
 
       {/* Tab Navigation */}
       <div className="px-4 pt-3 border-b border-[var(--border)] flex items-center gap-2 overflow-x-auto text-xs font-medium">
         {[
-          { id: 'overview', label: 'Overview & Charts', icon: Activity },
-          { id: 'users', label: 'User Directory', icon: Users },
-          { id: 'products', label: 'Marketplace Catalog', icon: Package },
-          { id: 'orders', label: 'Orders & Escrow', icon: ShoppingCart },
-          { id: 'health', label: 'System Health', icon: Cpu }
+          { id: 'overview', label: t(currentLanguage, 'adminTabOverview'), icon: Activity },
+          { id: 'users', label: t(currentLanguage, 'adminTabUsers'), icon: Users },
+          { id: 'products', label: t(currentLanguage, 'adminTabProducts'), icon: Package },
+          { id: 'orders', label: t(currentLanguage, 'adminTabOrders'), icon: ShoppingCart },
+          { id: 'health', label: t(currentLanguage, 'adminTabHealth'), icon: Cpu }
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -198,7 +201,7 @@ export const AdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               <div className="p-3 rounded-2xl bg-[var(--white)] border border-[var(--border)] shadow-xs">
                 <div className="flex items-center justify-between text-[var(--text3)] text-[11px] mb-1">
-                  <span>Gross Sales</span>
+                  <span>{t(currentLanguage, 'grossSales')}</span>
                   <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div className="text-lg font-extrabold text-[var(--text)]">
@@ -209,29 +212,29 @@ export const AdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({
 
               <div className="p-3 rounded-2xl bg-[var(--white)] border border-[var(--border)] shadow-xs">
                 <div className="flex items-center justify-between text-[var(--text3)] text-[11px] mb-1">
-                  <span>Total Users</span>
+                  <span>{t(currentLanguage, 'totalUsers')}</span>
                   <Users className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="text-lg font-extrabold text-[var(--text)]">{stats?.totalUsers || 14}</div>
                 <span className="text-[10px] text-[var(--text3)]">
-                  {stats?.totalFarmers || 6} Farmers • {stats?.totalVendors || 3} Vendors
+                  {stats?.totalFarmers || 6} {t(currentLanguage, 'farmers')} • {stats?.totalVendors || 3} {t(currentLanguage, 'vendors')}
                 </span>
               </div>
 
               <div className="p-3 rounded-2xl bg-[var(--white)] border border-[var(--border)] shadow-xs">
                 <div className="flex items-center justify-between text-[var(--text3)] text-[11px] mb-1">
-                  <span>Total Orders</span>
+                  <span>{t(currentLanguage, 'totalOrders')}</span>
                   <ShoppingCart className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                 </div>
                 <div className="text-lg font-extrabold text-[var(--text)]">{stats?.totalOrders || 12}</div>
                 <span className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold">
-                  {stats?.pendingOrders || 3} Pending Fulfillment
+                  {stats?.pendingOrders || 3} {t(currentLanguage, 'pendingFulfillment')}
                 </span>
               </div>
 
               <div className="p-3 rounded-2xl bg-[var(--white)] border border-[var(--border)] shadow-xs">
                 <div className="flex items-center justify-between text-[var(--text3)] text-[11px] mb-1">
-                  <span>AI Crop Scans</span>
+                  <span>{t(currentLanguage, 'aiCropScans')}</span>
                   <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="text-lg font-extrabold text-[var(--text)]">{stats?.diagnosisCount || 38}</div>

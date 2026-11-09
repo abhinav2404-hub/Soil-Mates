@@ -271,19 +271,56 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
           </div>
 
-          {/* Price Alerts */}
+          {/* 10% Mandi Price Change Notification Toggle */}
           <div
-            onClick={() => onShowToast('Price Alert active: SMS & Notification for Tomato > ₹35/kg')}
+            onClick={() => {
+              const current = localStorage.getItem('soilMatesPriceAlert10Percent') === '1';
+              const next = !current;
+              localStorage.setItem('soilMatesPriceAlert10Percent', next ? '1' : '0');
+              onShowToast(
+                next
+                  ? '🔔 10% Mandi Price Alert ON! You will get instant alerts when favorite crop prices change by >10%.'
+                  : '🔕 10% Mandi Price Alert turned off.'
+              );
+              // Force state refresh
+              window.dispatchEvent(new Event('storage'));
+            }}
             className="p-3.5 flex items-center gap-3 cursor-pointer hover:bg-[var(--cream2)] transition-colors"
           >
-            <div className="w-8 h-8 rounded-lg bg-[var(--coral-pale)] flex items-center justify-center text-lg flex-shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[var(--amber-pale)] flex items-center justify-center text-lg flex-shrink-0">
               🔔
             </div>
             <div className="flex-1">
-              <h5 className="text-xs font-bold text-[var(--text)]">Mandi Price Alerts</h5>
-              <p className="text-[10px] text-[var(--text3)]">Instant SMS notifications enabled</p>
+              <h5 className="text-xs font-bold text-[var(--text)] flex items-center gap-1.5">
+                <span>10% Mandi Price Change Alert</span>
+                <span className="bg-amber-200 text-amber-900 text-[8px] px-1.5 py-0.2 rounded font-extrabold">
+                  NOTIFICATIONS
+                </span>
+              </h5>
+              <p className="text-[10px] text-[var(--text3)]">
+                Alert when favorite crop mandi prices shift by &gt;10%
+              </p>
             </div>
-            <ChevronRight className="w-4 h-4 text-[var(--text3)]" />
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold text-[var(--text3)]">
+                {localStorage.getItem('soilMatesPriceAlert10Percent') !== '0' ? 'ON' : 'OFF'}
+              </span>
+              <div
+                className={`w-11 h-6 rounded-full border transition-colors relative ${
+                  localStorage.getItem('soilMatesPriceAlert10Percent') !== '0'
+                    ? 'bg-amber-500 border-amber-600'
+                    : 'bg-[var(--cream2)] border-[var(--border)]'
+                }`}
+              >
+                <div
+                  className={`w-4 h-4 rounded-full transition-transform absolute top-0.5 ${
+                    localStorage.getItem('soilMatesPriceAlert10Percent') !== '0'
+                      ? 'translate-x-5 bg-white'
+                      : 'translate-x-0.5 bg-[var(--soil3)]'
+                  }`}
+                />
+              </div>
+            </div>
           </div>
 
           {/* Dark Mode Switch */}

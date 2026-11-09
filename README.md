@@ -92,21 +92,34 @@ VITE_API_BASE_URL=http://localhost:4000
 
 ## 🤖 Building the Android APK
 
-### Automatic APK Build Script
-You can build the production web assets and generate `SoilMates.apk` directly in the project root with:
-```bash
-npm run build:apk
-```
-* **Root APK**: `/SoilMates.apk`
-* **Web Download APK**: `/public/SoilMates.apk`
-* **Android Debug Output**: `android/app/build/outputs/apk/debug/app-debug.apk`
+For detailed environment variable configurations (`JAVA_HOME`, `ANDROID_HOME`), VS Code path resolution, and troubleshooting, see **[BUILD_GUIDE.md](./BUILD_GUIDE.md)**.
+
+### Automatic APK Build Scripts
+- **Full Standalone Package**:
+  ```bash
+  npm run build:apk
+  ```
+  * *Output*: `/SoilMates.apk` (~32.4 MB ready-to-install package)
+
+- **Gradle Release APK (`assembleRelease`)**:
+  ```bash
+  npm run build:apk:release
+  ```
+  * *Output*: `android/app/build/outputs/apk/release/app-release.apk` (or `app-release-unsigned.apk`)
+
+- **Gradle Debug APK (`assembleDebug`)**:
+  ```bash
+  npm run build:apk:debug
+  ```
+  * *Output*: `android/app/build/outputs/apk/debug/app-debug.apk`
 
 ---
 
 ### Manual Gradle Build Instructions (Windows / macOS / Linux)
 
-1. **Synchronize Capacitor**:
+1. **Build Web App & Synchronize Capacitor**:
    ```bash
+   npm run build
    npx cap sync android
    ```
 
@@ -115,27 +128,15 @@ npm run build:apk
    cd android
    ```
 
-3. **Generate Debug APK**:
-   - **Windows**:
-     ```cmd
-     gradlew.bat assembleDebug
-     ```
-   - **macOS / Linux**:
-     ```bash
-     ./gradlew assembleDebug
-     ```
-   * *Output*: `android/app/build/outputs/apk/debug/app-debug.apk`
+3. **Generate Release APK (`gradlew assembleRelease`)**:
+   - **Windows**: `gradlew.bat assembleRelease`
+   - **macOS / Linux**: `./gradlew assembleRelease`
+   * *Output*: `android/app/build/outputs/apk/release/app-release.apk`
 
-4. **Generate Release APK (Signed)**:
-   - **Windows**:
-     ```cmd
-     gradlew.bat assembleRelease
-     ```
-   - **macOS / Linux**:
-     ```bash
-     ./gradlew assembleRelease
-     ```
-   * *Output*: `android/app/build/outputs/apk/release/app-release-unsigned.apk`
+4. **Generate Debug APK (`gradlew assembleDebug`)**:
+   - **Windows**: `gradlew.bat assembleDebug`
+   - **macOS / Linux**: `./gradlew assembleDebug`
+   * *Output*: `android/app/build/outputs/apk/debug/app-debug.apk`
 
 ---
 
